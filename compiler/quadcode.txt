@@ -1,0 +1,55 @@
+
+################################## data segment ###################################################
+
+arr                 int                 num                 100                 
+cst                 str                 STRCST0             "\nnum["            
+cst                 str                 STRCST1             "] = "              
+
+################################## text segment ###################################################
+
+j                                                           main                
+func                int                 getpower            2                   
+para                int                 a                                       
+para                int                 n                                       
+blt                 n                   1                   label0              
+subop               $t0                 n                   1                   
+call                int                 getpower            $t1                 
+parain              int                 a                   getpower            
+subop               $t2                 n                   1                   
+parain              int                 $t2                 getpower            
+sarr                $t1                 num                 $t0                 
+subop               $t3                 n                   1                   
+larr                $t4                 num                 $t3                 
+mulop               $t5                 a                   $t4                 
+ret                 int                 $t5                 getpower            
+j                                                           label1              
+setlab                                                      label0              
+move                n                   1                                       
+ret                 int                 n                   getpower            
+setlab                                                      label1              
+setlab                                                      end_getpower        
+end                 func                getpower                                
+func                void                main                0                   
+cst                 int                 m                   3                   
+cst                 int                 n                   10                  
+var                 int                 i                                       
+call                int                 getpower            $t0                 
+parain              int                 3                   getpower            
+parain              int                 10                  getpower            
+sarr                $t0                 num                 10                  
+move                i                   0                                       
+setlab                                                      label2              
+bgt                 i                   10                  label3              
+print               str                 STRCST0                                 
+print               int                 i                                       
+print               str                 STRCST1                                 
+larr                $t1                 num                 i                   
+print               int                 $t1                                     
+addop               $t2                 i                   1                   
+move                i                   $t2                                     
+j                                                           label2              
+setlab                                                      label3              
+setlab                                                      end_main            
+end                 func                main                                    
+
+###################################### end ########################################################

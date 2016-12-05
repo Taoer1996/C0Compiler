@@ -1,0 +1,154 @@
+/*这是一部分测试文件*/
+
+const int Cst1_int = 4;							/* 常量定义int类型*/
+const char Cst2_char = 'a';						/*常量定义char类型*/
+const int Cst3_int = -1, Cst4_int = 1;			/*常量定义中标示符多次出现*/
+const char Cst5_char = '+', Cst6_char = '/';	/*常量说明中常量定义部分多次出现*/
+
+/*变量说明：一个程序只能测试出现或不出现，所以仅取出现*/
+int Var1_int;									/*int类型数据定义中仅出现一次*/
+int Var2_int, Var3_int[2];						/*int类型数据出现两次*/
+char Var4_char;									/*char类型数据定义中仅出现一次*/
+char Var5_char, Var6_char[3];					/*char类型数据出现两次*/
+
+
+int funcInt1(){									/*int类型返回值函数且无参数*/
+  const int funcInt1Cst = 2;					/*常量说明中常量定义仅出现一次*/
+  int funcInt1Var;								/*变量说明中变量定义仅出现一次*/
+
+  return (funcInt1Cst);
+}
+
+int funcInt2(int a){							/*int类型返回值函数且有参数*/
+  const int funcInt2_Cst1 = 4;					/*常量说明中常量定义出现两次*/
+  const char funcInt2_Cst2 = 'a';
+  int _funcInt2_Var1;							/*变量说明中变量定义出现两次*/
+  char _funcInt2_Var2;
+
+  return (a + Cst1_int);						/*返回语句表达式测试*/
+}
+
+char funcChar(char ch){
+	return (ch - 'A' + 'a');
+}
+
+int Factorial(int n){							/*递归函数调用测试，返回n的阶乘*/
+  if (n == 1){
+    return (1);
+  }
+  else{
+    return (n * Factorial(n-1));				/*递归调用测试*/
+  }
+}
+
+void funcVoid1(){								/*无返回值函数且无参数*/
+  ;												/*语句为空测试*/
+}
+
+void funcVoid2(int a, char ch){					/*无返回值函数且有两个参数*/
+  const int funcVoid2_Cst1 = 5;					/*覆盖0-9的所有数字*/
+  const int funcVoid2_Cst2 = 6;
+  const int funcVoid2_Cst3 = 7;
+  const int funcVoid2_Cst4 = 8;
+  printf(ch);
+}
+
+/* 变量定义、常量定义、函数定义测试完成*/
+
+
+/* 主函数测试*/
+void main(){
+  const int cst1 = 9, cst2 = 0;
+  const char cst3 = 'a', cst4 = 'A';
+  int x,y,z,n[2];
+  int u,v,w;
+  char s[3];
+
+  scanf(u,v);
+
+  /* 语句测试开始 */
+  /* 测试包含条件语句(带else和不带else)、循环语句、语句列、函数调用、复制语句、读写语句、空语句、情况语句、返回语句*/
+  switch(u){									/* default缺失的情况语句*/
+    case 1:										/*if带else语句测试和写语句测试*/
+      if(v > 0){ 
+        printf("print_string_only tested!\n");	/* 写语句仅输出字符串语句*/
+      } else {									/* 测试存在else的if语句和写语句(仅输出表达式)*/
+        printf("v = ",v);
+        printf("\nprint_expression_only tested!\n");
+        printf("if_with_else tested!\n");
+      }
+    case 2:{									/*if不带else语句测试和写语句测试*/
+      if(v < 0){
+        printf("\nif_without_else tested!\n");
+        printf("print_string_and_expression tested and cst1=",cst1);/*写语句输出字符串和标识符*/
+		printf("\n");
+	  }
+    }
+    case 3:{									/* 赋值语句、表达式、语句列测试*/
+      x = +cst1;								/*第一项前面带正号，且给变量赋值*/
+      n[0] = -cst1;								/* 第一项项前面带负号，且给数组元素赋值*/
+      y = -cst1 + cst2;							/*第一项前面带负号*/
+      s[0] = cst4 - cst3 + 'b' + 1;				/* 因子中由标识符、字符、整数组成*/
+      z = u + (x * n[0]) / y + funcInt2(5) + v; /* 因子中含有数组元素、标识符、表达式、有返回值的函数调用*/
+      printf("\nx = ",x);
+	  printf("\nn[0] = ",n[0]);
+	  printf("\ny = ",y);
+	  printf("\ns[0] = ",s[0]);
+	  printf("\nz = ",z);
+      printf("\nassign_and_expression tested!\n");
+    }
+    case 4:{									/*语句为空测试*/
+      {
+        ;
+      }
+      printf("null_statement tested!\n");
+    }
+    case 5:{									/* 循环语句测试*/
+	  y = funcInt1();
+	  x = 3 + y;
+      while(x > 0){								/*对循环语句进行测试*/
+        if(cst1 > 3){							/* 对等于进行测试*/
+          printf("\nx = ",x);
+        }
+		x = x - 1;
+      }
+      printf("\nloop_statement tested!\n");
+    }
+    case 6:{									/*函数调用测试*/
+      Factorial(4);
+      funcVoid2(9,'a');
+      printf("\n 5! = ",Factorial(5));  
+      printf("\nfunction_call_statement tested!\n");
+    }
+    case 7:{									/*读语句测试*/
+      scanf(w);
+      scanf(x,y);
+      printf("\nw=",w);
+      printf("\nx=",x);
+      printf("\ny=",y);
+      printf("\nread_statement tested!\n");
+    }
+    case 8:{									/* 返回语句测试*/
+      return ;									/*没有返回值的函数使用没有表达式的return*/ 
+    }
+	case 9:{
+		printf("\nthe lower B is ",funcChar('B'));
+	}
+  }
+
+  while (u < 3){
+	u = u + 1;
+	printf("\nu is:",u);
+	printf("\n");
+  }
+  switch(v-1){
+    case 0:										/* case中出现表达式*/
+      printf("\ncst1 = ",cst1);								/*写语句仅出现标识符*/
+    default:
+      printf("\ndefault tested!\n");
+
+  }
+  
+  /*语句测试结束*/
+}
+/*主函数测试完成*/

@@ -1,0 +1,21 @@
+const int a = 10, b = 20;
+const char c = 'x', d = 'y';
+
+int x, y;
+char ch1, ch2;
+
+int factorial(int n){
+	if(n == 1){
+		return (1);
+	}
+	else{
+		return (n * factorial(n-1));
+	}
+}
+
+
+
+void main(){
+	x = factorial(3);
+	printf("This is a test!",x);
+}

@@ -1,0 +1,23 @@
+int num[100];
+
+int getpower(int a, int n){
+	if(n >= 1){
+		num[n - 1] = getpower(a, n-1);
+		return(a * num[n-1]);
+	} else {
+		n = 1;
+		return (n);
+	}
+}
+
+void main(){
+	const int m = 3, n = 10;
+	int i;
+	num[n] = getpower(3, 10);
+	i = 0;
+	while(i <= n){
+		printf("\nnum[",i);
+		printf("] = ",num[i]);
+		i = i + 1;
+	} 
+}
