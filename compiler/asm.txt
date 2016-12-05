@@ -2,8 +2,24 @@
 ########################### data segment ######################
 .data
 	num:           .space,        400                           
-	STRCST0:       .asciiz,       "\nnum["                      
-	STRCST1:       .asciiz,       "] = "                        
+	STRCST0:       .asciiz,       "\n ch = "                    
+	STRCST1:       .asciiz,       "\nnum["                      
+	STRCST2:       .asciiz,       "] = "                        
+	STRCST3:       .asciiz,       "\n---larr test!---\n"               
+	STRCST4:       .asciiz,       "\nnum[i] = "                 
+	STRCST5:       .asciiz,       "\nnum[i + 1] = "               
+	STRCST6:       .asciiz,       "\nnum[a] = "                 
+	STRCST7:       .asciiz,       "\nnum[10] = "                
+	STRCST8:       .asciiz,       "\n---sarr test!---\n"               
+	STRCST9:       .asciiz,       "\nnum[11] = "                
+	STRCST10:      .asciiz,       "\nnum[12] = "                
+	STRCST11:      .asciiz,       "\nnum[13] = "                
+	STRCST12:      .asciiz,       "\nnum[i] = "                 
+	STRCST13:      .asciiz,       "\nnum[i] = "                 
+	STRCST14:      .asciiz,       "\nnum[i] = "                 
+	STRCST15:      .asciiz,       "\nnum[i+1] = "               
+	STRCST16:      .asciiz,       "\nnum[i+2] = "               
+	STRCST17:      .asciiz,       "\nnum[i+3] = "               
 
 ########################### text segment ######################
 .text
@@ -33,8 +49,8 @@ getpower:
 	sw             $v0,           -20($fp)       
 	lw             $s0,           -20($fp)       
 	lw             $s1,           -16($fp)       
-	la             $s2,           num                           
 	mul            $s1,           $s1,           4              
+	la             $s2,           num                           
 	add            $s2,           $s2,           $s1            
 	sw             $s0,           0($s2)         
 	lw             $s0,           -12($fp)       
@@ -43,9 +59,9 @@ getpower:
 	la             $s0,           num                           
 	lw             $s1,           -28($fp)       
 	mul            $s1,           $s1,           4              
-	add            $s1,           $s0,           $s1            
-	lw             $s0,           0($s1)         
-	sw             $s0,           -32($fp)       
+	add            $s0,           $s0,           $s1            
+	lw             $s1,           0($s0)         
+	sw             $s1,           -32($fp)       
 	lw             $s0,           -8($fp)        
 	lw             $s1,           -32($fp)       
 	mul            $s0,           $s0,           $s1            
@@ -67,7 +83,19 @@ end_getpower:
 main:                                                            
 	addi           $fp,           $sp,           4              
 	sw             $ra,           -4($fp)        
-	addi           $sp,           $sp,           -24            
+	addi           $sp,           $sp,           -120           
+	li             $v0,           5                             
+	syscall                                                     
+	sw             $v0,           -12($fp)       
+	li             $v0,           5                             
+	syscall                                                     
+	sw             $v0,           -16($fp)       
+	la             $a0,           STRCST0                       
+	li             $v0,           4                             
+	syscall                                                     
+	li             $a0,           10                            
+	li             $v0,           1                             
+	syscall                                                     
 	addi           $sp,           $sp,           -8             
 	sw             $fp,           4($sp)         
 	addi           $sp,           $sp,           -4             
@@ -77,44 +105,292 @@ main:
 	li             $s0,           10                            
 	sw             $s0,           0($sp)         
 	jal            getpower                                     
-	sw             $v0,           -20($fp)       
-	lw             $s0,           -20($fp)       
-	li             $s1,           10                            
-	la             $s2,           num                           
+	sw             $v0,           -24($fp)       
+	lw             $s0,           -24($fp)       
+	lw             $s1,           -16($fp)       
 	mul            $s1,           $s1,           4              
+	la             $s2,           num                           
 	add            $s2,           $s2,           $s1            
 	sw             $s0,           0($s2)         
 	li             $s0,           0                             
-	sw             $s0,           -16($fp)       
+	sw             $s0,           -20($fp)       
 label2:                                                            
-	lw             $s0,           -16($fp)       
-	li             $s1,           10                            
+	lw             $s0,           -20($fp)       
+	lw             $s1,           -16($fp)       
 	bgt            $s0,           $s1,           label3         
-	la             $a0,           STRCST0                       
-	li             $v0,           4                             
-	syscall                                                     
-	lw             $a0,           -16($fp)       
-	li             $v0,           1                             
-	syscall                                                     
 	la             $a0,           STRCST1                       
 	li             $v0,           4                             
 	syscall                                                     
-	la             $s0,           num                           
-	lw             $s1,           -16($fp)       
-	mul            $s1,           $s1,           4              
-	add            $s1,           $s0,           $s1            
-	lw             $s0,           0($s1)         
-	sw             $s0,           -24($fp)       
-	lw             $a0,           -24($fp)       
+	lw             $a0,           -20($fp)       
 	li             $v0,           1                             
 	syscall                                                     
-	lw             $s0,           -16($fp)       
+	la             $a0,           STRCST2                       
+	li             $v0,           4                             
+	syscall                                                     
+	la             $s0,           num                           
+	lw             $s1,           -20($fp)       
+	mul            $s1,           $s1,           4              
+	add            $s0,           $s0,           $s1            
+	lw             $s1,           0($s0)         
+	sw             $s1,           -28($fp)       
+	lw             $a0,           -28($fp)       
+	li             $v0,           1                             
+	syscall                                                     
+	lw             $s0,           -20($fp)       
 	add            $s0,           $s0,           1              
-	sw             $s0,           -28($fp)       
-	lw             $s0,           -28($fp)       
-	sw             $s0,           -16($fp)       
+	sw             $s0,           -32($fp)       
+	lw             $s0,           -32($fp)       
+	sw             $s0,           -20($fp)       
 	j              label2                                       
 label3:                                                            
+	la             $a0,           STRCST3                       
+	li             $v0,           4                             
+	syscall                                                     
+	li             $s0,           9                             
+	sw             $s0,           -20($fp)       
+	la             $a0,           STRCST4                       
+	li             $v0,           4                             
+	syscall                                                     
+	la             $s0,           num                           
+	lw             $s1,           -20($fp)       
+	mul            $s1,           $s1,           4              
+	add            $s0,           $s0,           $s1            
+	lw             $s1,           0($s0)         
+	sw             $s1,           -36($fp)       
+	lw             $a0,           -36($fp)       
+	li             $v0,           1                             
+	syscall                                                     
+	la             $a0,           STRCST5                       
+	li             $v0,           4                             
+	syscall                                                     
+	lw             $s0,           -20($fp)       
+	add            $s0,           $s0,           1              
+	sw             $s0,           -40($fp)       
+	la             $s0,           num                           
+	lw             $s1,           -40($fp)       
+	mul            $s1,           $s1,           4              
+	add            $s0,           $s0,           $s1            
+	lw             $s1,           0($s0)         
+	sw             $s1,           -44($fp)       
+	lw             $a0,           -44($fp)       
+	li             $v0,           1                             
+	syscall                                                     
+	la             $a0,           STRCST6                       
+	li             $v0,           4                             
+	syscall                                                     
+	la             $s0,           num                           
+	li             $s1,           10                            
+	mul            $s1,           $s1,           4              
+	add            $s0,           $s0,           $s1            
+	lw             $s1,           0($s0)         
+	sw             $s1,           -48($fp)       
+	lw             $a0,           -48($fp)       
+	li             $v0,           1                             
+	syscall                                                     
+	la             $a0,           STRCST7                       
+	li             $v0,           4                             
+	syscall                                                     
+	la             $s0,           num                           
+	li             $s1,           10                            
+	mul            $s1,           $s1,           4              
+	add            $s0,           $s0,           $s1            
+	lw             $s1,           0($s0)         
+	sw             $s1,           -52($fp)       
+	lw             $a0,           -52($fp)       
+	li             $v0,           1                             
+	syscall                                                     
+	la             $a0,           STRCST8                       
+	li             $v0,           4                             
+	syscall                                                     
+	li             $s0,           1                             
+	li             $s1,           11                            
+	mul            $s1,           $s1,           4              
+	la             $s2,           num                           
+	add            $s2,           $s2,           $s1            
+	sw             $s0,           0($s2)         
+	lw             $s0,           -20($fp)       
+	add            $s0,           $s0,           1              
+	sw             $s0,           -56($fp)       
+	lw             $s0,           -56($fp)       
+	li             $s1,           12                            
+	mul            $s1,           $s1,           4              
+	la             $s2,           num                           
+	add            $s2,           $s2,           $s1            
+	sw             $s0,           0($s2)         
+	lw             $s0,           -20($fp)       
+	li             $s1,           13                            
+	mul            $s1,           $s1,           4              
+	la             $s2,           num                           
+	add            $s2,           $s2,           $s1            
+	sw             $s0,           0($s2)         
+	la             $a0,           STRCST9                       
+	li             $v0,           4                             
+	syscall                                                     
+	la             $s0,           num                           
+	li             $s1,           11                            
+	mul            $s1,           $s1,           4              
+	add            $s0,           $s0,           $s1            
+	lw             $s1,           0($s0)         
+	sw             $s1,           -60($fp)       
+	lw             $a0,           -60($fp)       
+	li             $v0,           1                             
+	syscall                                                     
+	la             $a0,           STRCST10                      
+	li             $v0,           4                             
+	syscall                                                     
+	la             $s0,           num                           
+	li             $s1,           12                            
+	mul            $s1,           $s1,           4              
+	add            $s0,           $s0,           $s1            
+	lw             $s1,           0($s0)         
+	sw             $s1,           -64($fp)       
+	lw             $a0,           -64($fp)       
+	li             $v0,           1                             
+	syscall                                                     
+	la             $a0,           STRCST11                      
+	li             $v0,           4                             
+	syscall                                                     
+	la             $s0,           num                           
+	li             $s1,           13                            
+	mul            $s1,           $s1,           4              
+	add            $s0,           $s0,           $s1            
+	lw             $s1,           0($s0)         
+	sw             $s1,           -68($fp)       
+	lw             $a0,           -68($fp)       
+	li             $v0,           1                             
+	syscall                                                     
+	li             $s0,           1                             
+	lw             $s1,           -20($fp)       
+	mul            $s1,           $s1,           4              
+	la             $s2,           num                           
+	add            $s2,           $s2,           $s1            
+	sw             $s0,           0($s2)         
+	la             $a0,           STRCST12                      
+	li             $v0,           4                             
+	syscall                                                     
+	la             $s0,           num                           
+	lw             $s1,           -20($fp)       
+	mul            $s1,           $s1,           4              
+	add            $s0,           $s0,           $s1            
+	lw             $s1,           0($s0)         
+	sw             $s1,           -72($fp)       
+	lw             $a0,           -72($fp)       
+	li             $v0,           1                             
+	syscall                                                     
+	lw             $s0,           -20($fp)       
+	add            $s0,           $s0,           1              
+	sw             $s0,           -76($fp)       
+	lw             $s0,           -76($fp)       
+	lw             $s1,           -20($fp)       
+	mul            $s1,           $s1,           4              
+	la             $s2,           num                           
+	add            $s2,           $s2,           $s1            
+	sw             $s0,           0($s2)         
+	la             $a0,           STRCST13                      
+	li             $v0,           4                             
+	syscall                                                     
+	la             $s0,           num                           
+	lw             $s1,           -20($fp)       
+	mul            $s1,           $s1,           4              
+	add            $s0,           $s0,           $s1            
+	lw             $s1,           0($s0)         
+	sw             $s1,           -80($fp)       
+	lw             $a0,           -80($fp)       
+	li             $v0,           1                             
+	syscall                                                     
+	lw             $s0,           -20($fp)       
+	lw             $s1,           -20($fp)       
+	mul            $s1,           $s1,           4              
+	la             $s2,           num                           
+	add            $s2,           $s2,           $s1            
+	sw             $s0,           0($s2)         
+	la             $a0,           STRCST14                      
+	li             $v0,           4                             
+	syscall                                                     
+	la             $s0,           num                           
+	lw             $s1,           -20($fp)       
+	mul            $s1,           $s1,           4              
+	add            $s0,           $s0,           $s1            
+	lw             $s1,           0($s0)         
+	sw             $s1,           -84($fp)       
+	lw             $a0,           -84($fp)       
+	li             $v0,           1                             
+	syscall                                                     
+	lw             $s0,           -20($fp)       
+	add            $s0,           $s0,           1              
+	sw             $s0,           -88($fp)       
+	li             $s0,           1                             
+	lw             $s1,           -88($fp)       
+	mul            $s1,           $s1,           4              
+	la             $s2,           num                           
+	add            $s2,           $s2,           $s1            
+	sw             $s0,           0($s2)         
+	lw             $s0,           -20($fp)       
+	add            $s0,           $s0,           2              
+	sw             $s0,           -92($fp)       
+	lw             $s0,           -20($fp)       
+	add            $s0,           $s0,           1              
+	sw             $s0,           -96($fp)       
+	lw             $s0,           -96($fp)       
+	lw             $s1,           -92($fp)       
+	mul            $s1,           $s1,           4              
+	la             $s2,           num                           
+	add            $s2,           $s2,           $s1            
+	sw             $s0,           0($s2)         
+	lw             $s0,           -20($fp)       
+	add            $s0,           $s0,           3              
+	sw             $s0,           -100($fp)      
+	lw             $s0,           -20($fp)       
+	lw             $s1,           -100($fp)      
+	mul            $s1,           $s1,           4              
+	la             $s2,           num                           
+	add            $s2,           $s2,           $s1            
+	sw             $s0,           0($s2)         
+	la             $a0,           STRCST15                      
+	li             $v0,           4                             
+	syscall                                                     
+	lw             $s0,           -20($fp)       
+	add            $s0,           $s0,           1              
+	sw             $s0,           -104($fp)      
+	la             $s0,           num                           
+	lw             $s1,           -104($fp)      
+	mul            $s1,           $s1,           4              
+	add            $s0,           $s0,           $s1            
+	lw             $s1,           0($s0)         
+	sw             $s1,           -108($fp)      
+	lw             $a0,           -108($fp)      
+	li             $v0,           1                             
+	syscall                                                     
+	la             $a0,           STRCST16                      
+	li             $v0,           4                             
+	syscall                                                     
+	lw             $s0,           -20($fp)       
+	add            $s0,           $s0,           2              
+	sw             $s0,           -112($fp)      
+	la             $s0,           num                           
+	lw             $s1,           -112($fp)      
+	mul            $s1,           $s1,           4              
+	add            $s0,           $s0,           $s1            
+	lw             $s1,           0($s0)         
+	sw             $s1,           -116($fp)      
+	lw             $a0,           -116($fp)      
+	li             $v0,           1                             
+	syscall                                                     
+	la             $a0,           STRCST17                      
+	li             $v0,           4                             
+	syscall                                                     
+	lw             $s0,           -20($fp)       
+	add            $s0,           $s0,           3              
+	sw             $s0,           -120($fp)      
+	la             $s0,           num                           
+	lw             $s1,           -120($fp)      
+	mul            $s1,           $s1,           4              
+	add            $s0,           $s0,           $s1            
+	lw             $s1,           0($s0)         
+	sw             $s1,           -124($fp)      
+	lw             $a0,           -124($fp)      
+	li             $v0,           1                             
+	syscall                                                     
 end_main:                                                            
 	li             $v0,           10                            
 	syscall                                                     

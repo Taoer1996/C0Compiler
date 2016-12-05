@@ -233,20 +233,22 @@ void quad2mips::statement2mips(code t)
 	int tmpaddress = 0;
 	int paNum = 0;
 
-
-	// addop	
+	// addop中var1必为临时变量
+	// addop	$t0,	a,		b
+	// addop	$t0,	a,		10
+	// addop	$t0,	10,		b
+	// addop	$t0,	10,		20
 	if (t.opt == Opt::addop) {
-		// addop	x,	a,	b（第二、三个操作数可能为变量，也可能为数字）
-		// 两个都是数字直接转为赋值操作
+		// 第二个操作数为数字
 		if (util.isInt(t.var2)) {
 			if (util.isInt(t.var3)) {
-				num = util.str2int(t.var2) + util.str2int(t.var3);
-				enterCode("", "li", "$s0", util.int2str(num), "");		//TODO 这里可以进行优化
+				num = util.str2int(t.var2) + util.str2int(t.var3);		// 两个都是数字直接转为赋值操作
+				enterCode("", "li", "$s0", util.int2str(num), "");		
 				saveIdent("$s0", t.var1);
 			}
 			else {
 				loadIdent("$s0", t.var3);
-				enterCode("", "add", "$s0", "$s0", t.var2);
+				enterCode("", "addi", "$s0", "$s0", t.var2);
 				saveIdent("$s0", t.var1);
 			}
 		}
@@ -266,6 +268,7 @@ void quad2mips::statement2mips(code t)
 	}
 	// 减操作同上
 	else if(t.opt == Opt::subop){
+
 		if (util.isInt(t.var2)) {
 			if (util.isInt(t.var3)) {
 				num = util.str2int(t.var2) - util.str2int(t.var3);
@@ -275,7 +278,6 @@ void quad2mips::statement2mips(code t)
 			else {
 				enterCode("", "li", "$s0", t.var2,"");
 				loadIdent("$s1", t.var3);
-
 				enterCode("", "sub", "$s0", "$s0", "$s1");
 				saveIdent("$s0", t.var1);
 			}
@@ -294,8 +296,9 @@ void quad2mips::statement2mips(code t)
 			}
 		}
 	}
-
+	// 乘操作同理
 	else if (t.opt == Opt::mulop) {
+
 		if (util.isInt(t.var2)) {
 			if (util.isInt(t.var3)) {
 				num = util.str2int(t.var2) * util.str2int(t.var3);
@@ -322,8 +325,9 @@ void quad2mips::statement2mips(code t)
 			}
 		}
 	}
-
+	// 除操作同理
 	else if (t.opt == Opt::diviop) {
+
 		if (util.isInt(t.var2)) {
 			if (util.isInt(t.var3)) {
 				num = util.str2int(t.var2) / util.str2int(t.var3);
@@ -333,7 +337,6 @@ void quad2mips::statement2mips(code t)
 			else {
 				enterCode("", "li", "$s0", t.var2, "");
 				loadIdent("$s1", t.var3);
-
 				enterCode("", "div", "$s0", "$s0", "$s1");
 				saveIdent("$s0", t.var1);
 			}
@@ -352,7 +355,10 @@ void quad2mips::statement2mips(code t)
 			}
 		}
 	}
-
+	// 这里的move操作中var1必为变量
+	// move		a,		10
+	// move		a,		b
+	// move		a,		$t0   
 	else if (t.opt == Opt::move) {
 		if (util.isInt(t.var2)) {
 			enterCode("", "li", "$s0", t.var2, "");
@@ -363,11 +369,15 @@ void quad2mips::statement2mips(code t)
 			saveIdent("$s0", t.var1);
 		}
 	}
-
+	// setlab	,		,		label	
 	else if (t.opt == Opt::setlab) {
 		enterCode(t.var3 + ":", "", "", "", "");
 	}
-
+	// bne		$t0,	$t1,	label
+	// bne		$t0,	10,		label
+	// bne		10,		20		label
+	// bne		$t0,	a,		label
+	// bne		a,		b,		label
 	else if (t.opt == Opt::beq || t.opt == Opt::bne || t.opt == Opt::bgt || t.opt == Opt::bge || t.opt == Opt::blt || t.opt == Opt::ble) {
 		if (util.isInt(t.var1)) {
 			enterCode("", "li", "$s0", t.var1, "");
@@ -383,7 +393,10 @@ void quad2mips::statement2mips(code t)
 		}
 		enterCode("", OptName[t.opt], "$s0", "$s1", t.var3);
 	}
-
+	// ret		int,	1,		f
+	// ret		char,	ch,		f
+	// ret		void,	  ,		f
+	// ret		int,	$t0,	f
 	else if (t.opt == Opt::ret) {
 		if (t.var1 == "int") {
 			if (util.isInt(t.var2)) {
@@ -400,12 +413,13 @@ void quad2mips::statement2mips(code t)
 				enterCode("", "li", "$v0", util.int2str(num), "");
 			}
 			else {
-				loadIdent("$v0", t.var2,true);
+				loadIdent("$v0", t.var2, true);
 			}
 		}
 		enterCode("", "j", "end_" + t.var3, "", "");
 	}
-	
+	// scan		int,	m
+	// scan		char,	ch
  	else if (t.opt == Opt::scan) {
 		if (t.var1 == "int") {
 			enterCode("", "li", "$v0", "5", "");
@@ -418,7 +432,11 @@ void quad2mips::statement2mips(code t)
 			saveIdent("$v0", t.var2, true);
 		}
 	}
-	
+	// print	int,	10
+	// print	char,	67
+	// print	char,	ch
+	// print	str,	STRCST0
+	// print	char,	$t0
 	else if (t.opt == Opt::print) {
 		if (t.var1 == "int") {
 			loadIdent("$a0", t.var2);
@@ -436,114 +454,64 @@ void quad2mips::statement2mips(code t)
 			enterCode("", "syscall", "", "", "");
 		}
 	}
-		
+	// larr中的var1一定是临时变量
+	// larr		$t0,	arr,	10
+	// larr		$t0,	arr,	$t1
+	// larr		$t0,	arr,	a
 	else if (t.opt == Opt::larr) {
 		if (symtab.locate(t.var2, 0) != -1) {
-			index = symtab.locate(t.var2, 0);
-			if (util.isInt(t.var3)) {
-				num = util.str2int(t.var3);
-				enterCode("", "la", "$s0", t.var2, "");
-				if (symtab.SymbolTable[index].type == typeEnum::Char) {
-					enterCode("", "lb", "$s1", "$s0", util.int2str(4 * num));
-					saveIdent("$s1", t.var1, true);
-				}
-				else {
-					enterCode("", "lw", "$s1", "$s0", util.int2str(4 * num));
-					saveIdent("$s1", t.var1);
-				}
-			}
-			else {
-				enterCode("", "la", "$s0", t.var2, "");
-				loadIdent("$s1", t.var3);
-				enterCode("", "mul", "$s1", "$s1", "4");
-				enterCode("", "add", "$s1", "$s0", "$s1");
-				if (symtab.SymbolTable[index].type == typeEnum::Char) {
-					enterCode("", "lb", "$s0", "$s1","0");
-					saveIdent("$s0", t.var1, true);
-				}
-				else {
-					enterCode("", "lw", "$s0", "$s1", "0");
-					saveIdent("$s0", t.var1);
-				}
-			}
+			enterCode("", "la", "$s0", t.var2, "");
 		}
 		else if (symtab.locate(t.var2, 1) != -1) {
 			index = symtab.locate(t.var2, 1);
-			tmpaddress = symtab.SymbolTable[index].address;
-			if (util.isInt(t.var3)) {
-				num = util.str2int(t.var3);
-				tmpaddress = -1 * (4 * tmpaddress + 4 * num);		// 因为这里是通过栈来找的，所以是减
-				if (symtab.SymbolTable[index].type == typeEnum::Char) {
-					enterCode("", "lb", "$s0", "$fp", util.int2str(tmpaddress));
-					saveIdent("$s0", t.var1, true);
-				}
-				else {
-					enterCode("", "lw", "$s0", "$fp", util.int2str(tmpaddress));
-					saveIdent("$s0", t.var1);
-				}
-			}
-			else {
-				// larr,	$t0,	arr,	a;
-				// 地址为$fp - 4 * address - 4 * a;
-				
-				loadIdent("$s1", t.var3);
-				enterCode("", "addi", "$s1", "$s1", util.int2str(tmpaddress));
-				enterCode("", "mul", "$s1", "$s1", "4");
-				enterCode("", "sub", "$s0", "$fp", "$s1");
+			tmpaddress = -4 * symtab.SymbolTable[index].address;		
+			enterCode("", "addi", "$s0", "$fp", util.int2str(tmpaddress));
+		}
 
-				if (symtab.SymbolTable[index].type == typeEnum::Char) {
-					enterCode("", "lb", "$s2", "$s0", "0");
-					saveIdent("$s2", t.var1, true);
-				}
-				else {
-					enterCode("", "lw", "$s2", "$s0", "0");
-					saveIdent("$s2", t.var1);
-				}
-			}
+		loadIdent("$s1", t.var3);
+		enterCode("", "mul", "$s1", "$s1", "4");
+		enterCode("", "add", "$s0", "$s0", "$s1");
+
+		if (symtab.SymbolTable[index].type == typeEnum::Char) {
+			enterCode("", "lb", "$s1", "$s0", "0");
+			saveIdent("$s1", t.var1, true);
+		}
+		else {
+			enterCode("", "lw", "$s1", "$s0", "0");
+			saveIdent("$s1", t.var1);
 		}
 	}
-	
+	// sarr中var1和var3都可以是数字、变量、临时变量
+	// sarr		$t0,	arr,	$t1
+	// sarr		10,		arr,	$t1
+	// sarr		a,		arr,	$t1
+	// sarr		$t0,	arr,	10
+	// sarr		$t0,	arr,	a
 	else if (t.opt == Opt::sarr) {
-		if (util.isInt(t.var1)) {
-			enterCode("", "li", "$s0", t.var1, "");
-		}
-		else {
-			loadIdent("$s0", t.var1);
-		}
-		if (util.isInt(t.var3)) {
-			enterCode("", "li", "$s1", t.var3, "");
-		}
-		else {
-			loadIdent("$s1", t.var3);
-		}
-		// 地址为$fp - (tmpaddress + $s1) * 4
+		
+		loadIdent("$s0", t.var1);
+		loadIdent("$s1", t.var3);
+		enterCode("", "mul", "$s1", "$s1", "4");
+
 		if (symtab.locate(t.var2, 0) != -1) {
-			index = symtab.locate(t.var2, 0);
 			enterCode("", "la", "$s2", t.var2, "");
-			enterCode("", "mul", "$s1", "$s1", "4");
-			enterCode("", "add", "$s2", "$s2", "$s1");
-			if (symtab.SymbolTable[index].type == typeEnum::Char) {
-				enterCode("", "sb", "$s0", "$s2", "0");
-			}
-			else {
-				enterCode("", "sw", "$s0", "$s2", "0");
-			}
 		}
-		else if(symtab.locate(t.var2, 1) != -1){
+		else if (symtab.locate(t.var2, 1) != -1) {
 			index = symtab.locate(t.var2, 1);
-			tmpaddress = symtab.SymbolTable[index].address;
-			enterCode("", "addi", "$s1", "$s1", util.int2str(tmpaddress));
-			enterCode("", "mul", "$s1", "$s1", "4");
-			enterCode("", "sub", "$s2", "$fp", "$s1");
-			if (symtab.SymbolTable[index].type == typeEnum::Char) {
-				enterCode("", "sb", "$s0", "$s2", "0");
-			}
-			else {
-				enterCode("", "sw", "$s0", "$s2", "0");
-			}
+			tmpaddress = -4 * symtab.SymbolTable[index].address;
+			enterCode("", "addi", "$s2", "$fp", util.int2str(tmpaddress));
+		}
+
+		enterCode("", "add", "$s2", "$s2", "$s1");
+		
+		if (symtab.SymbolTable[index].type == typeEnum::Char) {
+			enterCode("", "sb", "$s0", "$s2", "0");
+		}
+		else {
+			enterCode("", "sw", "$s0", "$s2", "0");
 		}
 	}
-	
+	// TODO 检查这一部分
 	else if (t.opt == Opt::call) {
 		// t的格式：call                int                 factorial           $t0     
 		enterCode("", "addi", "$sp", "$sp", "-8");
@@ -592,17 +560,18 @@ void quad2mips::statement2mips(code t)
 			saveIdent("$v0", t.var3, true);
 		}
 	} 
-	
+	// j	,		,		label
 	else if (t.opt == Opt::j) {
 		enterCode("", "j", t.var3, "", "");
 	}
 }
 
-// 将src变量load到dst寄存器中
+// 将src变量或数字load到dst寄存器中
 void quad2mips::loadIdent(string dst,string src)
 {
 	int index = 0;
 	int tmpaddress = 0;
+
 	if (util.isInt(src)) {
 		enterCode("", "li", dst, src, "");
 		return;
@@ -643,9 +612,12 @@ void quad2mips::loadIdent(string dst, string src, bool forceChar)
 {
 	int index = 0;
 	int tmpaddress = 0;
+	int tmpnum = 0;
 	if (forceChar) {
 		if (util.isInt(src)) {
-			enterCode("", "li", dst, src, "");
+			tmpnum = util.str2int(src);
+			tmpnum = tmpnum % 256;
+			enterCode("", "li", dst, util.int2str(tmpnum), "");
 			return;
 		}
 		if (symtab.locate(src, 0) != -1) {

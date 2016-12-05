@@ -49,4 +49,5 @@ int _tmain(int argc, _TCHAR* argv[])
 		cout << "目标代码成功生成！" << endl;
 	}
 	return 0;
+	
 }

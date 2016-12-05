@@ -2,8 +2,24 @@
 ################################## data segment ###################################################
 
 arr                 int                 num                 100                 
-cst                 str                 STRCST0             "\nnum["            
-cst                 str                 STRCST1             "] = "              
+cst                 str                 STRCST0             "\n ch = "          
+cst                 str                 STRCST1             "\nnum["            
+cst                 str                 STRCST2             "] = "              
+cst                 str                 STRCST3             "\n---larr test!---\n"
+cst                 str                 STRCST4             "\nnum[i] = "       
+cst                 str                 STRCST5             "\nnum[i + 1] = "   
+cst                 str                 STRCST6             "\nnum[a] = "       
+cst                 str                 STRCST7             "\nnum[10] = "      
+cst                 str                 STRCST8             "\n---sarr test!---\n"
+cst                 str                 STRCST9             "\nnum[11] = "      
+cst                 str                 STRCST10            "\nnum[12] = "      
+cst                 str                 STRCST11            "\nnum[13] = "      
+cst                 str                 STRCST12            "\nnum[i] = "       
+cst                 str                 STRCST13            "\nnum[i] = "       
+cst                 str                 STRCST14            "\nnum[i] = "       
+cst                 str                 STRCST15            "\nnum[i+1] = "     
+cst                 str                 STRCST16            "\nnum[i+2] = "     
+cst                 str                 STRCST17            "\nnum[i+3] = "     
 
 ################################## text segment ###################################################
 
@@ -30,25 +46,91 @@ setlab                                                      label1
 setlab                                                      end_getpower        
 end                 func                getpower                                
 func                void                main                0                   
-cst                 int                 m                   3                   
-cst                 int                 n                   10                  
+cst                 int                 a                   10                  
+var                 int                 m                                       
+var                 int                 n                                       
 var                 int                 i                                       
+scan                int                 m                                       
+scan                int                 n                                       
+print               str                 STRCST0                                 
+print               int                 10                                      
 call                int                 getpower            $t0                 
 parain              int                 3                   getpower            
 parain              int                 10                  getpower            
-sarr                $t0                 num                 10                  
+sarr                $t0                 num                 n                   
 move                i                   0                                       
 setlab                                                      label2              
-bgt                 i                   10                  label3              
-print               str                 STRCST0                                 
-print               int                 i                                       
+bgt                 i                   n                   label3              
 print               str                 STRCST1                                 
+print               int                 i                                       
+print               str                 STRCST2                                 
 larr                $t1                 num                 i                   
 print               int                 $t1                                     
 addop               $t2                 i                   1                   
 move                i                   $t2                                     
 j                                                           label2              
 setlab                                                      label3              
+print               str                 STRCST3                                 
+move                i                   9                                       
+print               str                 STRCST4                                 
+larr                $t3                 num                 i                   
+print               int                 $t3                                     
+print               str                 STRCST5                                 
+addop               $t4                 i                   1                   
+larr                $t5                 num                 $t4                 
+print               int                 $t5                                     
+print               str                 STRCST6                                 
+larr                $t6                 num                 10                  
+print               int                 $t6                                     
+print               str                 STRCST7                                 
+larr                $t7                 num                 10                  
+print               int                 $t7                                     
+print               str                 STRCST8                                 
+sarr                1                   num                 11                  
+addop               $t8                 i                   1                   
+sarr                $t8                 num                 12                  
+sarr                i                   num                 13                  
+print               str                 STRCST9                                 
+larr                $t9                 num                 11                  
+print               int                 $t9                                     
+print               str                 STRCST10                                
+larr                $t10                num                 12                  
+print               int                 $t10                                    
+print               str                 STRCST11                                
+larr                $t11                num                 13                  
+print               int                 $t11                                    
+sarr                1                   num                 i                   
+print               str                 STRCST12                                
+larr                $t12                num                 i                   
+print               int                 $t12                                    
+addop               $t13                i                   1                   
+sarr                $t13                num                 i                   
+print               str                 STRCST13                                
+larr                $t14                num                 i                   
+print               int                 $t14                                    
+sarr                i                   num                 i                   
+print               str                 STRCST14                                
+larr                $t15                num                 i                   
+print               int                 $t15                                    
+addop               $t16                i                   1                   
+sarr                1                   num                 $t16                
+addop               $t17                i                   2                   
+addop               $t18                i                   1                   
+sarr                $t18                num                 $t17                
+addop               $t19                i                   3                   
+sarr                i                   num                 $t19                
+print               str                 STRCST15                                
+addop               $t20                i                   1                   
+larr                $t21                num                 $t20                
+print               int                 $t21                                    
+print               str                 STRCST16                                
+addop               $t22                i                   2                   
+larr                $t23                num                 $t22                
+print               int                 $t23                                    
+print               str                 STRCST17                                
+addop               $t24                i                   3                   
+larr                $t25                num                 $t24                
+print               int                 $t25                                    
 setlab                                                      end_main            
 end                 func                main                                    
 

@@ -599,6 +599,8 @@ void parser::statement() {
 	int tmpnum = 0;
 	string tmpstr1, tmpstr2;
 	string tmptoken;
+	kindEnum tmpkind;
+
 	if (sym == ifsy) {
 		ifStatement();
 	}
@@ -730,14 +732,22 @@ void parser::statement() {
 			if (sym == eql) {
 				ERR.Err(12);				// 容错处理
 			}
-			if (symtab.SymbolTable[pos].kind == kindEnum::cstkind) {
+			tmpkind = symtab.SymbolTable[pos].kind;
+
+			if (tmpkind == kindEnum::cstkind) {
 				ERR.Err(51);
 			}
-			
-			lex.getsym();
-			tmpstr1 = expression();
-			// 格式：move,	x,	$t0,	;
-			codetab.emit(Opt::move, tmptoken, tmpstr1, "");
+			else if (tmpkind == kindEnum::varkind || tmpkind == kindEnum::parakind) {
+				lex.getsym();
+				tmpstr1 = expression();
+				// 格式：move,	x,	$t0,	;
+				codetab.emit(Opt::move, tmptoken, tmpstr1, "");
+			}
+			else {
+				ERR.Err(60);				// 虽然是错的，但是报错之后依旧进行下去
+				lex.getsym();
+				expression();
+			}
 		}
 		else {
 			ERR.Err(41);
