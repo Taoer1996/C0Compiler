@@ -511,33 +511,32 @@ void quad2mips::statement2mips(code t)
 			enterCode("", "sw", "$s0", "$s2", "0");
 		}
 	}
-	// TODO 检查这一部分
+	// call中的var3一定是临时变量
+	// call		int,	f,		$t0
+	// call		char,	f,		$t0
+	// call		void,	f,		
 	else if (t.opt == Opt::call) {
-		// t的格式：call                int                 factorial           $t0     
+
 		enterCode("", "addi", "$sp", "$sp", "-8");
 		enterCode("", "sw", "$fp", "$sp", "4");
 		// enterCode("", "sw", "$ra", "$sp", "0"); 在jal进入函数之后再保存 $ra
 		
 		s = codetab.textSeg[textCodeIndex++];
-		// t的格式： call                int                 factorial           $t0 ;
-		index = symtab.locate(t.var2, 0);	// 
+		index = symtab.locate(t.var2, 0);	
 		paNum = symtab.SymbolTable[index].paranum;
 
 		i = 0;
+		// parain	int,	10,		f
+		// parain	char,	ch,		f
+		// parain	int,	$t0,	f
 		while (i < paNum) {
 			if (s.opt == Opt::parain) {
 				enterCode("", "addi", "$sp", "$sp", "-4");
-				if (util.isInt(s.var2)) {
-					enterCode("", "li", "$s0", s.var2, "");
+				if (s.var1 == "char") {
+					loadIdent("$s0", s.var2, true);
 				}
 				else {
-					if (s.var1 == "char") {
-						loadIdent("$s0", s.var2, true);
-					}
-					else {
-						loadIdent("$s0", s.var2);
-					}
-
+					loadIdent("$s0", s.var2);
 				}
 				enterCode("", "sw", "$s0", "$sp", "0");
 				i++;

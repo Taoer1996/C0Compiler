@@ -979,6 +979,7 @@ string parser::terms() {
 string parser::factor() {
 	int index;
 	int tmpnum;
+	int valnum;
 	string tmpstr;
 	bool tmpExpTypeChar = true;
 	string tmpvarstr, tmptypename;
@@ -1050,7 +1051,10 @@ string parser::factor() {
 				}
 			}
 			lex.getsym();
-			valList(tmptoken);
+			valnum = valList(tmptoken);
+			if (valnum != symtab.SymbolTable[index].paranum) {
+				ERR.Err(40);				// ½ö±¨´í
+			}
 			if (sym == rparent) {
 				lex.getsym();
 			}
