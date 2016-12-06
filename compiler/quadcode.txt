@@ -4,21 +4,21 @@
 arr                 int                 num                 100                 
 cst                 str                 STRCST0             "\nnum["            
 cst                 str                 STRCST1             "] = "              
+cst                 str                 STRCST2             "\nnum["            
+cst                 str                 STRCST3             "] = "              
 
 ################################## text segment ###################################################
 
 j                                                           main                
-func                int                 getpower            3                   
+func                int                 getpower            2                   
 para                int                 a                                       
 para                int                 n                                       
-para                int                 test                                    
 blt                 n                   1                   label0              
 subop               $t0                 n                   1                   
 call                int                 getpower            $t1                 
 parain              int                 a                   getpower            
 subop               $t2                 n                   1                   
 parain              int                 $t2                 getpower            
-parain              int                 test                getpower            
 sarr                $t1                 num                 $t0                 
 subop               $t3                 n                   1                   
 larr                $t4                 num                 $t3                 
@@ -31,29 +31,62 @@ ret                 int                 n                   getpower
 setlab                                                      label1              
 setlab                                                      end_getpower        
 end                 func                getpower                                
+func                char                getchar             1                   
+para                char                ch                                      
+subop               $t0                 ch                  65                  
+addop               $t1                 $t0                 97                  
+ret                 char                $t1                 getchar             
+setlab                                                      end_getchar         
+end                 func                getchar                                 
 func                void                main                0                   
 cst                 int                 a                   10                  
 var                 int                 m                                       
 var                 int                 n                                       
+arr                 int                 red                 10                  
+var                 int                 j                                       
+arr                 int                 blue                10                  
 var                 int                 i                                       
-move                n                   10                                      
-call                int                 getpower            $t0                 
-addop               $t1                 1                   2                   
-parain              int                 $t1                 getpower            
+sarr                1                   red                 1                   
+sarr                3                   blue                3                   
+subop               $t0                 0                   10                  
+addop               $t1                 $t0                 20                  
+move                n                   $t1                                     
+call                int                 getpower            $t2                 
+addop               $t3                 1                   2                   
+parain              int                 $t3                 getpower            
 parain              int                 n                   getpower            
-sarr                $t0                 num                 n                   
+parain              int                 3                   getpower            
+sarr                $t2                 num                 n                   
 move                i                   0                                       
 setlab                                                      label2              
 bgt                 i                   n                   label3              
 print               str                 STRCST0                                 
 print               int                 i                                       
 print               str                 STRCST1                                 
-larr                $t2                 num                 i                   
-print               int                 $t2                                     
-addop               $t3                 i                   1                   
-move                i                   $t3                                     
+larr                $t4                 num                 i                   
+print               int                 $t4                                     
+addop               $t5                 i                   1                   
+move                i                   $t5                                     
 j                                                           label2              
 setlab                                                      label3              
+larr                $t6                 num                 1                   
+sarr                100                 num                 $t6                 
+call                int                 getpower            $t7                 
+parain              int                 2                   getpower            
+parain              int                 2                   getpower            
+sarr                200                 num                 $t7                 
+move                i                   0                                       
+setlab                                                      label4              
+bgt                 i                   n                   label5              
+print               str                 STRCST2                                 
+print               int                 i                                       
+print               str                 STRCST3                                 
+larr                $t8                 num                 i                   
+print               int                 $t8                                     
+addop               $t9                 i                   1                   
+move                i                   $t9                                     
+j                                                           label4              
+setlab                                                      label5              
 setlab                                                      end_main            
 end                 func                main                                    
 

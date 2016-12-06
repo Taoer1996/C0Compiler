@@ -41,10 +41,10 @@ int _tmain(int argc, _TCHAR* argv[])
 		return 0;
 	}
 
-	cout << "四元式翻译完成" << endl;
 	cout << "出现 " << ERR.getErrNum() << " 个错误！" << endl;
 
 	if (ERR.getErrNum() == 0) {
+		cout << "四元式翻译完成" << endl;
 		transcode.translate();
 		cout << "目标代码成功生成！" << endl;
 	}

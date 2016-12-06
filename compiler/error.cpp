@@ -1,10 +1,12 @@
 #include "stdafx.h"
 #include "error.h"
 #include "symTable.h"
+#include "lexical.h"
 
 extern int LineNum;
 extern int CharCount;
 extern symTable symtab;
+extern lexical lex;
 
 string ErrorTable[] = {
 	"符号表溢出! - 0",
@@ -123,8 +125,7 @@ error::~error()
 void error::Err(int code)
 {
 	errnum++;
-	cout << "错误" << errnum << " : 第" << LineNum << "行-第"<< CharCount+1 << "个字符 - " << ErrorTable[code] << endl;
-	// TODO 增加一个tokennum表示每行的第几个单词，如果是第一个单词，说明是上一行的最后一个单词出现错误，从而精准报错
+	cout << "错误" << errnum << " : 第" << LineNum << "行-单词 " << lex.getWord() << " - " << ErrorTable[code] << endl;
 }
 int error::getErrNum() {
 	return error::errnum;

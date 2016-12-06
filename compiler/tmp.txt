@@ -1,8 +1,8 @@
 int num[100];
 
-int getpower(int a, int n, int test){
+int getpower(int a, int n){
 	if(n >= 1){
-		num[n - 1] = getpower(a, n-1, test);
+		num[n - 1] = getpower(a, n-1);
 		return(a * num[n-1]);
 	} else {
 		n = 1;
@@ -10,47 +10,48 @@ int getpower(int a, int n, int test){
 	}
 }
 
+char getchar(char ch){
+	return (ch - 'A' + 'a');
+}
+
 void main(){
+
 	const int a = 10;
-	int m,n;
+	int m,n,red[10],j,blue[10];
 	int i;
-	
-	n = 10;
-	num[n] = getpower(1 + 2, n);
+	red[1] = 1;
+	blue[3] = 3
+	n = -10 + 20;
+	num[n] = getpower(1 + 2, n,3);
 	i = 0;
 	while(i <= n){
 		printf("\nnum[",i);
 		printf("] = ",num[i]);
 		i = i + 1;
 	} 
-	/*
-	printf("\n---larr test!---\n");
-	i = 9;
-	printf("\nnum[i] = ",num[i]);
-	printf("\nnum[i + 1] = ",num[i + 1]);
-	printf("\nnum[a] = ",num[a]);
-	printf("\nnum[10] = ",num[10]);
-
-	printf("\n---sarr test!---\n");
-	num[11] = 1;
-	num[12] = i + 1;
-	num[13] = i;
-	printf("\nnum[11] = ",num[11]);
-	printf("\nnum[12] = ",num[12]);
-	printf("\nnum[13] = ",num[13]);
-
-	num[i] = 1;
-	printf("\nnum[i] = ",num[i]);
-	num[i] = i + 1;
-	printf("\nnum[i] = ",num[i]);
-	num[i] = i;
-	printf("\nnum[i] = ",num[i]);
+	num[num[1]] = 100;
+	num[getpower(2,2)] = 200;
+	i = 0;
+	while(i <= n){
+		printf("\nnum[",i);
+		printf("] = ",num[i]);
+		i = i + 1;
+	} 
 	
-	num[i + 1] = 1;
-	num[i + 2] = i + 1;
-	num[i + 3] = i;
-	printf("\nnum[i+1] = ",num[i+1]);
-	printf("\nnum[i+2] = ",num[i+2]);
-	printf("\nnum[i+3] = ",num[i+3]);
+	/* Test print char
+	char s[10];
+	s[1] = 'a';
+	printf('A' - 'a' + 'b');
+	printf("\n");
+	printf('b' - 'A');	// 这里会直接打印感叹号
+	printf("\n");
+	printf('A' - 'a' + 10);
+	printf("\n");
+	printf('B' - getchar('B') + 'a');
+	printf("\n");
+	printf(s[1]);
+	printf("\n");
+	printf('A'-s[1] + 'b');
+	printf("\n");
 	*/
 }

@@ -49,8 +49,9 @@ void parser::program() {
 		tmptoken = token;
 		lex.getsym();
 
-		tmptype = (tmpsym == intsy) ? Int : Char;
+		tmptype = (tmpsym == intsy) ? typeEnum::Int : typeEnum::Char;
 
+		// 数组定义
 		if (sym == lbrack) {
 			goto ArrayVarStart;
 		}
@@ -907,8 +908,10 @@ string parser::expression() {
 	Opt tmp;
 	string tmpstr1, tmpstr2;
 	string tmpvarstr;
+	bool tmpExpTypeChar;
 	
 	isExpTypeChar = true;		// 初始化为true，默认为char类型
+	tmpExpTypeChar = isExpTypeChar;			// 暂存全局类型
 
 	if (sym == add) {
 		flag = 1;
@@ -919,24 +922,29 @@ string parser::expression() {
 		lex.getsym();
 	}
 
+	isExpTypeChar = true;
 	tmpstr1 = terms();
+	tmpExpTypeChar = tmpExpTypeChar && isExpTypeChar;		// isExpTypeChar是terms的类型
 	
 	if (flag == -1) {
 		tmpvarstr = nextTmpVar();
-		// 格式：mul,	$t1,	$t0,	-1;
-		codetab.emit(Opt::mulop, tmpvarstr, tmpstr1, "-1");
+		// 格式：subop,		$t1,	0,		$t0;
+		codetab.emit(Opt::subop, tmpvarstr, "0", tmpstr1);
 		tmpstr1 = tmpvarstr;
 	}
 	
 	while (sym == Symbol::add || sym == Symbol::sub) {
 		tmp = (sym == Symbol::add) ? Opt::addop : Opt::subop;
 		lex.getsym();
+		isExpTypeChar = true;
 		tmpstr2 = terms();
+		tmpExpTypeChar = tmpExpTypeChar && isExpTypeChar;		// isExpTypeChar是terms的类型
 		tmpvarstr = nextTmpVar();
 		// 格式：add,	$t0,	a,	b;
 		codetab.emit(tmp, tmpvarstr, tmpstr1, tmpstr2);
 		tmpstr1 = tmpvarstr;
 	}
+	isExpTypeChar = tmpExpTypeChar;			// 恢复全局类型
 	return tmpstr1;
 }
 
@@ -945,22 +953,34 @@ string parser::expression() {
 string parser::terms() {
 	Opt tmpopt;
 	string tmpstr1, tmpstr2, tmpvarstr;
+	bool tmpExpTypeChar;
 
+	tmpExpTypeChar = isExpTypeChar;			// 暂存全局类型
+
+	isExpTypeChar = true;
 	tmpstr1 = factor();
+	tmpExpTypeChar = tmpExpTypeChar && isExpTypeChar;		// isExpTypeChar为factor类型
+
 	tmpvarstr = tmpstr1;
 
 	while (sym == Symbol::mul || sym == Symbol::divi) {
 
 		isExpTypeChar = false;				// 出现乘除操作
+		tmpExpTypeChar = tmpExpTypeChar && isExpTypeChar;		// isExpTypeChar为操作符类型
 
 		tmpopt = (sym == Symbol::mul) ? Opt::mulop : Opt::diviop;
 		lex.getsym();
+		isExpTypeChar = true;
 		tmpstr2 = factor();
+		tmpExpTypeChar = tmpExpTypeChar && isExpTypeChar;		// isExpTypeChar为factor类型
+
 		tmpvarstr = nextTmpVar();
 		// 格式：mul,	$t2,	$t1,	$t0;
 		codetab.emit(tmpopt, tmpvarstr, tmpstr1, tmpstr2);
 		tmpstr1 = tmpvarstr;
 	}
+
+	isExpTypeChar = tmpExpTypeChar;				// 得到terms的类型
 	return tmpvarstr;
 }
 
@@ -985,6 +1005,9 @@ string parser::factor() {
 	string tmpvarstr, tmptypename;
 	kindEnum tmpkind;
 	string tmptoken;
+
+	tmpExpTypeChar = isExpTypeChar;				// 保存全局类型
+
 	// 如果是标识符，则可能是变量、常量、数组、函数调用
 	if (sym == ident) {
 		tmptoken = token;
@@ -996,19 +1019,15 @@ string parser::factor() {
 		}
 
 		if (symtab.SymbolTable[index].type != typeEnum::Char) {
-			isExpTypeChar = false;
+			tmpExpTypeChar = false;
 		}
 		
 		lex.getsym();
 		// 数组元素
 		if (sym == lbrack) {
-			
+
 			lex.getsym();
-
-			tmpExpTypeChar = isExpTypeChar;
 			tmpstr = expression();
-			isExpTypeChar = tmpExpTypeChar;			// 因为数组选元素时会出现数字，但这个不影响表达式的类型
-
 			
 			if (sym == rbrack) {
 				lex.getsym();
@@ -1029,11 +1048,13 @@ string parser::factor() {
 			// 格式：larr,	$t1,	arrname,	$t0;
 			tmpvarstr = nextTmpVar();
 			codetab.emit(Opt::larr, tmpvarstr, tmptoken, tmpstr);
+
+			isExpTypeChar = tmpExpTypeChar;			// 恢复类型值	
 			return tmpvarstr;
 		}
 		// 函数调用
 		else if (sym == lparent) {
-			tmpExpTypeChar = isExpTypeChar;			// 同理，函数调用仅仅看返回值类型，所以其中可能改变isExpTypeChar的值
+
 			if (symtab.SymbolTable[index].kind != kindEnum::funckind) {
 				ERR.Err(48);
 				return "";
@@ -1069,14 +1090,17 @@ string parser::factor() {
 			tmpkind = symtab.SymbolTable[index].kind;
 			// 如果是常量，则已经填好了值，所以直接返回值
 			if (tmpkind == kindEnum::cstkind) {
+				isExpTypeChar = tmpExpTypeChar;			// 恢复类型值	
 				return util.int2str(symtab.SymbolTable[index].value);
 			}
 			// 如果是参数则还没有值，所以返回名称
 			else if (tmpkind == kindEnum::parakind) {
+				isExpTypeChar = tmpExpTypeChar;			// 恢复类型值	
 				return tmptoken;
 			}
 			// 如果是普通变量
 			else if(tmpkind == kindEnum::varkind){
+				isExpTypeChar = tmpExpTypeChar;			// 恢复类型值	
 				return tmptoken;
 			}
 			else {
@@ -1088,21 +1112,21 @@ string parser::factor() {
 	// 如果是整数
 	else if (sym == add || sym == sub || sym == intcon) {
 		tmpnum = integer();
-		isExpTypeChar = false;
+		tmpExpTypeChar = false;
+		isExpTypeChar = tmpExpTypeChar;
 		return util.int2str(tmpnum);
 	}
 	// 如果是字符常量
 	else if (sym == charcon) {
 		tmpnum = num;
 		lex.getsym();
+		isExpTypeChar = tmpExpTypeChar;
 		return util.int2str(tmpnum);
 	}
 	// 如果是表达式
 	else if (sym == lparent) {
 		lex.getsym();
 		
-		tmpExpTypeChar = isExpTypeChar;		// 暂存当前的类型，因为进入expression()之后会统一设置为true
-
 		tmpstr = expression();
 		if (sym == rparent) {
 			lex.getsym();
@@ -1111,15 +1135,15 @@ string parser::factor() {
 			ERR.Err(10);                //容错
 		}
 		
-		if (isExpTypeChar == true) {
-			isExpTypeChar = tmpExpTypeChar;		// 如果该表达式为char类型，则全局的isExpTypeChar和原来的一致，直接恢复即可
-		}										// 否则全局的表达式就是int类型，这里就直接是isExpTypeChar为false，所以不用任何操作
+		tmpExpTypeChar = tmpExpTypeChar && isExpTypeChar;
+		isExpTypeChar = tmpExpTypeChar;
 		return tmpstr;
 	}
 	// 如果什么都不是
 	else {
 		ERR.Err(59);
 		lex.getsym();		// 跳至下一个token
+		isExpTypeChar = tmpExpTypeChar;
 		return "";
 	}
 }

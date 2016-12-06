@@ -36,6 +36,7 @@ public:
 	int isLetter(char c);
 	int isDigit(char c);
 	void PrintInfo();
+	string getWord();
 private:
 	FILE * log;				// log文件的指针，用于调试
 };

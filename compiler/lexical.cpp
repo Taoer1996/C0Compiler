@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "lexical.h"
 #include "error.h"
+#include "myutils.h"
 
 string symbolName[] = {
 	"intsy","charsy","voidsy","intcon","charcon","stringcon","mainsy","constsy",
@@ -15,6 +16,7 @@ string word[ReservedWords];		// 所有保留字的名字
 
 extern FILE * fin;				// 源文件的指针
 extern error ERR;				// 取得全局的错误类对象
+extern myutils util;			// 全局工具类
 Symbol sym;                     // 当前单词的类型
 char ch = ' ';					// 当前的字符，并且必须初始化为空格
 char line[MaxLineLen];			// 当前行，最长为MaxLineLen-1
@@ -68,13 +70,13 @@ void lexical::Initial() {
 // 这里可以添加一个EOF的Symbol类型
 int lexical::getch() {
 	if (CharCount >= LineLen - 1) {
-		LineNum++;
 		if (feof(fin)) {
 			ch = EOF;
 			return ch;
 		}
 		else {
 			fgets(line, MaxLineLen, fin);
+			LineNum++;
 			CharCount = -1;
 			LineLen = strlen(line) - 1;
 		}
@@ -155,7 +157,6 @@ int lexical::getsym() {
 		}
 		else {
 			//getch();		如果不是引号，则可认为已经预读
-			sym = errorsy;
 			ERR.Err(31);
 		}
 	}
@@ -166,12 +167,10 @@ int lexical::getsym() {
 			sym = charcon;
 		}
 		else {
-			sym = errorsy;
 			ERR.Err(32);
 		}
 		getch();			
 		if (ch != '\'') {
-			sym = errorsy;
 			ERR.Err(33);
 		}
 		getch();
@@ -294,7 +293,6 @@ int lexical::getsym() {
 		sym = errorsy;
 		ERR.Err(35);
 	}
-
 	PrintInfo();
 	return 0;
 }
@@ -376,6 +374,55 @@ void lexical::PrintInfo() {
 		}
 	}
 
+}
+
+string lexical::getWord()
+{
+	int i = 0;
+	string symInfo;
+
+	symInfo = symbolName[sym] + ":";
+
+	if (sym == ident) {
+		symInfo = symInfo + token;
+	}
+	else if (sym == intcon) {
+		symInfo = symInfo + util.int2str(num);
+	}
+	else if (sym == charcon) {
+		symInfo = symInfo + char(num);
+	}
+	else if (sym == stringcon) {
+		symInfo = symInfo + str;
+	}
+	else if (sym == lte) {
+		symInfo = symInfo + "<=";
+	}
+	else if (sym == gte) {
+		symInfo = symInfo + ">=";
+	}
+	else if (sym == eql) {
+		symInfo = symInfo + "==";
+	}
+	else if (sym == neq) {
+		symInfo = symInfo + "!=";
+	}
+	else {
+		for (i = 0; i<ReservedWords; i++) {
+			if (wsym[i] == sym) {
+				symInfo = symInfo + word[i];
+				return symInfo;
+			}
+		}
+
+		for (i = 32; i<ASCIILen; i++) {
+			if (ssym[i] == sym) {
+				symInfo = symInfo + char(i);
+				return symInfo;
+			}
+		}
+	}
+	return symInfo;
 }
 
 int lexical::isLetter(char c) {
