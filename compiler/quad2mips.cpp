@@ -459,18 +459,20 @@ void quad2mips::statement2mips(code t)
 	// larr		$t0,	arr,	$t1
 	// larr		$t0,	arr,	a
 	else if (t.opt == Opt::larr) {
+
+		loadIdent("$s1", t.var3);
+		enterCode("", "mul", "$s1", "$s1", "4");
+
 		if (symtab.locate(t.var2, 0) != -1) {
 			enterCode("", "la", "$s0", t.var2, "");
+			enterCode("", "add", "$s0", "$s0", "$s1");			// 全局变量是加
 		}
 		else if (symtab.locate(t.var2, 1) != -1) {
 			index = symtab.locate(t.var2, 1);
 			tmpaddress = -4 * symtab.SymbolTable[index].address;		
 			enterCode("", "addi", "$s0", "$fp", util.int2str(tmpaddress));
+			enterCode("", "sub", "$s0", "$s0", "$s1");			// 局部变量是减
 		}
-
-		loadIdent("$s1", t.var3);
-		enterCode("", "mul", "$s1", "$s1", "4");
-		enterCode("", "add", "$s0", "$s0", "$s1");
 
 		if (symtab.SymbolTable[index].type == typeEnum::Char) {
 			enterCode("", "lb", "$s1", "$s0", "0");
@@ -495,15 +497,15 @@ void quad2mips::statement2mips(code t)
 
 		if (symtab.locate(t.var2, 0) != -1) {
 			enterCode("", "la", "$s2", t.var2, "");
+			enterCode("", "add", "$s2", "$s2", "$s1");			//	全局数组为加
 		}
 		else if (symtab.locate(t.var2, 1) != -1) {
 			index = symtab.locate(t.var2, 1);
 			tmpaddress = -4 * symtab.SymbolTable[index].address;
 			enterCode("", "addi", "$s2", "$fp", util.int2str(tmpaddress));
+			enterCode("", "sub", "$s2", "$s2", "$s1");			//	局部数组为减
 		}
 
-		enterCode("", "add", "$s2", "$s2", "$s1");
-		
 		if (symtab.SymbolTable[index].type == typeEnum::Char) {
 			enterCode("", "sb", "$s0", "$s2", "0");
 		}

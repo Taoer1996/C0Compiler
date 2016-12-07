@@ -14,15 +14,20 @@ char getchar(char ch){
 	return (ch - 'A' + 'a');
 }
 
-void main(){
+int test(int test){
+	return (test);
+}
 
+void main(){
+	
+	/*
 	const int a = 10;
 	int m,n,red[10],j,blue[10];
 	int i;
 	red[1] = 1;
-	blue[3] = 3
+	blue[3] = 3;
 	n = -10 + 20;
-	num[n] = getpower(1 + 2, n,3);
+	num[n] = getpower(1 + 2, n);
 	i = 0;
 	while(i <= n){
 		printf("\nnum[",i);
@@ -37,7 +42,7 @@ void main(){
 		printf("] = ",num[i]);
 		i = i + 1;
 	} 
-	
+	*/
 	/* Test print char
 	char s[10];
 	s[1] = 'a';
@@ -54,4 +59,5 @@ void main(){
 	printf('A'-s[1] + 'b');
 	printf("\n");
 	*/
+	
 }

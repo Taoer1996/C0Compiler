@@ -1,0 +1,649 @@
+
+########################### data segment ######################
+.data
+	cona:          .word,         1                             
+	conb:          .word,         2                             
+	conc:          .word,         3                             
+	cong:          .word,         4                             
+	conh:          .word,         5                             
+	coni:          .word,         6                             
+	conj:          .word,         7                             
+	a:             .space,        40                            
+	c:             .word,         0                             
+	STRCST0:       .asciiz,       "OVE "                        
+	STRCST1:       .asciiz,       " TO "                        
+	STRCST2:       .asciiz,       " "                           
+	STRCST3:       .asciiz,       "RETURN ERROR"                
+	STRCST4:       .asciiz,       "NO"                          
+	STRCST5:       .asciiz,       ":"                           
+	STRCST6:       .asciiz,       " "                           
+	STRCST7:       .asciiz,       ""                            
+	STRCST8:       .asciiz,       "IFCORRECT"                   
+	STRCST9:       .asciiz,       ">="                          
+	STRCST10:      .asciiz,       "ERROR"                       
+
+########################### text segment ######################
+.text
+	j              main                                         
+emptyfunc:                                                            
+	addi           $fp,           $sp,           4              
+	sw             $ra,           -4($fp)        
+end_emptyfunc:                                                            
+	lw             $ra,           -4($fp)        
+	add            $sp,           $fp,           4              
+	lw             $fp,           0($fp)         
+	jr             $ra                                          
+emptyfunc2:                                                            
+	addi           $fp,           $sp,           4              
+	sw             $ra,           -4($fp)        
+end_emptyfunc2:                                                            
+	lw             $ra,           -4($fp)        
+	add            $sp,           $fp,           4              
+	lw             $fp,           0($fp)         
+	jr             $ra                                          
+testchar:                                                            
+	addi           $fp,           $sp,           4              
+	sw             $ra,           -4($fp)        
+	li             $v0,           48                            
+	j              end_testchar                                 
+end_testchar:                                                            
+	lw             $ra,           -4($fp)        
+	add            $sp,           $fp,           4              
+	lw             $fp,           0($fp)         
+	jr             $ra                                          
+fibonacci:                                                            
+	addi           $fp,           $sp,           8              
+	sw             $ra,           -4($fp)        
+	addi           $sp,           $sp,           -32            
+	lw             $s0,           -8($fp)        
+	li             $s1,           1                             
+	bne            $s0,           $s1,           label0         
+	li             $v0,           1                             
+	j              end_fibonacci                                
+label0:                                                            
+	lw             $s0,           -8($fp)        
+	li             $s1,           2                             
+	beq            $s0,           $s1,           label1         
+	addi           $sp,           $sp,           -8             
+	sw             $fp,           4($sp)         
+	lw             $s0,           -8($fp)        
+	add            $s0,           $s0,           -1             
+	sw             $s0,           -24($fp)       
+	addi           $sp,           $sp,           -4             
+	lw             $s0,           -24($fp)       
+	sw             $s0,           0($sp)         
+	jal            fibonacci                                    
+	sw             $v0,           -20($fp)       
+	addi           $sp,           $sp,           -8             
+	sw             $fp,           4($sp)         
+	lw             $s0,           -8($fp)        
+	sub            $s0,           $s0,           2              
+	sw             $s0,           -32($fp)       
+	addi           $sp,           $sp,           -4             
+	lw             $s0,           -32($fp)       
+	sw             $s0,           0($sp)         
+	jal            fibonacci                                    
+	sw             $v0,           -28($fp)       
+	lw             $s0,           -20($fp)       
+	lw             $s1,           -28($fp)       
+	add            $s0,           $s0,           $s1            
+	sw             $s0,           -36($fp)       
+	lw             $s0,           -36($fp)       
+	add            $s0,           $s0,           0              
+	sw             $s0,           -40($fp)       
+	lw             $v0,           -40($fp)       
+	j              end_fibonacci                                
+label1:                                                            
+	li             $v0,           1                             
+	j              end_fibonacci                                
+end_fibonacci:                                                            
+	lw             $ra,           -4($fp)        
+	add            $sp,           $fp,           4              
+	lw             $fp,           0($fp)         
+	jr             $ra                                          
+move:                                                            
+	addi           $fp,           $sp,           12             
+	sw             $ra,           -4($fp)        
+	addi           $sp,           $sp,           -8             
+	li             $a0,           77                            
+	li             $v0,           11                            
+	syscall                                                     
+	la             $a0,           STRCST0                       
+	li             $v0,           4                             
+	syscall                                                     
+	lb             $a0,           a              
+	li             $v0,           11                            
+	syscall                                                     
+	la             $a0,           STRCST1                       
+	li             $v0,           4                             
+	syscall                                                     
+	lb             $a0,           -12($fp)       
+	li             $v0,           11                            
+	syscall                                                     
+	la             $a0,           STRCST2                       
+	li             $v0,           4                             
+	syscall                                                     
+end_move:                                                            
+	lw             $ra,           -4($fp)        
+	add            $sp,           $fp,           4              
+	lw             $fp,           0($fp)         
+	jr             $ra                                          
+hanoi:                                                            
+	addi           $fp,           $sp,           20             
+	sw             $ra,           -4($fp)        
+	addi           $sp,           $sp,           -8             
+	li             $s0,           2                             
+	lw             $s1,           -8($fp)        
+	ble            $s0,           $s1,           label2         
+	addi           $sp,           $sp,           -8             
+	sw             $fp,           4($sp)         
+	addi           $sp,           $sp,           -4             
+	lb             $s0,           -12($fp)       
+	sw             $s0,           0($sp)         
+	addi           $sp,           $sp,           -4             
+	lb             $s0,           -20($fp)       
+	sw             $s0,           0($sp)         
+	jal            move                                         
+	j              end_hanoi                                    
+	la             $a0,           STRCST3                       
+	li             $v0,           4                             
+	syscall                                                     
+label2:                                                            
+	addi           $sp,           $sp,           -8             
+	sw             $fp,           4($sp)         
+	lw             $s0,           -8($fp)        
+	sub            $s0,           $s0,           1              
+	sw             $s0,           -24($fp)       
+	addi           $sp,           $sp,           -4             
+	lw             $s0,           -24($fp)       
+	sw             $s0,           0($sp)         
+	addi           $sp,           $sp,           -4             
+	lb             $s0,           -12($fp)       
+	sw             $s0,           0($sp)         
+	addi           $sp,           $sp,           -4             
+	lb             $s0,           -20($fp)       
+	sw             $s0,           0($sp)         
+	addi           $sp,           $sp,           -4             
+	lb             $s0,           -16($fp)       
+	sw             $s0,           0($sp)         
+	jal            hanoi                                        
+	addi           $sp,           $sp,           -8             
+	sw             $fp,           4($sp)         
+	addi           $sp,           $sp,           -4             
+	lb             $s0,           -12($fp)       
+	sw             $s0,           0($sp)         
+	addi           $sp,           $sp,           -4             
+	lb             $s0,           -20($fp)       
+	sw             $s0,           0($sp)         
+	jal            move                                         
+	addi           $sp,           $sp,           -8             
+	sw             $fp,           4($sp)         
+	lw             $s0,           -8($fp)        
+	sub            $s0,           $s0,           1              
+	sw             $s0,           -28($fp)       
+	addi           $sp,           $sp,           -4             
+	lw             $s0,           -28($fp)       
+	sw             $s0,           0($sp)         
+	addi           $sp,           $sp,           -4             
+	lb             $s0,           -16($fp)       
+	sw             $s0,           0($sp)         
+	addi           $sp,           $sp,           -4             
+	lb             $s0,           -12($fp)       
+	sw             $s0,           0($sp)         
+	addi           $sp,           $sp,           -4             
+	lb             $s0,           -20($fp)       
+	sw             $s0,           0($sp)         
+	jal            hanoi                                        
+end_hanoi:                                                            
+	lw             $ra,           -4($fp)        
+	add            $sp,           $fp,           4              
+	lw             $fp,           0($fp)         
+	jr             $ra                                          
+getpower:                                                            
+	addi           $fp,           $sp,           12             
+	sw             $ra,           -4($fp)        
+	addi           $sp,           $sp,           -24            
+	lw             $s0,           -12($fp)       
+	li             $s1,           2                             
+	blt            $s0,           $s1,           label3         
+	addi           $sp,           $sp,           -8             
+	sw             $fp,           4($sp)         
+	addi           $sp,           $sp,           -4             
+	lw             $s0,           -8($fp)        
+	sw             $s0,           0($sp)         
+	lw             $s0,           -12($fp)       
+	sub            $s0,           $s0,           1              
+	sw             $s0,           -24($fp)       
+	addi           $sp,           $sp,           -4             
+	lw             $s0,           -24($fp)       
+	sw             $s0,           0($sp)         
+	jal            getpower                                     
+	sw             $v0,           -20($fp)       
+	lw             $s0,           -20($fp)       
+	sw             $s0,           move           
+	lw             $s0,           -12($fp)       
+	sub            $s0,           $s0,           1              
+	sw             $s0,           -28($fp)       
+	lw             $s0,           move           
+	lw             $s1,           -28($fp)       
+	mul            $s1,           $s1,           4              
+	la             $s2,           a                             
+	add            $s2,           $s2,           $s1            
+	sw             $s0,           0($s2)         
+	lw             $s0,           -8($fp)        
+	lw             $s1,           move           
+	mul            $s0,           $s0,           $s1            
+	sw             $s0,           -32($fp)       
+	lw             $v0,           -32($fp)       
+	j              end_getpower                                 
+label3:                                                            
+	li             $s0,           1                             
+	lw             $s1,           -12($fp)       
+	bgt            $s0,           $s1,           label4         
+	lw             $s0,           -12($fp)       
+	sub            $s0,           $s0,           1              
+	sw             $s0,           -36($fp)       
+	lw             $s0,           -8($fp)        
+	lw             $s1,           -36($fp)       
+	mul            $s1,           $s1,           4              
+	la             $s2,           a                             
+	add            $s2,           $s2,           $s1            
+	sw             $s0,           0($s2)         
+	lw             $v0,           -8($fp)        
+	j              end_getpower                                 
+label4:                                                            
+	li             $v0,           1                             
+	j              end_getpower                                 
+end_getpower:                                                            
+	lw             $ra,           -4($fp)        
+	add            $sp,           $fp,           4              
+	lw             $fp,           0($fp)         
+	jr             $ra                                          
+getsqr:                                                            
+	addi           $fp,           $sp,           8              
+	sw             $ra,           -4($fp)        
+	addi           $sp,           $sp,           -48            
+	li             $s0,           1                             
+	sw             $s0,           -12($fp)       
+label5:                                                            
+	lw             $s0,           -8($fp)        
+	lw             $s1,           -12($fp)       
+	div            $s0,           $s0,           $s1            
+	sw             $s0,           -16($fp)       
+	lw             $s0,           -12($fp)       
+	lw             $s1,           -16($fp)       
+	bge            $s0,           $s1,           label6         
+	lw             $s0,           -12($fp)       
+	addi           $s0,           $s0,           1              
+	sw             $s0,           -20($fp)       
+	lw             $s0,           -20($fp)       
+	sw             $s0,           -12($fp)       
+	j              label5                                       
+label6:                                                            
+	li             $s0,           0                             
+	lw             $s1,           -8($fp)        
+	sub            $s0,           $s0,           $s1            
+	sw             $s0,           -24($fp)       
+	lw             $s0,           -12($fp)       
+	lw             $s1,           -12($fp)       
+	mul            $s0,           $s0,           $s1            
+	sw             $s0,           -28($fp)       
+	lw             $s0,           -24($fp)       
+	lw             $s1,           -28($fp)       
+	add            $s0,           $s0,           $s1            
+	sw             $s0,           -32($fp)       
+	li             $s0,           -1                            
+	sw             $s0,           -36($fp)       
+	lw             $s0,           -36($fp)       
+	lw             $s1,           -12($fp)       
+	add            $s0,           $s0,           $s1            
+	sw             $s0,           -40($fp)       
+	lw             $s0,           -12($fp)       
+	sub            $s0,           $s0,           1              
+	sw             $s0,           -44($fp)       
+	lw             $s0,           -40($fp)       
+	lw             $s1,           -44($fp)       
+	mul            $s0,           $s0,           $s1            
+	sw             $s0,           -48($fp)       
+	lw             $s0,           -8($fp)        
+	lw             $s1,           -48($fp)       
+	sub            $s0,           $s0,           $s1            
+	sw             $s0,           -52($fp)       
+	lw             $s0,           -32($fp)       
+	lw             $s1,           -52($fp)       
+	bge            $s0,           $s1,           label7         
+	lw             $v0,           -12($fp)       
+	j              end_getsqr                                   
+label7:                                                            
+	lw             $s0,           -12($fp)       
+	sub            $s0,           $s0,           1              
+	sw             $s0,           -56($fp)       
+	lw             $v0,           -56($fp)       
+	j              end_getsqr                                   
+end_getsqr:                                                            
+	lw             $ra,           -4($fp)        
+	add            $sp,           $fp,           4              
+	lw             $fp,           0($fp)         
+	jr             $ra                                          
+main:                                                            
+	addi           $fp,           $sp,           4              
+	sw             $ra,           -4($fp)        
+	addi           $sp,           $sp,           -616           
+	li             $s0,           123456789                     
+	sw             $s0,           -500($fp)      
+	li             $s0,           65                            
+	sw             $s0,           -496($fp)      
+	li             $s0,           5                             
+	li             $s1,           0                             
+	mul            $s1,           $s1,           4              
+	addi           $s2,           $fp,           -96            
+	sub            $s2,           $s2,           $s1            
+	sw             $s0,           0($s2)         
+	li             $s1,           0                             
+	mul            $s1,           $s1,           4              
+	addi           $s0,           $fp,           -96            
+	sub            $s0,           $s0,           $s1            
+	lw             $s1,           0($s0)         
+	sw             $s1,           -560($fp)      
+	li             $s0,           1                             
+	lw             $s1,           -560($fp)      
+	mul            $s1,           $s1,           4              
+	addi           $s2,           $fp,           -96            
+	sub            $s2,           $s2,           $s1            
+	sw             $s0,           0($s2)         
+	li             $s0,           2                             
+	li             $s1,           43                            
+	mul            $s1,           $s1,           4              
+	addi           $s2,           $fp,           -96            
+	sub            $s2,           $s2,           $s1            
+	sw             $s0,           0($s2)         
+	li             $v0,           5                             
+	syscall                                                     
+	sw             $v0,           c              
+	li             $v0,           5                             
+	syscall                                                     
+	sw             $v0,           -40($fp)       
+label9:                                                            
+	lw             $s0,           c              
+	li             $s1,           1                             
+	bne            $s0,           $s1,           label8         
+	addi           $sp,           $sp,           -8             
+	sw             $fp,           4($sp)         
+	addi           $sp,           $sp,           -4             
+	lw             $s0,           -40($fp)       
+	sw             $s0,           0($sp)         
+	addi           $sp,           $sp,           -4             
+	li             $s0,           10                            
+	sw             $s0,           0($sp)         
+	jal            getpower                                     
+	li             $s0,           0                             
+	sw             $s0,           -44($fp)       
+label10:                                                            
+	lw             $s0,           -44($fp)       
+	li             $s1,           10                            
+	bge            $s0,           $s1,           label12        
+	la             $a0,           STRCST4                       
+	li             $v0,           4                             
+	syscall                                                     
+	lw             $s0,           -44($fp)       
+	add            $s0,           $s0,           1              
+	sw             $s0,           -564($fp)      
+	lw             $a0,           -564($fp)      
+	li             $v0,           1                             
+	syscall                                                     
+	la             $a0,           STRCST5                       
+	li             $v0,           4                             
+	syscall                                                     
+	lw             $s1,           -44($fp)       
+	mul            $s1,           $s1,           4              
+	la             $s0,           a                             
+	add            $s0,           $s0,           $s1            
+	lw             $s1,           0($s0)         
+	sw             $s1,           -568($fp)      
+	lw             $a0,           -568($fp)      
+	li             $v0,           1                             
+	syscall                                                     
+	la             $a0,           STRCST6                       
+	li             $v0,           4                             
+	syscall                                                     
+	la             $a0,           STRCST7                       
+	li             $v0,           4                             
+	syscall                                                     
+	li             $s0,           1                             
+	li             $s1,           0                             
+	beq            $s0,           $s1,           label11        
+	lw             $s0,           -44($fp)       
+	add            $s0,           $s0,           1              
+	sw             $s0,           -572($fp)      
+	lw             $s0,           -572($fp)      
+	sw             $s0,           -44($fp)       
+label11:                                                            
+	j              label10                                      
+label12:                                                            
+	j              label8                                       
+label8:                                                            
+label14:                                                            
+	lw             $s0,           c              
+	li             $s1,           2                             
+	bne            $s0,           $s1,           label15        
+	addi           $sp,           $sp,           -8             
+	sw             $fp,           4($sp)         
+	addi           $sp,           $sp,           -4             
+	lw             $s0,           -40($fp)       
+	sw             $s0,           0($sp)         
+	addi           $sp,           $sp,           -4             
+	li             $s0,           65                            
+	sw             $s0,           0($sp)         
+	addi           $sp,           $sp,           -4             
+	li             $s0,           66                            
+	sw             $s0,           0($sp)         
+	addi           $sp,           $sp,           -4             
+	li             $s0,           67                            
+	sw             $s0,           0($sp)         
+	jal            hanoi                                        
+	j              label13                                      
+label15:                                                            
+	lw             $s0,           c              
+	li             $s1,           3                             
+	bne            $s0,           $s1,           label13        
+	addi           $sp,           $sp,           -8             
+	sw             $fp,           4($sp)         
+	addi           $sp,           $sp,           -4             
+	lw             $s0,           -40($fp)       
+	sw             $s0,           0($sp)         
+	jal            fibonacci                                    
+	sw             $v0,           -576($fp)      
+	lw             $s0,           -576($fp)      
+	sw             $s0,           -48($fp)       
+	lw             $a0,           -48($fp)       
+	li             $v0,           1                             
+	syscall                                                     
+	j              label13                                      
+label13:                                                            
+label17:                                                            
+	lw             $s0,           c              
+	li             $s1,           4                             
+	bne            $s0,           $s1,           label18        
+	addi           $sp,           $sp,           -8             
+	sw             $fp,           4($sp)         
+	addi           $sp,           $sp,           -4             
+	lw             $s0,           -40($fp)       
+	sw             $s0,           0($sp)         
+	jal            getsqr                                       
+	sw             $v0,           -580($fp)      
+	lw             $s0,           -580($fp)      
+	sw             $s0,           -92($fp)       
+	lw             $a0,           -92($fp)       
+	li             $v0,           1                             
+	syscall                                                     
+	j              label16                                      
+label18:                                                            
+	lw             $s0,           c              
+	li             $s1,           5                             
+	bne            $s0,           $s1,           label19        
+	addi           $sp,           $sp,           -8             
+	sw             $fp,           4($sp)         
+	jal            testchar                                     
+	sb             $v0,           -584($fp)      
+	lb             $a0,           -584($fp)      
+	li             $v0,           11                            
+	syscall                                                     
+	li             $s0,           6                             
+	sw             $s0,           -588($fp)      
+	lw             $s0,           -588($fp)      
+	div            $s0,           $s0,           6              
+	sw             $s0,           -592($fp)      
+	li             $s1,           0                             
+	mul            $s1,           $s1,           4              
+	addi           $s0,           $fp,           -96            
+	sub            $s0,           $s0,           $s1            
+	lw             $s1,           0($s0)         
+	sw             $s1,           -596($fp)      
+	lw             $s0,           -592($fp)      
+	lw             $s1,           -596($fp)      
+	mul            $s0,           $s0,           $s1            
+	sw             $s0,           -600($fp)      
+	lw             $a0,           -600($fp)      
+	li             $v0,           1                             
+	syscall                                                     
+	j              label16                                      
+label19:                                                            
+	lw             $s0,           c              
+	li             $s1,           6                             
+	bne            $s0,           $s1,           label23        
+	li             $s1,           0                             
+	mul            $s1,           $s1,           4              
+	addi           $s0,           $fp,           -96            
+	sub            $s0,           $s0,           $s1            
+	lw             $s1,           0($s0)         
+	sw             $s1,           -604($fp)      
+	lw             $s0,           -604($fp)      
+	li             $s1,           0                             
+	beq            $s0,           $s1,           label20        
+	la             $a0,           STRCST8                       
+	li             $v0,           4                             
+	syscall                                                     
+label20:                                                            
+label21:                                                            
+	li             $s1,           0                             
+	mul            $s1,           $s1,           4              
+	addi           $s0,           $fp,           -96            
+	sub            $s0,           $s0,           $s1            
+	lw             $s1,           0($s0)         
+	sw             $s1,           -608($fp)      
+	lw             $s0,           -608($fp)      
+	li             $s1,           0                             
+	beq            $s0,           $s1,           label22        
+	li             $s1,           0                             
+	mul            $s1,           $s1,           4              
+	addi           $s0,           $fp,           -96            
+	sub            $s0,           $s0,           $s1            
+	lw             $s1,           0($s0)         
+	sw             $s1,           -612($fp)      
+	lw             $a0,           -612($fp)      
+	li             $v0,           1                             
+	syscall                                                     
+	li             $s1,           0                             
+	mul            $s1,           $s1,           4              
+	addi           $s0,           $fp,           -96            
+	sub            $s0,           $s0,           $s1            
+	lw             $s1,           0($s0)         
+	sw             $s1,           -616($fp)      
+	lw             $s0,           -616($fp)      
+	sub            $s0,           $s0,           1              
+	sw             $s0,           -620($fp)      
+	lw             $s0,           -620($fp)      
+	li             $s1,           0                             
+	mul            $s1,           $s1,           4              
+	addi           $s2,           $fp,           -96            
+	sub            $s2,           $s2,           $s1            
+	sw             $s0,           0($s2)         
+	j              label21                                      
+label22:                                                            
+	j              label16                                      
+label23:                                                            
+	lw             $s0,           c              
+	li             $s1,           -7                            
+	bne            $s0,           $s1,           label24        
+	li             $v0,           5                             
+	syscall                                                     
+	sw             $v0,           -512($fp)      
+	li             $v0,           5                             
+	syscall                                                     
+	sw             $v0,           -516($fp)      
+	li             $v0,           5                             
+	syscall                                                     
+	sw             $v0,           -520($fp)      
+	li             $v0,           5                             
+	syscall                                                     
+	sw             $v0,           -524($fp)      
+	li             $v0,           5                             
+	syscall                                                     
+	sw             $v0,           -528($fp)      
+	li             $v0,           5                             
+	syscall                                                     
+	sw             $v0,           -532($fp)      
+	lw             $a0,           -512($fp)      
+	li             $v0,           1                             
+	syscall                                                     
+	lw             $a0,           -516($fp)      
+	li             $v0,           1                             
+	syscall                                                     
+	lw             $a0,           -520($fp)      
+	li             $v0,           1                             
+	syscall                                                     
+	lw             $a0,           -524($fp)      
+	li             $v0,           1                             
+	syscall                                                     
+	lw             $a0,           -528($fp)      
+	li             $v0,           1                             
+	syscall                                                     
+	lw             $a0,           -532($fp)      
+	li             $v0,           1                             
+	syscall                                                     
+	j              label16                                      
+label24:                                                            
+	lw             $s0,           c              
+	li             $s1,           0                             
+	bne            $s0,           $s1,           label29        
+	li             $v0,           12                            
+	syscall                                                     
+	sb             $v0,           -536($fp)      
+label26:                                                            
+	lb             $s0,           -536($fp)      
+	li             $s1,           97                            
+	bne            $s0,           $s1,           label27        
+	li             $a0,           1                             
+	li             $v0,           1                             
+	syscall                                                     
+	j              label25                                      
+label27:                                                            
+	lb             $s0,           -536($fp)      
+	li             $s1,           98                            
+	bne            $s0,           $s1,           label28        
+	li             $a0,           2                             
+	li             $v0,           1                             
+	syscall                                                     
+	j              label25                                      
+label28:                                                            
+	la             $a0,           STRCST9                       
+	li             $v0,           4                             
+	syscall                                                     
+	li             $a0,           3                             
+	li             $v0,           1                             
+	syscall                                                     
+	j              label25                                      
+label25:                                                            
+	j              label16                                      
+label29:                                                            
+	la             $a0,           STRCST10                      
+	li             $v0,           4                             
+	syscall                                                     
+	j              label16                                      
+label16:                                                            
+	j              end_main                                     
+end_main:                                                            
+	li             $v0,           10                            
+	syscall                                                     
+
+############################### end ###########################

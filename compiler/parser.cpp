@@ -124,10 +124,13 @@ void parser::program() {
 			errset.clear();
 			errset.insert(semicolon);
 			errjump(errset);			// 跳读，缩小影响范围
+			if (sym == semicolon) {
+				lex.getsym();			// 如果当前是semicolon则需要预读一个
+			}
 		}
 	}
 
-	while (sym == intsy || sym == charsy || sym == voidsy) {
+	while (sym == intsy || sym == charsy || sym == voidsy) {	// TODO 检查这里的容错处理
 		tmpsym = sym;
 		lastFuncType = sym;
 		tmptype = (tmpsym == intsy) ? typeEnum::Int : (tmpsym == charsy)? typeEnum::Char:typeEnum::Void;
@@ -1560,7 +1563,7 @@ void parser::writeStatement() {
 										
 					isExpTypeChar = true;		// 进入之前确保初始化为true
 					tmpvarname = expression();
-					tmptypename = (isExpTypeChar == true) ? "char" : "int";		// TODO 检查isExpTypeChar的值是否能保证正确
+					tmptypename = (isExpTypeChar == true) ? "char" : "int";		
 					// 格式：print, char, $t0,	;
 					codetab.emit(Opt::print, tmptypename, tmpvarname, "");
 					

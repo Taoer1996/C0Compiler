@@ -27,7 +27,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	cout << "请输入文件路径（默认为./test.txt)：" << endl;
 	getline(cin, path);
 	if (path == "") {
-		path = "./tmp.txt";
+		path = "./test5.txt";
 	}
 	fin = fopen(path.c_str(), "r");
 	
@@ -35,8 +35,9 @@ int _tmain(int argc, _TCHAR* argv[])
 	{
 		myparser.program();
 	}
-	catch (const std::exception&)
+	catch (const std::exception& e)
 	{
+		cout << "Standard exception - " << e.what() << endl;
 		cout << "代码中部分错误如上！" << endl;
 		return 0;
 	}

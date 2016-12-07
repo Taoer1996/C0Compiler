@@ -36,6 +36,7 @@ public:
 	void clean();
 	void cleanAll();
 	int locate(string name, int level);
+	int locate(string name);
 	void PrintTable();
 public:
 	vector<tableColumn> SymbolTable;
