@@ -42,7 +42,7 @@ int getpower (int n, int le){
         return (n*move);
     }
     if(1<=le){
-        a[le-1] = n;
+        a[le-1] = 1;
         return (n);
     }
 	return (1);

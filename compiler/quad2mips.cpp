@@ -463,15 +463,18 @@ void quad2mips::statement2mips(code t)
 		loadIdent("$s1", t.var3);
 		enterCode("", "mul", "$s1", "$s1", "4");
 
-		if (symtab.locate(t.var2, 0) != -1) {
+		if (symtab.locate(t.var2, 1) != -1) {
+			index = symtab.locate(t.var2, 1);
+			tmpaddress = -4 * symtab.SymbolTable[index].address;
+			enterCode("", "addi", "$s0", "$fp", util.int2str(tmpaddress));
+			enterCode("", "sub", "$s0", "$s0", "$s1");			// 局部变量是减
+		}
+		else if (symtab.locate(t.var2, 0) != -1) {
 			enterCode("", "la", "$s0", t.var2, "");
 			enterCode("", "add", "$s0", "$s0", "$s1");			// 全局变量是加
 		}
-		else if (symtab.locate(t.var2, 1) != -1) {
-			index = symtab.locate(t.var2, 1);
-			tmpaddress = -4 * symtab.SymbolTable[index].address;		
-			enterCode("", "addi", "$s0", "$fp", util.int2str(tmpaddress));
-			enterCode("", "sub", "$s0", "$s0", "$s1");			// 局部变量是减
+		else {
+			cout << "符号表中无法定位" << t.var2 << "  - statement2mips -> larr !" << endl;
 		}
 
 		if (symtab.SymbolTable[index].type == typeEnum::Char) {
@@ -495,15 +498,18 @@ void quad2mips::statement2mips(code t)
 		loadIdent("$s1", t.var3);
 		enterCode("", "mul", "$s1", "$s1", "4");
 
-		if (symtab.locate(t.var2, 0) != -1) {
-			enterCode("", "la", "$s2", t.var2, "");
-			enterCode("", "add", "$s2", "$s2", "$s1");			//	全局数组为加
-		}
-		else if (symtab.locate(t.var2, 1) != -1) {
+		if (symtab.locate(t.var2, 1) != -1) {
 			index = symtab.locate(t.var2, 1);
 			tmpaddress = -4 * symtab.SymbolTable[index].address;
 			enterCode("", "addi", "$s2", "$fp", util.int2str(tmpaddress));
 			enterCode("", "sub", "$s2", "$s2", "$s1");			//	局部数组为减
+		}
+		 else if (symtab.locate(t.var2, 0) != -1) {
+			enterCode("", "la", "$s2", t.var2, "");
+			enterCode("", "add", "$s2", "$s2", "$s1");			//	全局数组为加
+		}
+		else {
+			cout << "符号表中无法定位" << t.var2 << "  - statement2mips -> larr !" << endl;
 		}
 
 		if (symtab.SymbolTable[index].type == typeEnum::Char) {
@@ -524,7 +530,7 @@ void quad2mips::statement2mips(code t)
 		// enterCode("", "sw", "$ra", "$sp", "0"); 在jal进入函数之后再保存 $ra
 		
 		s = codetab.textSeg[textCodeIndex++];
-		index = symtab.locate(t.var2, 0);	
+		index = symtab.locate(t.var2);	
 		paNum = symtab.SymbolTable[index].paranum;
 
 		i = 0;
@@ -578,19 +584,7 @@ void quad2mips::loadIdent(string dst,string src)
 		return;
 	}
 	
-	// 全局变量，直接取址
-	if (symtab.locate(src, 0) != -1) {
-		index = symtab.locate(src, 0);
-		// char类型可以存负值，也即为有符号数
-		if (symtab.SymbolTable[index].type == typeEnum::Char) {
-			enterCode("", "lb", dst, src, "");
-		}
-		else {
-			enterCode("", "lw", dst, src, "");
-		}
-	}
-	
-	else if(symtab.locate(src, 1) != -1){
+	if (symtab.locate(src, 1) != -1) {
 		index = symtab.locate(src, 1);
 		tmpaddress = -1 * 4 * symtab.SymbolTable[index].address;
 		if (symtab.SymbolTable[index].type == typeEnum::Char) {
@@ -598,6 +592,17 @@ void quad2mips::loadIdent(string dst,string src)
 		}
 		else {
 			enterCode("", "lw", dst, "$fp", util.int2str(tmpaddress));
+		}
+	}
+	// 全局变量，直接取址
+	else if (symtab.locate(src, 0) != -1) {
+		index = symtab.locate(src, 0);
+		// char类型可以存负值，也即为有符号数
+		if (symtab.SymbolTable[index].type == typeEnum::Char) {
+			enterCode("", "lb", dst, src, "");
+		}
+		else {
+			enterCode("", "lw", dst, src, "");
 		}
 	}
 	else {
@@ -621,13 +626,13 @@ void quad2mips::loadIdent(string dst, string src, bool forceChar)
 			enterCode("", "li", dst, util.int2str(tmpnum), "");
 			return;
 		}
-		if (symtab.locate(src, 0) != -1) {
-			enterCode("", "lb", dst, src, "");
-		}
-		else if (symtab.locate(src, 1) != -1) {
+		if (symtab.locate(src, 1) != -1) {
 			index = symtab.locate(src, 1);
 			tmpaddress = -1 * 4 * symtab.SymbolTable[index].address;
 			enterCode("", "lb", dst, "$fp", util.int2str(tmpaddress));
+		}
+		else if (symtab.locate(src, 0) != -1) {
+			enterCode("", "lb", dst, src, "");
 		}
 		else {
 			cout << "loadIdent - 符号表中没有检查到该标识符 ： " << src << " in " << src << " -> " << dst << endl;
@@ -646,17 +651,8 @@ void quad2mips::saveIdent(string src, string dst)
 {
 	int index = 0;
 	int tmpaddress = 0;
-	if (symtab.locate(dst, 0) != -1) {
-		index = symtab.locate(dst, 0);
-		if (symtab.SymbolTable[index].type == typeEnum::Char) {
-			enterCode("", "sb", src, dst, "");
-		}
-		else {
-			enterCode("", "sw", src, dst, "");
-		}
-	}
-
-	else if (symtab.locate(dst, 1) != -1) {
+	
+	if (symtab.locate(dst, 1) != -1) {
 		index = symtab.locate(dst, 1);
 		tmpaddress = -1 * 4 * symtab.SymbolTable[index].address;
 		if (symtab.SymbolTable[index].type == typeEnum::Char) {
@@ -664,6 +660,15 @@ void quad2mips::saveIdent(string src, string dst)
 		}
 		else {
 			enterCode("", "sw", src, "$fp", util.int2str(tmpaddress));
+		}
+	}
+	else if (symtab.locate(dst, 0) != -1) {
+		index = symtab.locate(dst, 0);
+		if (symtab.SymbolTable[index].type == typeEnum::Char) {
+			enterCode("", "sb", src, dst, "");
+		}
+		else {
+			enterCode("", "sw", src, dst, "");
 		}
 	}
 	else {
@@ -680,14 +685,13 @@ void quad2mips::saveIdent(string src, string dst, bool forceChar)
 	int index = 0;
 	int tmpaddress = 0;
 	if (forceChar) {
-		if (symtab.locate(dst, 0) != -1) {
-			enterCode("", "sb", src, dst, "");
-		}
-
-		else if (symtab.locate(dst, 1) != -1) {
+		if (symtab.locate(dst, 1) != -1) {
 			index = symtab.locate(dst, 1);
 			tmpaddress = -1 * 4 * symtab.SymbolTable[index].address;
 			enterCode("", "sb", src, "$fp", util.int2str(tmpaddress));
+		}
+		else if (symtab.locate(dst, 0) != -1) {
+			enterCode("", "sb", src, dst, "");
 		}
 		else {
 			cout << "saveIdent - 符号表中没有检查到该标识符 ： " << dst << " in " << src << " -> " << dst << endl;

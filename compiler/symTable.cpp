@@ -47,17 +47,27 @@ int symTable::enter(string name,kindEnum kind,typeEnum type,int level,int arrsiz
 	return SymbolTable.size() - 1;
 }
 
-// 找到了返回下标，没有找到返回-1，注意是从下往上找
+// 从下往上寻找，按照名字和指定lev进行寻找
 int symTable::locate(string name, int level) {				
 	int i = 0;
-	// 这里对于lev == 0 的情况特殊处理，是因为lev == 0相当于是全局变量
 	for (i = SymbolTable.size() - 1; i >= 0; i--) {
-		if (SymbolTable[i].name == name && (SymbolTable[i].level == level || SymbolTable[i].level == 0)) {
+		if (SymbolTable[i].name == name && SymbolTable[i].level == level) {
 			return i;
 		}
 	}
 	return -1;
 
+}
+
+// 纯粹按照名字来定位
+int symTable::locate(string name) {
+	int i = 0;
+	for (i = SymbolTable.size() - 1; i >= 0; i--) {
+		if (SymbolTable[i].name == name) {
+			return i;
+		}
+	}
+	return -1;
 }
 
 void symTable::PrintTable()
@@ -95,8 +105,8 @@ void symTable::clean() {
 		if (j == varkind || j == cstkind || j == arrkind || j == tmpkind) {
 			SymbolTable.pop_back();
 		}
-		else if(j == parakind){				// 将其level设置为-1，相当于是将其名字抹去
-			SymbolTable[i].level = -1;
+		else if(j == parakind){				// 将参数的名字抹去
+			SymbolTable[i].name = "";
 		}
 		else if(j == funckind){
 			break;

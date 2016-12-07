@@ -659,7 +659,7 @@ void parser::statement() {
 		// 这里可能是函数调用和赋值语句
 		tmptoken = token;
 		lex.getsym();
-		pos = symtab.locate(tmptoken, lev);
+		pos = symtab.locate(tmptoken);
 		if (pos == -1) {
 			ERR.Err(45);
 			errset.clear();
@@ -1014,7 +1014,7 @@ string parser::factor() {
 	// 如果是标识符，则可能是变量、常量、数组、函数调用
 	if (sym == ident) {
 		tmptoken = token;
-		index = symtab.locate(tmptoken, lev);
+		index = symtab.locate(tmptoken);
 		if (index == -1) {
 			ERR.Err(45);
 			lex.getsym();
@@ -1390,7 +1390,7 @@ int parser::valList(string fName)
 	typeEnum type;
 	string typeName;
 
-	index = symtab.locate(fName, 0);		// 得到函数在符号表中的位置
+	index = symtab.locate(fName);		// 得到函数在符号表中的位置
 	if (sym == rparent) {
 		return 0;			// 不需要预读
 	}
@@ -1438,7 +1438,7 @@ void parser::readStatement() {
 			}
 
 			if (sym == ident) {
-				index = symtab.locate(token, lev);
+				index = symtab.locate(token);
 				if (index == -1) {
 					ERR.Err(45);
 				}
@@ -1464,7 +1464,7 @@ void parser::readStatement() {
 				while (sym == comma) {
 					lex.getsym();
 					if (sym == ident) {
-						index = symtab.locate(token, lev);
+						index = symtab.locate(token);
 						if (index == -1) {
 							ERR.Err(45);
 						}
@@ -1610,7 +1610,7 @@ void parser::returnStatement()
 	int index = 0;
 	string retval;
 	typeEnum tmptype;
-	index = symtab.locate(funcName, 0);			// 这里的0是因为没有函数嵌套
+	index = symtab.locate(funcName);			// 这里的0是因为没有函数嵌套
 	tmptype = symtab.SymbolTable[index].type;
 
 	if (sym == returnsy) {

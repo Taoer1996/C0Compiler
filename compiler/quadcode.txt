@@ -1,302 +1,52 @@
 
 ################################## data segment ###################################################
 
-cst                 int                 cona                1                   
-cst                 int                 conb                2                   
-cst                 int                 conc                3                   
-cst                 int                 cong                4                   
-cst                 int                 conh                5                   
-cst                 int                 coni                6                   
-cst                 int                 conj                7                   
-arr                 int                 a                   10                  
-var                 int                 c                                       
-cst                 str                 STRCST0             "OVE "              
-cst                 str                 STRCST1             " TO "              
-cst                 str                 STRCST2             " "                 
-cst                 str                 STRCST3             "RETURN ERROR"      
-cst                 str                 STRCST4             "NO"                
-cst                 str                 STRCST5             ":"                 
-cst                 str                 STRCST6             " "                 
-cst                 str                 STRCST7             ""                  
-cst                 str                 STRCST8             "IFCORRECT"         
-cst                 str                 STRCST9             ">="                
-cst                 str                 STRCST10            "ERROR"             
+cst                 int                 num_0               0                   
+arr                 int                 num                 100                 
 
 ################################## text segment ###################################################
 
 j                                                           main                
-func                void                emptyfunc           0                   
-setlab                                                      end_emptyfunc       
-end                 func                emptyfunc                               
-func                void                emptyfunc2          0                   
-setlab                                                      end_emptyfunc2      
-end                 func                emptyfunc2                              
-func                char                testchar            0                   
-ret                 char                48                  testchar            
-setlab                                                      end_testchar        
-end                 func                testchar                                
-func                int                 fibonacci           1                   
-para                int                 n                                       
-cst                 int                 cona                1                   
-var                 char                testc                                   
-bne                 n                   1                   label0              
-ret                 int                 1                   fibonacci           
-setlab                                                      label0              
-beq                 n                   2                   label1              
-call                int                 fibonacci           $t0                 
-addop               $t1                 n                   -1                  
-parain              int                 $t1                 fibonacci           
-call                int                 fibonacci           $t2                 
-subop               $t3                 n                   2                   
-parain              int                 $t3                 fibonacci           
-addop               $t4                 $t0                 $t2                 
-addop               $t5                 $t4                 0                   
-ret                 int                 $t5                 fibonacci           
-setlab                                                      label1              
-ret                 int                 1                   fibonacci           
-setlab                                                      end_fibonacci       
-end                 func                fibonacci                               
-func                void                move                2                   
-para                char                a                                       
-para                char                b                                       
-cst                 int                 testcon1            1                   
-cst                 char                testcon2            49                  
-print               char                77                                      
-print               str                 STRCST0                                 
-print               char                a                                       
-print               str                 STRCST1                                 
-print               char                b                                       
-print               str                 STRCST2                                 
-setlab                                                      end_move            
-end                 func                move                                    
-func                void                hanoi               4                   
-para                int                 han                                     
-para                char                l                                       
-para                char                m                                       
-para                char                r                                       
-ble                 2                   han                 label2              
-call                void                move                                    
-parain              char                l                   move                
-parain              char                r                   move                
-ret                 void                                    hanoi               
-print               str                 STRCST3                                 
-setlab                                                      label2              
-call                void                hanoi                                   
-subop               $t0                 han                 1                   
-parain              int                 $t0                 hanoi               
-parain              char                l                   hanoi               
-parain              char                r                   hanoi               
-parain              char                m                   hanoi               
-call                void                move                                    
-parain              char                l                   move                
-parain              char                r                   move                
-call                void                hanoi                                   
-subop               $t1                 han                 1                   
-parain              int                 $t1                 hanoi               
-parain              char                m                   hanoi               
-parain              char                l                   hanoi               
-parain              char                r                   hanoi               
-setlab                                                      end_hanoi           
-end                 func                hanoi                                   
 func                int                 getpower            2                   
+para                int                 a                                       
 para                int                 n                                       
-para                int                 le                                      
-var                 int                 move                                    
-blt                 le                  2                   label3              
-call                int                 getpower            $t0                 
-parain              int                 n                   getpower            
-subop               $t1                 le                  1                   
-parain              int                 $t1                 getpower            
-move                move                $t0                                     
-subop               $t2                 le                  1                   
-sarr                move                a                   $t2                 
-mulop               $t3                 n                   move                
-ret                 int                 $t3                 getpower            
-setlab                                                      label3              
-bgt                 1                   le                  label4              
-subop               $t4                 le                  1                   
-sarr                n                   a                   $t4                 
+blt                 n                   1                   label0              
+subop               $t0                 n                   1                   
+call                int                 getpower            $t1                 
+parain              int                 a                   getpower            
+subop               $t2                 n                   1                   
+parain              int                 $t2                 getpower            
+sarr                $t1                 num                 $t0                 
+subop               $t3                 n                   1                   
+larr                $t4                 num                 $t3                 
+mulop               $t5                 a                   $t4                 
+ret                 int                 $t5                 getpower            
+j                                                           label1              
+setlab                                                      label0              
+move                n                   1                                       
 ret                 int                 n                   getpower            
-setlab                                                      label4              
-ret                 int                 1                   getpower            
+setlab                                                      label1              
 setlab                                                      end_getpower        
 end                 func                getpower                                
-func                int                 getsqr              1                   
-para                int                 n                                       
-var                 int                 _i                                      
-move                _i                  1                                       
-setlab                                                      label5              
-diviop              $t0                 n                   _i                  
-bge                 _i                  $t0                 label6              
-addop               $t1                 1                   _i                  
-move                _i                  $t1                                     
-j                                                           label5              
-setlab                                                      label6              
-subop               $t2                 0                   n                   
-mulop               $t3                 _i                  _i                  
-addop               $t4                 $t2                 $t3                 
-subop               $t5                 0                   1                   
-addop               $t6                 $t5                 _i                  
-subop               $t7                 _i                  1                   
-mulop               $t8                 $t6                 $t7                 
-subop               $t9                 n                   $t8                 
-bge                 $t4                 $t9                 label7              
-ret                 int                 _i                  getsqr              
-setlab                                                      label7              
-subop               $t10                _i                  1                   
-ret                 int                 $t10                getsqr              
-setlab                                                      end_getsqr          
-end                 func                getsqr                                  
+func                char                getchar             1                   
+para                char                ch                                      
+subop               $t0                 ch                  65                  
+addop               $t1                 $t0                 97                  
+ret                 char                $t1                 getchar             
+setlab                                                      end_getchar         
+end                 func                getchar                                 
+func                int                 test                1                   
+para                int                 test                                    
+ret                 int                 test                test                
+setlab                                                      end_test            
+end                 func                test                                    
+func                void                aaa                 0                   
+ret                 void                                    aaa                 
+setlab                                                      end_aaa             
+end                 func                aaa                                     
 func                void                main                0                   
-cst                 char                cond                65                  
-cst                 char                cone                66                  
-cst                 char                conf                67                  
-cst                 char                con1                43                  
-cst                 char                con2                45                  
-cst                 char                con3                42                  
-cst                 int                 testcon             100                 
-var                 int                 c                                       
-var                 int                 num                                     
-var                 int                 i                                       
-var                 int                 fib                                     
-arr                 int                 testaj              10                  
-var                 int                 sqr                                     
-arr                 int                 testai              100                 
-var                 int                 a_                                      
-var                 int                 a_a                                     
-var                 int                 a0                                      
-var                 int                 a00                                     
-var                 int                 testai1                                 
-var                 int                 testai2                                 
-var                 int                 testai3                                 
-var                 int                 testai4                                 
-var                 int                 testai5                                 
-var                 int                 testai6                                 
-var                 char                c1                                      
-var                 char                c2                                      
-var                 char                c3                                      
-var                 char                c4                                      
-var                 char                c5                                      
-var                 char                c6                                      
-move                a_a                 123456789                               
-move                a_                  65                                      
-sarr                5                   testai              0                   
-larr                $t0                 testai              0                   
-sarr                1                   testai              $t0                 
-sarr                2                   testai              43                  
-scan                int                 c                                       
-scan                int                 num                                     
-setlab                                                      label9              
-bne                 c                   1                   label8              
-call                void                getpower                                
-parain              int                 num                 getpower            
-parain              int                 10                  getpower            
-move                i                   0                                       
-setlab                                                      label10             
-bge                 i                   10                  label12             
-print               str                 STRCST4                                 
-addop               $t1                 i                   1                   
-print               int                 $t1                                     
-print               str                 STRCST5                                 
-larr                $t2                 a                   i                   
-print               int                 $t2                                     
-print               str                 STRCST6                                 
-print               str                 STRCST7                                 
-beq                 1                   0                   label11             
-addop               $t3                 i                   1                   
-move                i                   $t3                                     
-setlab                                                      label11             
-j                                                           label10             
-setlab                                                      label12             
-j                                                           label8              
-setlab                                                      label8              
-setlab                                                      label14             
-bne                 c                   2                   label15             
-call                void                hanoi                                   
-parain              int                 num                 hanoi               
-parain              char                65                  hanoi               
-parain              char                66                  hanoi               
-parain              char                67                  hanoi               
-j                                                           label13             
-setlab                                                      label15             
-bne                 c                   3                   label13             
-call                int                 fibonacci           $t4                 
-parain              int                 num                 fibonacci           
-move                fib                 $t4                                     
-print               int                 fib                                     
-j                                                           label13             
-setlab                                                      label13             
-setlab                                                      label17             
-bne                 c                   4                   label18             
-call                int                 getsqr              $t5                 
-parain              int                 num                 getsqr              
-move                sqr                 $t5                                     
-print               int                 sqr                                     
-j                                                           label16             
-setlab                                                      label18             
-bne                 c                   5                   label19             
-call                char                testchar            $t6                 
-print               char                $t6                                     
-mulop               $t7                 3                   2                   
-diviop              $t8                 $t7                 6                   
-larr                $t9                 testai              0                   
-mulop               $t10                $t8                 $t9                 
-print               int                 $t10                                    
-j                                                           label16             
-setlab                                                      label19             
-bne                 c                   6                   label23             
-larr                $t11                testai              0                   
-beq                 $t11                0                   label20             
-print               str                 STRCST8                                 
-setlab                                                      label20             
-setlab                                                      label21             
-larr                $t12                testai              0                   
-beq                 $t12                0                   label22             
-larr                $t13                testai              0                   
-print               int                 $t13                                    
-larr                $t14                testai              0                   
-subop               $t15                $t14                1                   
-sarr                $t15                testai              0                   
-j                                                           label21             
-setlab                                                      label22             
-j                                                           label16             
-setlab                                                      label23             
-bne                 c                   -7                  label24             
-scan                int                 testai1                                 
-scan                int                 testai2                                 
-scan                int                 testai3                                 
-scan                int                 testai4                                 
-scan                int                 testai5                                 
-scan                int                 testai6                                 
-print               int                 testai1                                 
-print               int                 testai2                                 
-print               int                 testai3                                 
-print               int                 testai4                                 
-print               int                 testai5                                 
-print               int                 testai6                                 
-j                                                           label16             
-setlab                                                      label24             
-bne                 c                   0                   label29             
-scan                char                c1                                      
-setlab                                                      label26             
-bne                 c1                  97                  label27             
-print               int                 1                                       
-j                                                           label25             
-setlab                                                      label27             
-bne                 c1                  98                  label28             
-print               int                 2                                       
-j                                                           label25             
-setlab                                                      label28             
-print               str                 STRCST9                                 
-print               int                 3                                       
-j                                                           label25             
-setlab                                                      label25             
-j                                                           label16             
-setlab                                                      label29             
-print               str                 STRCST10                                
-j                                                           label16             
-setlab                                                      label16             
-ret                 void                                    main                
+arr                 int                 a                   100                 
+sarr                10                  a                   100                 
 setlab                                                      end_main            
 end                 func                main                                    
 
