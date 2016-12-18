@@ -16,7 +16,7 @@ char getchar(char ch){
 	return (ch - 'A' + 'a');
 }
 
-int test(int test){
+char test(int test){
 	return (test);
 }
 
@@ -25,14 +25,16 @@ void aaa(){
 }
 void main(){
 		
-	/* Test array operations
 	const int a = 10;
 	int m,n,red[10],j,blue[10];
 	int i;
+	char _x;
 	red[1] = 1;
 	blue[3] = 3;
 	n = -10 + 20;
 	num[n] = getpower(1 + 2, n);
+	_x = test(321);
+	printf(_x);
 	i = 0;
 	while(i <= n){
 		printf("\nnum[",i);
@@ -47,7 +49,7 @@ void main(){
 		printf("] = ",num[i]);
 		i = i + 1;
 	} 
-	*/
+	
 	/* Test print char
 	char s[10];
 	s[1] = 'a';

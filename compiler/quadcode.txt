@@ -1,52 +1,248 @@
 
 ################################## data segment ###################################################
 
-cst                 int                 num_0               0                   
-arr                 int                 num                 100                 
+cst                 int                 cst1_int            4                   
+cst                 char                cst2_char           97                  
+cst                 int                 cst3_int            1                   
+cst                 int                 cst4_int            1                   
+cst                 char                cst5_char           43                  
+cst                 char                cst6_char           47                  
+var                 int                 var1_int                                
+var                 int                 var2_int                                
+arr                 int                 var3_int            2                   
+var                 char                var4_char                               
+var                 char                var5_char                               
+cst                 str                 STRCST0             "print_string_only tested!\n"
+cst                 str                 STRCST1             "v = "              
+cst                 str                 STRCST2             "\nprint_expression_only tested!\n"
+cst                 str                 STRCST3             "if_with_else tested!\n"
+cst                 str                 STRCST4             "\nif_without_else tested!\n"
+cst                 str                 STRCST5             "print_string_and_expression tested and cst1="
+cst                 str                 STRCST6             "\n"                
+cst                 str                 STRCST7             "\nx = "            
+cst                 str                 STRCST8             "\nn[0] = "         
+cst                 str                 STRCST9             "\ny = "            
+cst                 str                 STRCST10            "\ns[0] = "         
+cst                 str                 STRCST11            "\nz = "            
+cst                 str                 STRCST12            "\nassign_and_expression tested!\n"
+cst                 str                 STRCST13            "null_statement tested!\n"
+cst                 str                 STRCST14            "\nx = "            
+cst                 str                 STRCST15            "\nloop_statement tested!\n"
+cst                 str                 STRCST16            "\n 5! = "          
+cst                 str                 STRCST17            "\nfunction_call_statement tested!\n"
+cst                 str                 STRCST18            "\nw="              
+cst                 str                 STRCST19            "\nx="              
+cst                 str                 STRCST20            "\ny="              
+cst                 str                 STRCST21            "\nread_statement tested!\n"
+cst                 str                 STRCST22            "\nthe lower B is " 
+cst                 str                 STRCST23            "\nu is:"           
+cst                 str                 STRCST24            "\n"                
+cst                 str                 STRCST25            "\ncst1 = "         
+cst                 str                 STRCST26            "\ndefault tested!\n"
 
 ################################## text segment ###################################################
 
 j                                                           main                
-func                int                 getpower            2                   
+func                int                 funcint1            0                   
+cst                 int                 funcint1cst         2                   
+var                 int                 funcint1var                             
+ret                 int                 2                   funcint1            
+setlab                                                      end_funcint1        
+end                 func                funcint1                                
+func                int                 funcint2            1                   
 para                int                 a                                       
-para                int                 n                                       
-blt                 n                   1                   label0              
-subop               $t0                 n                   1                   
-call                int                 getpower            $t1                 
-parain              int                 a                   getpower            
-subop               $t2                 n                   1                   
-parain              int                 $t2                 getpower            
-sarr                $t1                 num                 $t0                 
-subop               $t3                 n                   1                   
-larr                $t4                 num                 $t3                 
-mulop               $t5                 a                   $t4                 
-ret                 int                 $t5                 getpower            
-j                                                           label1              
-setlab                                                      label0              
-move                n                   1                                       
-ret                 int                 n                   getpower            
-setlab                                                      label1              
-setlab                                                      end_getpower        
-end                 func                getpower                                
-func                char                getchar             1                   
+cst                 int                 funcint2_cst1       4                   
+cst                 char                funcint2_cst2       97                  
+var                 int                 _funcint2_var1                          
+var                 char                _funcint2_var2                          
+addop               $t0                 a                   4                   
+ret                 int                 $t0                 funcint2            
+setlab                                                      end_funcint2        
+end                 func                funcint2                                
+func                char                funcchar            1                   
 para                char                ch                                      
 subop               $t0                 ch                  65                  
 addop               $t1                 $t0                 97                  
-ret                 char                $t1                 getchar             
-setlab                                                      end_getchar         
-end                 func                getchar                                 
-func                int                 test                1                   
-para                int                 test                                    
-ret                 int                 test                test                
-setlab                                                      end_test            
-end                 func                test                                    
-func                void                aaa                 0                   
-ret                 void                                    aaa                 
-setlab                                                      end_aaa             
-end                 func                aaa                                     
+ret                 char                $t1                 funcchar            
+setlab                                                      end_funcchar        
+end                 func                funcchar                                
+func                int                 factorial           1                   
+para                int                 n                                       
+bne                 n                   1                   label0              
+ret                 int                 1                   factorial           
+j                                                           label1              
+setlab                                                      label0              
+call                int                 factorial           $t0                 
+subop               $t1                 n                   1                   
+parain              int                 $t1                 factorial           
+mulop               $t2                 n                   $t0                 
+ret                 int                 $t2                 factorial           
+setlab                                                      label1              
+setlab                                                      end_factorial       
+end                 func                factorial                               
+func                void                funcvoid1           0                   
+setlab                                                      end_funcvoid1       
+end                 func                funcvoid1                               
+func                void                funcvoid2           2                   
+para                int                 a                                       
+para                char                ch                                      
+cst                 int                 funcvoid2_cst1      5                   
+cst                 int                 funcvoid2_cst2      6                   
+cst                 int                 funcvoid2_cst3      7                   
+cst                 int                 funcvoid2_cst4      8                   
+print               char                ch                                      
+setlab                                                      end_funcvoid2       
+end                 func                funcvoid2                               
 func                void                main                0                   
-arr                 int                 a                   100                 
-sarr                10                  a                   100                 
+cst                 int                 cst1                9                   
+cst                 int                 cst2                0                   
+cst                 char                cst3                97                  
+cst                 char                cst4                65                  
+var                 int                 x                                       
+var                 int                 y                                       
+var                 int                 z                                       
+arr                 int                 n                   2                   
+var                 int                 u                                       
+var                 int                 v                                       
+var                 int                 w                                       
+arr                 char                s                   3                   
+scan                int                 u                                       
+scan                int                 v                                       
+setlab                                                      label3              
+bne                 u                   1                   label6              
+ble                 v                   0                   label4              
+print               str                 STRCST0                                 
+j                                                           label5              
+setlab                                                      label4              
+print               str                 STRCST1                                 
+print               int                 v                                       
+print               str                 STRCST2                                 
+print               str                 STRCST3                                 
+setlab                                                      label5              
+j                                                           label2              
+setlab                                                      label6              
+bne                 u                   2                   label8              
+bge                 v                   0                   label7              
+print               str                 STRCST4                                 
+print               str                 STRCST5                                 
+print               int                 9                                       
+print               str                 STRCST6                                 
+setlab                                                      label7              
+j                                                           label2              
+setlab                                                      label8              
+bne                 u                   3                   label9              
+move                x                   9                                       
+subop               $t0                 0                   9                   
+sarr                $t0                 n                   0                   
+subop               $t1                 0                   9                   
+addop               $t2                 $t1                 0                   
+move                y                   $t2                                     
+subop               $t3                 65                  97                  
+addop               $t4                 $t3                 98                  
+addop               $t5                 $t4                 1                   
+sarr                $t5                 s                   0                   
+larr                $t6                 n                   0                   
+mulop               $t7                 x                   $t6                 
+diviop              $t8                 $t7                 y                   
+addop               $t9                 u                   $t8                 
+call                int                 funcint2            $t10                
+parain              int                 5                   funcint2            
+addop               $t11                $t9                 $t10                
+addop               $t12                $t11                v                   
+move                z                   $t12                                    
+print               str                 STRCST7                                 
+print               int                 x                                       
+print               str                 STRCST8                                 
+larr                $t13                n                   0                   
+print               int                 $t13                                    
+print               str                 STRCST9                                 
+print               int                 y                                       
+print               str                 STRCST10                                
+larr                $t14                s                   0                   
+print               char                $t14                                    
+print               str                 STRCST11                                
+print               int                 z                                       
+print               str                 STRCST12                                
+j                                                           label2              
+setlab                                                      label9              
+bne                 u                   4                   label10             
+print               str                 STRCST13                                
+j                                                           label2              
+setlab                                                      label10             
+bne                 u                   5                   label14             
+call                int                 funcint1            $t15                
+move                y                   $t15                                    
+addop               $t16                3                   y                   
+move                x                   $t16                                    
+setlab                                                      label11             
+ble                 x                   0                   label13             
+ble                 9                   3                   label12             
+print               str                 STRCST14                                
+print               int                 x                                       
+setlab                                                      label12             
+subop               $t17                x                   1                   
+move                x                   $t17                                    
+j                                                           label11             
+setlab                                                      label13             
+print               str                 STRCST15                                
+j                                                           label2              
+setlab                                                      label14             
+bne                 u                   6                   label15             
+call                void                factorial                               
+parain              int                 4                   factorial           
+call                void                funcvoid2                               
+parain              int                 9                   funcvoid2           
+parain              char                97                  funcvoid2           
+print               str                 STRCST16                                
+call                int                 factorial           $t18                
+parain              int                 5                   factorial           
+print               int                 $t18                                    
+print               str                 STRCST17                                
+j                                                           label2              
+setlab                                                      label15             
+bne                 u                   7                   label16             
+scan                int                 w                                       
+scan                int                 x                                       
+scan                int                 y                                       
+print               str                 STRCST18                                
+print               int                 w                                       
+print               str                 STRCST19                                
+print               int                 x                                       
+print               str                 STRCST20                                
+print               int                 y                                       
+print               str                 STRCST21                                
+j                                                           label2              
+setlab                                                      label16             
+bne                 u                   8                   label17             
+ret                 void                                    main                
+j                                                           label2              
+setlab                                                      label17             
+bne                 u                   9                   label2              
+print               str                 STRCST22                                
+call                char                funcchar            $t19                
+parain              char                66                  funcchar            
+print               char                $t19                                    
+j                                                           label2              
+setlab                                                      label2              
+setlab                                                      label18             
+bge                 u                   3                   label19             
+addop               $t20                u                   1                   
+move                u                   $t20                                    
+print               str                 STRCST23                                
+print               int                 u                                       
+print               str                 STRCST24                                
+j                                                           label18             
+setlab                                                      label19             
+subop               $t21                v                   1                   
+setlab                                                      label21             
+bne                 $t21                0                   label22             
+print               str                 STRCST25                                
+print               int                 9                                       
+j                                                           label20             
+setlab                                                      label22             
+print               str                 STRCST26                                
+j                                                           label20             
+setlab                                                      label20             
 setlab                                                      end_main            
 end                 func                main                                    
 
