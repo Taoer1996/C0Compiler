@@ -1,0 +1,42 @@
+/* 测试情况语句、返回语句 */
+int Test5Func1(int num){
+	switch(num + num){
+		case 0:
+			printf("\nnum + num = 0\n");
+		default:
+			printf("\nTestDefault!\n");
+	}
+	
+	switch(num - num + 'a'){
+		case 'a':
+			printf("\nThis is a!\n");
+	}
+	
+	switch(num){
+		case 1:
+			return (1+1);
+		case 2:
+			return (2*2);
+	}
+	return (num*num*num*num);
+}
+
+void Test5Func2(){
+	printf("\nFunc without value called!\n");
+}
+/* 测试函数调用 */
+void Test5Func3(){
+	int f2_x;
+	
+	f2_x = Test5Func1(3);
+	Test5Func1(1);
+	if(f2_x == 81){
+		printf("\nFunc with value called!\n");
+	}
+	Test5Func2();
+}
+
+
+void main(){
+	Test5Func3();
+}

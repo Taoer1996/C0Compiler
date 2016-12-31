@@ -1,0 +1,839 @@
+
+########################### data segment ######################
+.data
+	a:             .word,         0                             
+	b:             .word,         10                            
+	c:             .word,         20                            
+	d:             .word,         95                            
+	e:             .word,         42                            
+	b11:           .word,         43                            
+	a11:           .word,         0                             
+	a12:           .word,         10                            
+	a13:           .word,         20                            
+	a14:           .word,         123456789                     
+	b12:           .word,         47                            
+	b13:           .word,         95                            
+	b14:           .word,         75                            
+	x:             .word,         0                             
+	y:             .word,         0                             
+	t:             .space,        40                            
+	z:             .word,         0                             
+	s:             .space,        4                             
+	x11:           .word,         0                             
+	x12:           .word,         0                             
+	n2:            .space,        40                            
+	z11:           .word,         0                             
+	ch11:          .word,         0                             
+	ch12:          .word,         0                             
+	ch13:          .word,         0                             
+	s2:            .space,        4                             
+	t2:            .space,        12                            
+	STRCST0:       .asciiz,       "ch = "                       
+	STRCST1:       .asciiz,       "\n"                          
+	STRCST2:       .asciiz,       "num = "                      
+	STRCST3:       .asciiz,       "\n"                          
+	STRCST4:       .asciiz,       "Func2(50,70) = "               
+	STRCST5:       .asciiz,       "\n"                          
+	STRCST6:       .asciiz,       "x = "                        
+	STRCST7:       .asciiz,       "\n"                          
+	STRCST8:       .asciiz,       "y = "                        
+	STRCST9:       .asciiz,       "\n"                          
+	STRCST10:      .asciiz,       "num = "                      
+	STRCST11:      .asciiz,       "\n"                          
+	STRCST12:      .asciiz,       "f2_x = "                     
+	STRCST13:      .asciiz,       "\n"                          
+	STRCST14:      .asciiz,       "f2_x = "                     
+	STRCST15:      .asciiz,       "\n"                          
+	STRCST16:      .asciiz,       "f2_y = "                     
+	STRCST17:      .asciiz,       "\n"                          
+	STRCST18:      .asciiz,       "f2_n[0] = "                  
+	STRCST19:      .asciiz,       "\n"                          
+	STRCST20:      .asciiz,       "f2_n[1] = "                  
+	STRCST21:      .asciiz,       "\n"                          
+	STRCST22:      .asciiz,       "f2_ch = "                    
+	STRCST23:      .asciiz,       "\n"                          
+	STRCST24:      .asciiz,       "f2_y = "                     
+	STRCST25:      .asciiz,       "\n"                          
+	STRCST26:      .asciiz,       "f1_ch > a"                   
+	STRCST27:      .asciiz,       "f1_x + f1_y <= 0"               
+	STRCST28:      .asciiz,       "f1_x + f1_y > 0"               
+	STRCST29:      .asciiz,       "f1_x != 0"                   
+	STRCST30:      .asciiz,       "f1_y != 0"                   
+	STRCST31:      .asciiz,       "f1_y == 0"                   
+	STRCST32:      .asciiz,       "\n"                          
+	STRCST33:      .asciiz,       "f2_x = "                     
+	STRCST34:      .asciiz,       "\n"                          
+	STRCST35:      .asciiz,       "f2_x = "                     
+	STRCST36:      .asciiz,       "\n"                          
+	STRCST37:      .asciiz,       "\nnum + num = 0\n"               
+	STRCST38:      .asciiz,       "\nTestDefault!\n"               
+	STRCST39:      .asciiz,       "\nThis is a!\n"               
+	STRCST40:      .asciiz,       "\nFunc without value called!\n"               
+	STRCST41:      .asciiz,       "\nFunc with value called!\n"               
+	STRCST42:      .asciiz,       "\nStart the test!\n"               
+	STRCST43:      .asciiz,       "Test2Func2 = "               
+	STRCST44:      .asciiz,       "Test3Fun3() = "               
+	STRCST45:      .asciiz,       "\nEnd the test!\n"               
+
+########################### text segment ######################
+.text
+	j              main                                         
+func1:                                                            
+	addi           $fp,           $sp,           8              
+	sw             $ra,           -4($fp)        
+	addi           $sp,           $sp,           -12            
+	li             $s0,           -20                           
+	sw             $s0,           -12($fp)       
+	lw             $s0,           -12($fp)       
+	add            $s0,           $s0,           -10            
+	sw             $s0,           -16($fp)       
+	lw             $s0,           -16($fp)       
+	sw             $s0,           x              
+	lw             $s0,           -8($fp)        
+	sw             $s0,           y              
+	lw             $s0,           x              
+	lw             $s1,           y              
+	add            $s0,           $s0,           $s1            
+	sw             $s0,           -20($fp)       
+	lw             $v0,           -20($fp)       
+	j              end_func1                                    
+end_func1:                                                            
+	lw             $ra,           -4($fp)        
+	add            $sp,           $fp,           4              
+	lw             $fp,           0($fp)         
+	jr             $ra                                          
+func2:                                                            
+	addi           $fp,           $sp,           12             
+	sw             $ra,           -4($fp)        
+	addi           $sp,           $sp,           -20            
+	addi           $sp,           $sp,           -8             
+	sw             $fp,           4($sp)         
+	addi           $sp,           $sp,           -4             
+	lw             $s0,           -8($fp)        
+	sw             $s0,           0($sp)         
+	jal            func1                                        
+	sw             $v0,           -24($fp)       
+	lw             $s0,           -24($fp)       
+	sw             $s0,           -16($fp)       
+	addi           $sp,           $sp,           -8             
+	sw             $fp,           4($sp)         
+	addi           $sp,           $sp,           -4             
+	lw             $s0,           -12($fp)       
+	sw             $s0,           0($sp)         
+	jal            func1                                        
+	sw             $v0,           -28($fp)       
+	lw             $s0,           -28($fp)       
+	sw             $s0,           -20($fp)       
+	lw             $s0,           -16($fp)       
+	lw             $s1,           -20($fp)       
+	add            $s0,           $s0,           $s1            
+	sw             $s0,           -32($fp)       
+	lb             $v0,           -32($fp)       
+	j              end_func2                                    
+end_func2:                                                            
+	lw             $ra,           -4($fp)        
+	add            $sp,           $fp,           4              
+	lw             $fp,           0($fp)         
+	jr             $ra                                          
+func3:                                                            
+	addi           $fp,           $sp,           8              
+	sw             $ra,           -4($fp)        
+end_func3:                                                            
+	lw             $ra,           -4($fp)        
+	add            $sp,           $fp,           4              
+	lw             $fp,           0($fp)         
+	jr             $ra                                          
+test1func4:                                                            
+	addi           $fp,           $sp,           4              
+	sw             $ra,           -4($fp)        
+	addi           $sp,           $sp,           -28            
+	li             $s0,           105                           
+	sw             $s0,           -16($fp)       
+	lw             $s0,           -16($fp)       
+	sb             $s0,           -12($fp)       
+	li             $s0,           -10                           
+	sw             $s0,           -20($fp)       
+	addi           $sp,           $sp,           -8             
+	sw             $fp,           4($sp)         
+	addi           $sp,           $sp,           -4             
+	li             $s0,           10                            
+	sw             $s0,           0($sp)         
+	jal            func1                                        
+	sw             $v0,           -24($fp)       
+	lw             $s0,           -20($fp)       
+	lw             $s1,           -24($fp)       
+	add            $s0,           $s0,           $s1            
+	sw             $s0,           -28($fp)       
+	lw             $s0,           -28($fp)       
+	sw             $s0,           -8($fp)        
+	la             $a0,           STRCST0                       
+	li             $v0,           4                             
+	syscall                                                     
+	lb             $a0,           -12($fp)       
+	li             $v0,           11                            
+	syscall                                                     
+	la             $a0,           STRCST1                       
+	li             $v0,           4                             
+	syscall                                                     
+	la             $a0,           STRCST2                       
+	li             $v0,           4                             
+	syscall                                                     
+	lw             $a0,           -8($fp)        
+	li             $v0,           1                             
+	syscall                                                     
+	la             $a0,           STRCST3                       
+	li             $v0,           4                             
+	syscall                                                     
+	la             $a0,           STRCST4                       
+	li             $v0,           4                             
+	syscall                                                     
+	addi           $sp,           $sp,           -8             
+	sw             $fp,           4($sp)         
+	addi           $sp,           $sp,           -4             
+	li             $s0,           50                            
+	sw             $s0,           0($sp)         
+	addi           $sp,           $sp,           -4             
+	li             $s0,           70                            
+	sw             $s0,           0($sp)         
+	jal            func2                                        
+	sb             $v0,           -32($fp)       
+	lb             $a0,           -32($fp)       
+	li             $v0,           11                            
+	syscall                                                     
+	la             $a0,           STRCST5                       
+	li             $v0,           4                             
+	syscall                                                     
+	la             $a0,           STRCST6                       
+	li             $v0,           4                             
+	syscall                                                     
+	lw             $a0,           x              
+	li             $v0,           1                             
+	syscall                                                     
+	la             $a0,           STRCST7                       
+	li             $v0,           4                             
+	syscall                                                     
+	la             $a0,           STRCST8                       
+	li             $v0,           4                             
+	syscall                                                     
+	lw             $a0,           y              
+	li             $v0,           1                             
+	syscall                                                     
+	la             $a0,           STRCST9                       
+	li             $v0,           4                             
+	syscall                                                     
+end_test1func4:                                                            
+	lw             $ra,           -4($fp)        
+	add            $sp,           $fp,           4              
+	lw             $fp,           0($fp)         
+	jr             $ra                                          
+test2func1:                                                            
+	addi           $fp,           $sp,           4              
+	sw             $ra,           -4($fp)        
+	li             $v0,           0                             
+	j              end_test2func1                               
+end_test2func1:                                                            
+	lw             $ra,           -4($fp)        
+	add            $sp,           $fp,           4              
+	lw             $fp,           0($fp)         
+	jr             $ra                                          
+test2func2:                                                            
+	addi           $fp,           $sp,           8              
+	sw             $ra,           -4($fp)        
+	addi           $sp,           $sp,           -132           
+	lb             $s0,           -8($fp)        
+	add            $s0,           $s0,           10             
+	sw             $s0,           -124($fp)      
+	li             $s0,           -940                          
+	sw             $s0,           -128($fp)      
+	lw             $s0,           -124($fp)      
+	lw             $s1,           -128($fp)      
+	sub            $s0,           $s0,           $s1            
+	sw             $s0,           -132($fp)      
+	lw             $s0,           -132($fp)      
+	add            $s0,           $s0,           95             
+	sw             $s0,           -136($fp)      
+	lw             $s0,           -136($fp)      
+	sub            $s0,           $s0,           75             
+	sw             $s0,           -140($fp)      
+	lw             $v0,           -140($fp)      
+	j              end_test2func2                               
+end_test2func2:                                                            
+	lw             $ra,           -4($fp)        
+	add            $sp,           $fp,           4              
+	lw             $fp,           0($fp)         
+	jr             $ra                                          
+_test2func3:                                                            
+	addi           $fp,           $sp,           12             
+	sw             $ra,           -4($fp)        
+end__test2func3:                                                            
+	lw             $ra,           -4($fp)        
+	add            $sp,           $fp,           4              
+	lw             $fp,           0($fp)         
+	jr             $ra                                          
+test3func1:                                                            
+	addi           $fp,           $sp,           8              
+	sw             $ra,           -4($fp)        
+	addi           $sp,           $sp,           -4             
+	la             $a0,           STRCST10                      
+	li             $v0,           4                             
+	syscall                                                     
+	lw             $a0,           -8($fp)        
+	li             $v0,           1                             
+	syscall                                                     
+	la             $a0,           STRCST11                      
+	li             $v0,           4                             
+	syscall                                                     
+	lw             $s0,           -8($fp)        
+	li             $s1,           0                             
+	ble            $s0,           $s1,           label0         
+	addi           $sp,           $sp,           -8             
+	sw             $fp,           4($sp)         
+	lw             $s0,           -8($fp)        
+	sub            $s0,           $s0,           1              
+	sw             $s0,           -12($fp)       
+	addi           $sp,           $sp,           -4             
+	lw             $s0,           -12($fp)       
+	sw             $s0,           0($sp)         
+	jal            test3func1                                   
+label0:                                                            
+end_test3func1:                                                            
+	lw             $ra,           -4($fp)        
+	add            $sp,           $fp,           4              
+	lw             $fp,           0($fp)         
+	jr             $ra                                          
+test3func2:                                                            
+	addi           $fp,           $sp,           12             
+	sw             $ra,           -4($fp)        
+	addi           $sp,           $sp,           -24            
+	lb             $s0,           -12($fp)       
+	li             $s1,           0                             
+	bne            $s0,           $s1,           label1         
+	li             $s0,           97                            
+	sb             $s0,           -12($fp)       
+label1:                                                            
+	lb             $s0,           -12($fp)       
+	lb             $s1,           -12($fp)       
+	mul            $s0,           $s0,           $s1            
+	sw             $s0,           -16($fp)       
+	lw             $s0,           -8($fp)        
+	lw             $s1,           -16($fp)       
+	add            $s0,           $s0,           $s1            
+	sw             $s0,           -20($fp)       
+	lw             $s0,           -8($fp)        
+	lb             $s1,           -12($fp)       
+	div            $s0,           $s0,           $s1            
+	sw             $s0,           -24($fp)       
+	lw             $s0,           -20($fp)       
+	lw             $s1,           -24($fp)       
+	add            $s0,           $s0,           $s1            
+	sw             $s0,           -28($fp)       
+	lw             $s0,           -28($fp)       
+	lb             $s1,           -12($fp)       
+	add            $s0,           $s0,           $s1            
+	sw             $s0,           -32($fp)       
+	lw             $s0,           -32($fp)       
+	lw             $s1,           -8($fp)        
+	sub            $s0,           $s0,           $s1            
+	sw             $s0,           -36($fp)       
+	lw             $v0,           -36($fp)       
+	j              end_test3func2                               
+end_test3func2:                                                            
+	lw             $ra,           -4($fp)        
+	add            $sp,           $fp,           4              
+	lw             $fp,           0($fp)         
+	jr             $ra                                          
+test3func3:                                                            
+	addi           $fp,           $sp,           4              
+	sw             $ra,           -4($fp)        
+	addi           $sp,           $sp,           -96            
+	li             $s0,           -10                           
+	sw             $s0,           -16($fp)       
+	la             $a0,           STRCST12                      
+	li             $v0,           4                             
+	syscall                                                     
+	lw             $a0,           -16($fp)       
+	li             $v0,           1                             
+	syscall                                                     
+	la             $a0,           STRCST13                      
+	li             $v0,           4                             
+	syscall                                                     
+	li             $s0,           10                            
+	sw             $s0,           -40($fp)       
+	lw             $s0,           -40($fp)       
+	add            $s0,           $s0,           20             
+	sw             $s0,           -44($fp)       
+	lw             $s0,           -44($fp)       
+	sw             $s0,           -16($fp)       
+	la             $a0,           STRCST14                      
+	li             $v0,           4                             
+	syscall                                                     
+	lw             $a0,           -16($fp)       
+	li             $v0,           1                             
+	syscall                                                     
+	la             $a0,           STRCST15                      
+	li             $v0,           4                             
+	syscall                                                     
+	lw             $s0,           -16($fp)       
+	lw             $s1,           -16($fp)       
+	mul            $s0,           $s0,           $s1            
+	sw             $s0,           -48($fp)       
+	li             $s0,           0                             
+	lw             $s1,           -48($fp)       
+	sub            $s0,           $s0,           $s1            
+	sw             $s0,           -52($fp)       
+	lw             $s0,           -52($fp)       
+	add            $s0,           $s0,           10             
+	sw             $s0,           -56($fp)       
+	lw             $s0,           -56($fp)       
+	sw             $s0,           -20($fp)       
+	la             $a0,           STRCST16                      
+	li             $v0,           4                             
+	syscall                                                     
+	lw             $a0,           -20($fp)       
+	li             $v0,           1                             
+	syscall                                                     
+	la             $a0,           STRCST17                      
+	li             $v0,           4                             
+	syscall                                                     
+	li             $s0,           0                             
+	lw             $s1,           -16($fp)       
+	sub            $s0,           $s0,           $s1            
+	sw             $s0,           -60($fp)       
+	lw             $s0,           -60($fp)       
+	li             $s1,           0                             
+	mul            $s1,           $s1,           4              
+	addi           $s2,           $fp,           -24            
+	sub            $s2,           $s2,           $s1            
+	sw             $s0,           0($s2)         
+	lw             $s0,           -20($fp)       
+	li             $s1,           1                             
+	mul            $s1,           $s1,           4              
+	addi           $s2,           $fp,           -24            
+	sub            $s2,           $s2,           $s1            
+	sw             $s0,           0($s2)         
+	la             $a0,           STRCST18                      
+	li             $v0,           4                             
+	syscall                                                     
+	li             $s1,           0                             
+	mul            $s1,           $s1,           4              
+	addi           $s0,           $fp,           -24            
+	sub            $s0,           $s0,           $s1            
+	lw             $s1,           0($s0)         
+	sw             $s1,           -64($fp)       
+	lw             $a0,           -64($fp)       
+	li             $v0,           1                             
+	syscall                                                     
+	la             $a0,           STRCST19                      
+	li             $v0,           4                             
+	syscall                                                     
+	la             $a0,           STRCST20                      
+	li             $v0,           4                             
+	syscall                                                     
+	li             $s1,           1                             
+	mul            $s1,           $s1,           4              
+	addi           $s0,           $fp,           -24            
+	sub            $s0,           $s0,           $s1            
+	lw             $s1,           0($s0)         
+	sw             $s1,           -68($fp)       
+	lw             $a0,           -68($fp)       
+	li             $v0,           1                             
+	syscall                                                     
+	la             $a0,           STRCST21                      
+	li             $v0,           4                             
+	syscall                                                     
+	li             $s0,           109                           
+	sb             $s0,           -36($fp)       
+	la             $a0,           STRCST22                      
+	li             $v0,           4                             
+	syscall                                                     
+	lb             $a0,           -36($fp)       
+	li             $v0,           11                            
+	syscall                                                     
+	la             $a0,           STRCST23                      
+	li             $v0,           4                             
+	syscall                                                     
+	lw             $s0,           -16($fp)       
+	lw             $s1,           -16($fp)       
+	add            $s0,           $s0,           $s1            
+	sw             $s0,           -72($fp)       
+	lw             $s0,           -72($fp)       
+	lw             $s1,           -20($fp)       
+	mul            $s0,           $s0,           $s1            
+	sw             $s0,           -76($fp)       
+	li             $s0,           0                             
+	lw             $s1,           -76($fp)       
+	sub            $s0,           $s0,           $s1            
+	sw             $s0,           -80($fp)       
+	lw             $s0,           -80($fp)       
+	add            $s0,           $s0,           97             
+	sw             $s0,           -84($fp)       
+	li             $s1,           0                             
+	mul            $s1,           $s1,           4              
+	addi           $s0,           $fp,           -24            
+	sub            $s0,           $s0,           $s1            
+	lw             $s1,           0($s0)         
+	sw             $s1,           -88($fp)       
+	lw             $s0,           -84($fp)       
+	lw             $s1,           -88($fp)       
+	sub            $s0,           $s0,           $s1            
+	sw             $s0,           -92($fp)       
+	addi           $sp,           $sp,           -8             
+	sw             $fp,           4($sp)         
+	addi           $sp,           $sp,           -4             
+	li             $s0,           10                            
+	sw             $s0,           0($sp)         
+	addi           $sp,           $sp,           -4             
+	li             $s0,           97                            
+	sw             $s0,           0($sp)         
+	jal            test3func2                                   
+	sw             $v0,           -96($fp)       
+	lw             $s0,           -92($fp)       
+	lw             $s1,           -96($fp)       
+	add            $s0,           $s0,           $s1            
+	sw             $s0,           -100($fp)      
+	lw             $s0,           -100($fp)      
+	sw             $s0,           -20($fp)       
+	la             $a0,           STRCST24                      
+	li             $v0,           4                             
+	syscall                                                     
+	lw             $a0,           -20($fp)       
+	li             $v0,           1                             
+	syscall                                                     
+	la             $a0,           STRCST25                      
+	li             $v0,           4                             
+	syscall                                                     
+	lw             $v0,           -20($fp)       
+	j              end_test3func3                               
+end_test3func3:                                                            
+	lw             $ra,           -4($fp)        
+	add            $sp,           $fp,           4              
+	lw             $fp,           0($fp)         
+	jr             $ra                                          
+test4func1:                                                            
+	addi           $fp,           $sp,           4              
+	sw             $ra,           -4($fp)        
+	addi           $sp,           $sp,           -16            
+	li             $v0,           12                            
+	syscall                                                     
+	sb             $v0,           -8($fp)        
+	li             $v0,           5                             
+	syscall                                                     
+	sw             $v0,           -12($fp)       
+	li             $v0,           5                             
+	syscall                                                     
+	sw             $v0,           -16($fp)       
+	lb             $s0,           -8($fp)        
+	li             $s1,           97                            
+	ble            $s0,           $s1,           label2         
+	la             $a0,           STRCST26                      
+	li             $v0,           4                             
+	syscall                                                     
+label2:                                                            
+	lw             $s0,           -12($fp)       
+	lw             $s1,           -16($fp)       
+	add            $s0,           $s0,           $s1            
+	sw             $s0,           -20($fp)       
+	lw             $s0,           -20($fp)       
+	li             $s1,           0                             
+	bgt            $s0,           $s1,           label3         
+	la             $a0,           STRCST27                      
+	li             $v0,           4                             
+	syscall                                                     
+	j              label4                                       
+label3:                                                            
+	la             $a0,           STRCST28                      
+	li             $v0,           4                             
+	syscall                                                     
+label4:                                                            
+	lw             $s0,           -12($fp)       
+	li             $s1,           0                             
+	beq            $s0,           $s1,           label5         
+	la             $a0,           STRCST29                      
+	li             $v0,           4                             
+	syscall                                                     
+label5:                                                            
+	lw             $s0,           -16($fp)       
+	li             $s1,           0                             
+	beq            $s0,           $s1,           label6         
+	la             $a0,           STRCST30                      
+	li             $v0,           4                             
+	syscall                                                     
+	j              label7                                       
+label6:                                                            
+	la             $a0,           STRCST31                      
+	li             $v0,           4                             
+	syscall                                                     
+label7:                                                            
+	la             $a0,           STRCST32                      
+	li             $v0,           4                             
+	syscall                                                     
+end_test4func1:                                                            
+	lw             $ra,           -4($fp)        
+	add            $sp,           $fp,           4              
+	lw             $fp,           0($fp)         
+	jr             $ra                                          
+test4func2:                                                            
+	addi           $fp,           $sp,           4              
+	sw             $ra,           -4($fp)        
+	addi           $sp,           $sp,           -12            
+	li             $s0,           5                             
+	sw             $s0,           -8($fp)        
+label8:                                                            
+	lw             $s0,           -8($fp)        
+	li             $s1,           0                             
+	ble            $s0,           $s1,           label9         
+	la             $a0,           STRCST33                      
+	li             $v0,           4                             
+	syscall                                                     
+	lw             $a0,           -8($fp)        
+	li             $v0,           1                             
+	syscall                                                     
+	la             $a0,           STRCST34                      
+	li             $v0,           4                             
+	syscall                                                     
+	lw             $s0,           -8($fp)        
+	sub            $s0,           $s0,           1              
+	sw             $s0,           -12($fp)       
+	lw             $s0,           -12($fp)       
+	sw             $s0,           -8($fp)        
+	j              label8                                       
+label9:                                                            
+label10:                                                            
+	li             $s0,           1                             
+	li             $s1,           0                             
+	beq            $s0,           $s1,           label12        
+	lw             $s0,           -8($fp)        
+	add            $s0,           $s0,           1              
+	sw             $s0,           -16($fp)       
+	lw             $s0,           -16($fp)       
+	sw             $s0,           -8($fp)        
+	la             $a0,           STRCST35                      
+	li             $v0,           4                             
+	syscall                                                     
+	lw             $a0,           -8($fp)        
+	li             $v0,           1                             
+	syscall                                                     
+	la             $a0,           STRCST36                      
+	li             $v0,           4                             
+	syscall                                                     
+	lw             $s0,           -8($fp)        
+	li             $s1,           2                             
+	bne            $s0,           $s1,           label11        
+	li             $v0,           0                             
+	j              end_test4func2                               
+label11:                                                            
+	j              label10                                      
+label12:                                                            
+	li             $v0,           1                             
+	j              end_test4func2                               
+end_test4func2:                                                            
+	lw             $ra,           -4($fp)        
+	add            $sp,           $fp,           4              
+	lw             $fp,           0($fp)         
+	jr             $ra                                          
+test5func1:                                                            
+	addi           $fp,           $sp,           8              
+	sw             $ra,           -4($fp)        
+	addi           $sp,           $sp,           -32            
+	lw             $s0,           -8($fp)        
+	lw             $s1,           -8($fp)        
+	add            $s0,           $s0,           $s1            
+	sw             $s0,           -12($fp)       
+label14:                                                            
+	lw             $s0,           -12($fp)       
+	li             $s1,           0                             
+	bne            $s0,           $s1,           label15        
+	la             $a0,           STRCST37                      
+	li             $v0,           4                             
+	syscall                                                     
+	j              label13                                      
+label15:                                                            
+	la             $a0,           STRCST38                      
+	li             $v0,           4                             
+	syscall                                                     
+	j              label13                                      
+label13:                                                            
+	lw             $s0,           -8($fp)        
+	lw             $s1,           -8($fp)        
+	sub            $s0,           $s0,           $s1            
+	sw             $s0,           -16($fp)       
+	lw             $s0,           -16($fp)       
+	add            $s0,           $s0,           97             
+	sw             $s0,           -20($fp)       
+label17:                                                            
+	lw             $s0,           -20($fp)       
+	li             $s1,           97                            
+	bne            $s0,           $s1,           label16        
+	la             $a0,           STRCST39                      
+	li             $v0,           4                             
+	syscall                                                     
+	j              label16                                      
+label16:                                                            
+label19:                                                            
+	lw             $s0,           -8($fp)        
+	li             $s1,           1                             
+	bne            $s0,           $s1,           label20        
+	li             $s0,           2                             
+	sw             $s0,           -24($fp)       
+	lw             $v0,           -24($fp)       
+	j              end_test5func1                               
+	j              label18                                      
+label20:                                                            
+	lw             $s0,           -8($fp)        
+	li             $s1,           2                             
+	bne            $s0,           $s1,           label18        
+	li             $s0,           4                             
+	sw             $s0,           -28($fp)       
+	lw             $v0,           -28($fp)       
+	j              end_test5func1                               
+	j              label18                                      
+label18:                                                            
+	lw             $s0,           -8($fp)        
+	lw             $s1,           -8($fp)        
+	mul            $s0,           $s0,           $s1            
+	sw             $s0,           -32($fp)       
+	lw             $s0,           -32($fp)       
+	lw             $s1,           -8($fp)        
+	mul            $s0,           $s0,           $s1            
+	sw             $s0,           -36($fp)       
+	lw             $s0,           -36($fp)       
+	lw             $s1,           -8($fp)        
+	mul            $s0,           $s0,           $s1            
+	sw             $s0,           -40($fp)       
+	lw             $v0,           -40($fp)       
+	j              end_test5func1                               
+end_test5func1:                                                            
+	lw             $ra,           -4($fp)        
+	add            $sp,           $fp,           4              
+	lw             $fp,           0($fp)         
+	jr             $ra                                          
+test5func2:                                                            
+	addi           $fp,           $sp,           4              
+	sw             $ra,           -4($fp)        
+	la             $a0,           STRCST40                      
+	li             $v0,           4                             
+	syscall                                                     
+end_test5func2:                                                            
+	lw             $ra,           -4($fp)        
+	add            $sp,           $fp,           4              
+	lw             $fp,           0($fp)         
+	jr             $ra                                          
+test5func3:                                                            
+	addi           $fp,           $sp,           4              
+	sw             $ra,           -4($fp)        
+	addi           $sp,           $sp,           -8             
+	addi           $sp,           $sp,           -8             
+	sw             $fp,           4($sp)         
+	addi           $sp,           $sp,           -4             
+	li             $s0,           3                             
+	sw             $s0,           0($sp)         
+	jal            test5func1                                   
+	sw             $v0,           -12($fp)       
+	lw             $s0,           -12($fp)       
+	sw             $s0,           -8($fp)        
+	addi           $sp,           $sp,           -8             
+	sw             $fp,           4($sp)         
+	addi           $sp,           $sp,           -4             
+	li             $s0,           1                             
+	sw             $s0,           0($sp)         
+	jal            test5func1                                   
+	lw             $s0,           -8($fp)        
+	li             $s1,           81                            
+	bne            $s0,           $s1,           label21        
+	la             $a0,           STRCST41                      
+	li             $v0,           4                             
+	syscall                                                     
+label21:                                                            
+	addi           $sp,           $sp,           -8             
+	sw             $fp,           4($sp)         
+	jal            test5func2                                   
+end_test5func3:                                                            
+	lw             $ra,           -4($fp)        
+	add            $sp,           $fp,           4              
+	lw             $fp,           0($fp)         
+	jr             $ra                                          
+main:                                                            
+	addi           $fp,           $sp,           4              
+	sw             $ra,           -4($fp)        
+	addi           $sp,           $sp,           -12            
+	li             $v0,           5                             
+	syscall                                                     
+	sw             $v0,           -8($fp)        
+	la             $a0,           STRCST42                      
+	li             $v0,           4                             
+	syscall                                                     
+label23:                                                            
+	lw             $s0,           -8($fp)        
+	li             $s1,           1                             
+	bne            $s0,           $s1,           label24        
+	addi           $sp,           $sp,           -8             
+	sw             $fp,           4($sp)         
+	jal            test1func4                                   
+	j              label22                                      
+label24:                                                            
+	lw             $s0,           -8($fp)        
+	li             $s1,           2                             
+	bne            $s0,           $s1,           label25        
+	la             $a0,           STRCST43                      
+	li             $v0,           4                             
+	syscall                                                     
+	addi           $sp,           $sp,           -8             
+	sw             $fp,           4($sp)         
+	addi           $sp,           $sp,           -4             
+	li             $s0,           97                            
+	sw             $s0,           0($sp)         
+	jal            test2func2                                   
+	sw             $v0,           -12($fp)       
+	lw             $a0,           -12($fp)       
+	li             $v0,           1                             
+	syscall                                                     
+	j              label22                                      
+label25:                                                            
+	lw             $s0,           -8($fp)        
+	li             $s1,           3                             
+	bne            $s0,           $s1,           label26        
+	addi           $sp,           $sp,           -8             
+	sw             $fp,           4($sp)         
+	addi           $sp,           $sp,           -4             
+	li             $s0,           4                             
+	sw             $s0,           0($sp)         
+	jal            test3func1                                   
+	la             $a0,           STRCST44                      
+	li             $v0,           4                             
+	syscall                                                     
+	addi           $sp,           $sp,           -8             
+	sw             $fp,           4($sp)         
+	jal            test3func3                                   
+	sw             $v0,           -16($fp)       
+	lw             $a0,           -16($fp)       
+	li             $v0,           1                             
+	syscall                                                     
+	j              label22                                      
+label26:                                                            
+	lw             $s0,           -8($fp)        
+	li             $s1,           4                             
+	bne            $s0,           $s1,           label27        
+	addi           $sp,           $sp,           -8             
+	sw             $fp,           4($sp)         
+	jal            test4func1                                   
+	addi           $sp,           $sp,           -8             
+	sw             $fp,           4($sp)         
+	jal            test4func2                                   
+	j              label22                                      
+label27:                                                            
+	lw             $s0,           -8($fp)        
+	li             $s1,           5                             
+	bne            $s0,           $s1,           label22        
+	addi           $sp,           $sp,           -8             
+	sw             $fp,           4($sp)         
+	jal            test5func3                                   
+	j              label22                                      
+label22:                                                            
+	la             $a0,           STRCST45                      
+	li             $v0,           4                             
+	syscall                                                     
+end_main:                                                            
+	li             $v0,           10                            
+	syscall                                                     
+
+############################### end ###########################

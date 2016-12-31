@@ -1,0 +1,15 @@
+/* 测试函数有无返回值错误 */
+void Func1(){
+	return (1);
+}
+
+/* 测试数组越界，标识符多次定义 */
+void main(){
+	const int a = 10;
+	const char ch = 'a';
+	
+	const char a = 'b';
+	int m[10];
+	
+	printf("m[11] = ", m[11]);
+} 

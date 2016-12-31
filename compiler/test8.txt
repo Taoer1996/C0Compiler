@@ -1,0 +1,58 @@
+/* 测试递归和写语句 */
+void Test3Func1(int num){
+	printf("num = ", num);
+	printf("\n");
+	if(num > 0){
+		Test3Func1(num-1);
+	}
+}
+
+/* 测试表达式 */
+int Test3Func2(int num, char ch){
+	if(ch == 0){
+		ch = 'a';
+	}
+	return(num + ch * ch + num / ch + ch - num);
+}
+
+/* 测试赋值语句和表达式 */
+int Test3Func3(){
+	const int f2_a = 10;
+	const char f2_c = 'a';
+	int f2_x, f2_y, f2_n[3];
+	char f2_ch;
+	
+	f2_x = +-10;
+	printf("f2_x = ", f2_x);
+	printf("\n");
+	
+	f2_x = --10++20;
+	printf("f2_x = ", f2_x);
+	printf("\n");
+	
+	f2_y = - f2_x * f2_x + 10;
+	printf("f2_y = ", f2_y);
+	printf("\n");
+	
+	f2_n[0] = - f2_x;
+	f2_n[1] = f2_y;
+	printf("f2_n[0] = ", f2_n[0]);
+	printf("\n");
+	printf("f2_n[1] = ", f2_n[1]);
+	printf("\n");
+	
+	f2_ch = 'm';
+	printf("f2_ch = ", f2_ch);
+	printf("\n");
+	
+	f2_y = -(f2_x + f2_x) * f2_y + f2_c - f2_n[0] + Test3Func2(f2_a, f2_c);
+	printf("f2_y = ", f2_y);
+	printf("\n");
+	
+	return (f2_y);
+}
+
+void main(){
+	Test3Func1(4);
+	printf("Test3Fun3() = ", Test3Func3());
+}

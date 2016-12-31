@@ -1,0 +1,15 @@
+/* 测试函数未定义先调用 */
+int Func2(int t1){
+	Func1();
+	return(t1);
+}
+
+int Func1(){
+	return(1);
+}
+
+/* 测试函数传入参数出错 */
+void main(){
+	Func2(0);
+	Func1(1,2);
+}

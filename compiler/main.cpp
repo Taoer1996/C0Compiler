@@ -27,7 +27,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	cout << "请输入文件路径（默认为./test.txt)：" << endl;
 	getline(cin, path);
 	if (path == "") {
-		path = "./tmp.txt";
+		path = "./测试程序.txt";
 	}
 	fin = fopen(path.c_str(), "r");
 	

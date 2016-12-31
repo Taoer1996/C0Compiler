@@ -1,0 +1,10 @@
+/* 测试数组元素作为函数参数 返回值未使用括号包围 */
+int Func1(int a[1], int m){
+	printf(m);
+	return 0;
+}
+
+/* 传入参数个数不符合 */
+void main(){
+	Func1();
+}

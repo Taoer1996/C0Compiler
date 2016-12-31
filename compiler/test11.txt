@@ -1,0 +1,9 @@
+/* 测试缺少分号，对常量进行操作 */
+const int a = 10;
+const char b = 'a';
+
+void main(){
+	printf("a = ", a)
+	b = b + 1;
+	printf("\nb = ", b);
+}

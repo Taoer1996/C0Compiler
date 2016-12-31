@@ -1,0 +1,50 @@
+const int a = 0;
+const int b = +10, c = -20;
+
+const char d = '_', e = '*';
+
+int x,Y,t[10];
+char Z,s[1];
+
+/* 测试变量重名、大小写不区分、正负号连续出现 */
+int Func1(int Func1){
+	X = +-10+-10+-10;
+	y = Func1;
+	return (x + y);
+}
+
+
+/* 测试变量重名、函数调用、强制转换 */
+char Func2(int t1, int t2){
+	int x,y;
+	x = Func1(t1);
+	y = Func1(t2);
+	return (x + y);
+}
+
+/* 测试空语句 */
+void Func3(char s){
+	;
+}
+
+void main(){
+	char ch;
+	int num;
+	
+	ch = d + b;		/* 测试字符参与运算 */
+	num = b + c + Func1(10);  /* 测试函数调用作为因子 */
+	
+	printf("ch = ", ch);
+	printf("\n");
+	printf("num = ", num);
+	printf("\n");
+	
+	printf("Func2(50,70) = ", Func2(50,70)); /* 测试函数调用和参数同名 */
+	printf("\n");
+	
+	printf("x = ", x);
+	printf("\n");
+	printf("y = ", y);
+	printf("\n");
+	
+}

@@ -1,0 +1,58 @@
+/* 测试输入语句和条件语句和条件 */
+void Test4Func1(){
+	char f1_ch;
+	int f1_x, f1_y;
+	
+	scanf(f1_ch);
+	scanf(f1_x, f1_y);
+	
+	if(f1_ch > 'a'){
+		printf("f1_ch > a");
+	}
+	
+	if(f1_x + f1_y <= 0){
+		printf("f1_x + f1_y <= 0");
+	}
+	else {
+		printf("f1_x + f1_y > 0");
+	}
+	
+	if(f1_x){
+		printf("f1_x != 0");
+	}
+	
+	if(f1_y){
+		printf("f1_y != 0");
+	}
+	else {
+		printf("f1_y == 0");
+	}
+	
+	printf("\n");
+}
+
+/* 测试循环语句*/
+int Test4Func2(){
+	int f2_x;
+	f2_x = 5;
+	while(f2_x > 0){
+		printf("f2_x = ", f2_x);
+		printf("\n");
+		f2_x = f2_x - 1;
+	}
+	
+	while(1){
+		f2_x = f2_x + 1;
+		printf("f2_x = ", f2_x);
+		printf("\n");
+		if(f2_x == 2){
+			return (0);
+		}
+	}
+	return (1);
+}
+
+void main(){
+	Test4Func1();
+	Test4Func2();
+}

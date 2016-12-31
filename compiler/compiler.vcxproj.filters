@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="头文件\Optimization">
+      <UniqueIdentifier>{a24f37bc-a368-4f72-bed4-8bcfd54be081}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\Optimization">
+      <UniqueIdentifier>{bd2c7102-adc2-455f-844c-1cabfaadba27}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />
@@ -54,9 +60,6 @@
     <ClInclude Include="myutils.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="optimizer.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="parser.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -72,6 +75,12 @@
     <ClInclude Include="compiler.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="optimizer.h">
+      <Filter>头文件\Optimization</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseBlock.h">
+      <Filter>头文件\Optimization</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -84,9 +93,6 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="myutils.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="optimizer.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="parser.cpp">
@@ -106,6 +112,12 @@
     </ClCompile>
     <ClCompile Include="compiler.cpp">
       <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="optimizer.cpp">
+      <Filter>源文件\Optimization</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseBlock.cpp">
+      <Filter>源文件\Optimization</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

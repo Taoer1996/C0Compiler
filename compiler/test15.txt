@@ -1,0 +1,10 @@
+/* printf语句中传入了多个参数，对非变量元素进行赋值 */
+void Func1(int t1, int t2){
+	printf("t1 & t2", t1, t2);
+}
+
+void main(){
+	char s[10];
+	Func1(1,2);
+	s = 'a';
+}

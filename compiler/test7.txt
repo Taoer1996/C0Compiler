@@ -1,0 +1,45 @@
+/* 变/常量定义 */
+const char b11 = '+';
+const int a11 = 0;
+
+const int a12 = +10, a13 = -20, a14 = 123456789; 
+const char b12 = '/', b13 = '_', b14 = 'K';
+
+int x11;
+int X12, n2[10], z11;
+char ch11;
+char ch12, ch13, s2[1], t2[3];
+
+/* char类型 - 空语句 */
+char Test2Func1(){
+	;
+	return (0);
+}
+
+/* int类型 - 单参数 变量同名 大小写 函数内变/常量定义 */
+int Test2Func2(char ch11){
+	const char f2_b11 = '+';
+	const int f2_a11 = 0;
+
+	const int f2_a12 = +10, f2_a13 = -20, f2_a14 = 123456789; 
+	const char f2_b12 = '/', f2_b13 = '_', f2_b14 = 'K';
+
+	int f2_x11;
+	int f2_X12, f2_n2[10], f2_z11;
+	char f2_ch11;
+	char f2_ch12, f2_ch13, f2_s2[1], f2_t2[3];
+	return (ch11 + f2_a12 - f2_a13*f2_b12 + f2_b13 -f2_b14);
+}
+
+/* void类型 - 下划线开头 多参数 - 无语句*/
+void _Test2Func3(int num, char ch){
+	
+}
+
+void main(){
+	printf("Test2Func2 = ", Test2Func2('a'));
+}
+
+
+
+ 

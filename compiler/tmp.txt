@@ -1,4 +1,4 @@
-const int num_0 = 0;
+/*const int num_0 = 0;
 int num[100];
 
 
@@ -79,5 +79,11 @@ void main(){
     abc[str[abc[str[abc[str[abc[str[num_0]]]]]]]] = str[abc[str[abc[str[abc[str[num_0]]]]]]] + abc[str[abc[str[abc[str[num_0]]]]]];
     printf(abc[str[abc[4+str[str[num_0]*abc[6*str[5+abc[-1+str[0]+1]-5]/2/3]]-abc[str[2]]]]]);
     return;
-	*/
+	
+}
+*/
+void main(){
+	int y[],x;
+	x = 10;
+	printf(x);
 }

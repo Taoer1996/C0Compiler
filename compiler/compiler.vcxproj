@@ -39,6 +39,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <EmbedManifest>false</EmbedManifest>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -82,6 +83,7 @@
     <None Include="tmp.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BaseBlock.h" />
     <ClInclude Include="compiler.h" />
     <ClInclude Include="error.h" />
     <ClInclude Include="lexical.h" />
@@ -95,6 +97,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BaseBlock.cpp" />
     <ClCompile Include="compiler.cpp" />
     <ClCompile Include="error.cpp" />
     <ClCompile Include="lexical.cpp" />

@@ -1,248 +1,403 @@
 
 ################################## data segment ###################################################
 
-cst                 int                 cst1_int            4                   
-cst                 char                cst2_char           97                  
-cst                 int                 cst3_int            1                   
-cst                 int                 cst4_int            1                   
-cst                 char                cst5_char           43                  
-cst                 char                cst6_char           47                  
-var                 int                 var1_int                                
-var                 int                 var2_int                                
-arr                 int                 var3_int            2                   
-var                 char                var4_char                               
-var                 char                var5_char                               
-cst                 str                 STRCST0             "print_string_only tested!\n"
-cst                 str                 STRCST1             "v = "              
-cst                 str                 STRCST2             "\nprint_expression_only tested!\n"
-cst                 str                 STRCST3             "if_with_else tested!\n"
-cst                 str                 STRCST4             "\nif_without_else tested!\n"
-cst                 str                 STRCST5             "print_string_and_expression tested and cst1="
-cst                 str                 STRCST6             "\n"                
-cst                 str                 STRCST7             "\nx = "            
-cst                 str                 STRCST8             "\nn[0] = "         
-cst                 str                 STRCST9             "\ny = "            
-cst                 str                 STRCST10            "\ns[0] = "         
-cst                 str                 STRCST11            "\nz = "            
-cst                 str                 STRCST12            "\nassign_and_expression tested!\n"
-cst                 str                 STRCST13            "null_statement tested!\n"
-cst                 str                 STRCST14            "\nx = "            
-cst                 str                 STRCST15            "\nloop_statement tested!\n"
-cst                 str                 STRCST16            "\n 5! = "          
-cst                 str                 STRCST17            "\nfunction_call_statement tested!\n"
-cst                 str                 STRCST18            "\nw="              
-cst                 str                 STRCST19            "\nx="              
-cst                 str                 STRCST20            "\ny="              
-cst                 str                 STRCST21            "\nread_statement tested!\n"
-cst                 str                 STRCST22            "\nthe lower B is " 
-cst                 str                 STRCST23            "\nu is:"           
-cst                 str                 STRCST24            "\n"                
-cst                 str                 STRCST25            "\ncst1 = "         
-cst                 str                 STRCST26            "\ndefault tested!\n"
+cst                 int                 a                   0                   
+cst                 int                 b                   10                  
+cst                 int                 c                   20                  
+cst                 char                d                   95                  
+cst                 char                e                   42                  
+cst                 char                b11                 43                  
+cst                 int                 a11                 0                   
+cst                 int                 a12                 10                  
+cst                 int                 a13                 20                  
+cst                 int                 a14                 123456789           
+cst                 char                b12                 47                  
+cst                 char                b13                 95                  
+cst                 char                b14                 75                  
+var                 int                 x                                       
+var                 int                 y                                       
+arr                 int                 t                   10                  
+var                 char                z                                       
+arr                 char                s                   1                   
+var                 int                 x11                                     
+var                 int                 x12                                     
+arr                 int                 n2                  10                  
+var                 int                 z11                                     
+var                 char                ch11                                    
+var                 char                ch12                                    
+var                 char                ch13                                    
+arr                 char                s2                  1                   
+arr                 char                t2                  3                   
+cst                 str                 STRCST0             "ch = "             
+cst                 str                 STRCST1             "\n"                
+cst                 str                 STRCST2             "num = "            
+cst                 str                 STRCST3             "\n"                
+cst                 str                 STRCST4             "Func2(50,70) = "   
+cst                 str                 STRCST5             "\n"                
+cst                 str                 STRCST6             "x = "              
+cst                 str                 STRCST7             "\n"                
+cst                 str                 STRCST8             "y = "              
+cst                 str                 STRCST9             "\n"                
+cst                 str                 STRCST10            "num = "            
+cst                 str                 STRCST11            "\n"                
+cst                 str                 STRCST12            "f2_x = "           
+cst                 str                 STRCST13            "\n"                
+cst                 str                 STRCST14            "f2_x = "           
+cst                 str                 STRCST15            "\n"                
+cst                 str                 STRCST16            "f2_y = "           
+cst                 str                 STRCST17            "\n"                
+cst                 str                 STRCST18            "f2_n[0] = "        
+cst                 str                 STRCST19            "\n"                
+cst                 str                 STRCST20            "f2_n[1] = "        
+cst                 str                 STRCST21            "\n"                
+cst                 str                 STRCST22            "f2_ch = "          
+cst                 str                 STRCST23            "\n"                
+cst                 str                 STRCST24            "f2_y = "           
+cst                 str                 STRCST25            "\n"                
+cst                 str                 STRCST26            "f1_ch > a"         
+cst                 str                 STRCST27            "f1_x + f1_y <= 0"  
+cst                 str                 STRCST28            "f1_x + f1_y > 0"   
+cst                 str                 STRCST29            "f1_x != 0"         
+cst                 str                 STRCST30            "f1_y != 0"         
+cst                 str                 STRCST31            "f1_y == 0"         
+cst                 str                 STRCST32            "\n"                
+cst                 str                 STRCST33            "f2_x = "           
+cst                 str                 STRCST34            "\n"                
+cst                 str                 STRCST35            "f2_x = "           
+cst                 str                 STRCST36            "\n"                
+cst                 str                 STRCST37            "\nnum + num = 0\n" 
+cst                 str                 STRCST38            "\nTestDefault!\n"  
+cst                 str                 STRCST39            "\nThis is a!\n"    
+cst                 str                 STRCST40            "\nFunc without value called!\n"
+cst                 str                 STRCST41            "\nFunc with value called!\n"
+cst                 str                 STRCST42            "\nStart the test!\n"
+cst                 str                 STRCST43            "Test2Func2 = "     
+cst                 str                 STRCST44            "Test3Fun3() = "    
+cst                 str                 STRCST45            "\nEnd the test!\n" 
 
 ################################## text segment ###################################################
 
 j                                                           main                
-func                int                 funcint1            0                   
-cst                 int                 funcint1cst         2                   
-var                 int                 funcint1var                             
-ret                 int                 2                   funcint1            
-setlab                                                      end_funcint1        
-end                 func                funcint1                                
-func                int                 funcint2            1                   
-para                int                 a                                       
-cst                 int                 funcint2_cst1       4                   
-cst                 char                funcint2_cst2       97                  
-var                 int                 _funcint2_var1                          
-var                 char                _funcint2_var2                          
-addop               $t0                 a                   4                   
-ret                 int                 $t0                 funcint2            
-setlab                                                      end_funcint2        
-end                 func                funcint2                                
-func                char                funcchar            1                   
-para                char                ch                                      
-subop               $t0                 ch                  65                  
-addop               $t1                 $t0                 97                  
-ret                 char                $t1                 funcchar            
-setlab                                                      end_funcchar        
-end                 func                funcchar                                
-func                int                 factorial           1                   
-para                int                 n                                       
-bne                 n                   1                   label0              
-ret                 int                 1                   factorial           
-j                                                           label1              
-setlab                                                      label0              
-call                int                 factorial           $t0                 
-subop               $t1                 n                   1                   
-parain              int                 $t1                 factorial           
-mulop               $t2                 n                   $t0                 
-ret                 int                 $t2                 factorial           
-setlab                                                      label1              
-setlab                                                      end_factorial       
-end                 func                factorial                               
-func                void                funcvoid1           0                   
-setlab                                                      end_funcvoid1       
-end                 func                funcvoid1                               
-func                void                funcvoid2           2                   
-para                int                 a                                       
-para                char                ch                                      
-cst                 int                 funcvoid2_cst1      5                   
-cst                 int                 funcvoid2_cst2      6                   
-cst                 int                 funcvoid2_cst3      7                   
-cst                 int                 funcvoid2_cst4      8                   
-print               char                ch                                      
-setlab                                                      end_funcvoid2       
-end                 func                funcvoid2                               
-func                void                main                0                   
-cst                 int                 cst1                9                   
-cst                 int                 cst2                0                   
-cst                 char                cst3                97                  
-cst                 char                cst4                65                  
+func                int                 func1               1                   
+para                int                 func1                                   
+addop               $t0                 -10                 -10                 
+addop               $t1                 $t0                 -10                 
+move                x                   $t1                                     
+move                y                   func1                                   
+addop               $t2                 x                   y                   
+ret                 int                 $t2                 func1               
+setlab                                                      end_func1           
+end                 func                func1                                   
+func                char                func2               2                   
+para                int                 t1                                      
+para                int                 t2                                      
 var                 int                 x                                       
 var                 int                 y                                       
-var                 int                 z                                       
-arr                 int                 n                   2                   
-var                 int                 u                                       
-var                 int                 v                                       
-var                 int                 w                                       
-arr                 char                s                   3                   
-scan                int                 u                                       
-scan                int                 v                                       
-setlab                                                      label3              
-bne                 u                   1                   label6              
-ble                 v                   0                   label4              
+call                int                 func1               $t0                 
+parain              int                 t1                  func1               
+move                x                   $t0                                     
+call                int                 func1               $t1                 
+parain              int                 t2                  func1               
+move                y                   $t1                                     
+addop               $t2                 x                   y                   
+ret                 char                $t2                 func2               
+setlab                                                      end_func2           
+end                 func                func2                                   
+func                void                func3               1                   
+para                char                s                                       
+setlab                                                      end_func3           
+end                 func                func3                                   
+func                void                test1func4          0                   
+var                 int                 num                                     
+var                 char                ch                                      
+addop               $t0                 95                  10                  
+move                ch                  $t0                                     
+addop               $t1                 10                  -20                 
+call                int                 func1               $t2                 
+parain              int                 10                  func1               
+addop               $t3                 $t1                 $t2                 
+move                num                 $t3                                     
 print               str                 STRCST0                                 
-j                                                           label5              
-setlab                                                      label4              
+print               char                ch                                      
 print               str                 STRCST1                                 
-print               int                 v                                       
 print               str                 STRCST2                                 
+print               int                 num                                     
 print               str                 STRCST3                                 
-setlab                                                      label5              
-j                                                           label2              
-setlab                                                      label6              
-bne                 u                   2                   label8              
-bge                 v                   0                   label7              
 print               str                 STRCST4                                 
+call                char                func2               $t4                 
+parain              int                 50                  func2               
+parain              int                 70                  func2               
+print               char                $t4                                     
 print               str                 STRCST5                                 
-print               int                 9                                       
 print               str                 STRCST6                                 
-setlab                                                      label7              
-j                                                           label2              
-setlab                                                      label8              
-bne                 u                   3                   label9              
-move                x                   9                                       
-subop               $t0                 0                   9                   
-sarr                $t0                 n                   0                   
-subop               $t1                 0                   9                   
-addop               $t2                 $t1                 0                   
-move                y                   $t2                                     
-subop               $t3                 65                  97                  
-addop               $t4                 $t3                 98                  
-addop               $t5                 $t4                 1                   
-sarr                $t5                 s                   0                   
-larr                $t6                 n                   0                   
-mulop               $t7                 x                   $t6                 
-diviop              $t8                 $t7                 y                   
-addop               $t9                 u                   $t8                 
-call                int                 funcint2            $t10                
-parain              int                 5                   funcint2            
-addop               $t11                $t9                 $t10                
-addop               $t12                $t11                v                   
-move                z                   $t12                                    
+print               int                 x                                       
 print               str                 STRCST7                                 
-print               int                 x                                       
 print               str                 STRCST8                                 
-larr                $t13                n                   0                   
-print               int                 $t13                                    
+print               int                 y                                       
 print               str                 STRCST9                                 
-print               int                 y                                       
+setlab                                                      end_test1func4      
+end                 func                test1func4                              
+func                char                test2func1          0                   
+ret                 char                0                   test2func1          
+setlab                                                      end_test2func1      
+end                 func                test2func1                              
+func                int                 test2func2          1                   
+para                char                ch11                                    
+cst                 char                f2_b11              43                  
+cst                 int                 f2_a11              0                   
+cst                 int                 f2_a12              10                  
+cst                 int                 f2_a13              20                  
+cst                 int                 f2_a14              123456789           
+cst                 char                f2_b12              47                  
+cst                 char                f2_b13              95                  
+cst                 char                f2_b14              75                  
+var                 int                 f2_x11                                  
+var                 int                 f2_x12                                  
+arr                 int                 f2_n2               10                  
+var                 int                 f2_z11                                  
+var                 char                f2_ch11                                 
+var                 char                f2_ch12                                 
+var                 char                f2_ch13                                 
+arr                 char                f2_s2               1                   
+arr                 char                f2_t2               3                   
+addop               $t0                 ch11                10                  
+mulop               $t1                 -20                 47                  
+subop               $t2                 $t0                 $t1                 
+addop               $t3                 $t2                 95                  
+subop               $t4                 $t3                 75                  
+ret                 int                 $t4                 test2func2          
+setlab                                                      end_test2func2      
+end                 func                test2func2                              
+func                void                _test2func3         2                   
+para                int                 num                                     
+para                char                ch                                      
+setlab                                                      end__test2func3     
+end                 func                _test2func3                             
+func                void                test3func1          1                   
+para                int                 num                                     
 print               str                 STRCST10                                
-larr                $t14                s                   0                   
-print               char                $t14                                    
+print               int                 num                                     
 print               str                 STRCST11                                
-print               int                 z                                       
+ble                 num                 0                   label0              
+call                void                test3func1                              
+subop               $t0                 num                 1                   
+parain              int                 $t0                 test3func1          
+setlab                                                      label0              
+setlab                                                      end_test3func1      
+end                 func                test3func1                              
+func                int                 test3func2          2                   
+para                int                 num                                     
+para                char                ch                                      
+bne                 ch                  0                   label1              
+move                ch                  97                                      
+setlab                                                      label1              
+mulop               $t0                 ch                  ch                  
+addop               $t1                 num                 $t0                 
+diviop              $t2                 num                 ch                  
+addop               $t3                 $t1                 $t2                 
+addop               $t4                 $t3                 ch                  
+subop               $t5                 $t4                 num                 
+ret                 int                 $t5                 test3func2          
+setlab                                                      end_test3func2      
+end                 func                test3func2                              
+func                int                 test3func3          0                   
+cst                 int                 f2_a                10                  
+cst                 char                f2_c                97                  
+var                 int                 f2_x                                    
+var                 int                 f2_y                                    
+arr                 int                 f2_n                3                   
+var                 char                f2_ch                                   
+move                f2_x                -10                                     
 print               str                 STRCST12                                
-j                                                           label2              
-setlab                                                      label9              
-bne                 u                   4                   label10             
+print               int                 f2_x                                    
 print               str                 STRCST13                                
-j                                                           label2              
-setlab                                                      label10             
-bne                 u                   5                   label14             
-call                int                 funcint1            $t15                
-move                y                   $t15                                    
-addop               $t16                3                   y                   
-move                x                   $t16                                    
-setlab                                                      label11             
-ble                 x                   0                   label13             
-ble                 9                   3                   label12             
+subop               $t0                 0                   -10                 
+addop               $t1                 $t0                 20                  
+move                f2_x                $t1                                     
 print               str                 STRCST14                                
-print               int                 x                                       
-setlab                                                      label12             
-subop               $t17                x                   1                   
-move                x                   $t17                                    
-j                                                           label11             
-setlab                                                      label13             
+print               int                 f2_x                                    
 print               str                 STRCST15                                
-j                                                           label2              
-setlab                                                      label14             
-bne                 u                   6                   label15             
-call                void                factorial                               
-parain              int                 4                   factorial           
-call                void                funcvoid2                               
-parain              int                 9                   funcvoid2           
-parain              char                97                  funcvoid2           
+mulop               $t2                 f2_x                f2_x                
+subop               $t3                 0                   $t2                 
+addop               $t4                 $t3                 10                  
+move                f2_y                $t4                                     
 print               str                 STRCST16                                
-call                int                 factorial           $t18                
-parain              int                 5                   factorial           
-print               int                 $t18                                    
+print               int                 f2_y                                    
 print               str                 STRCST17                                
-j                                                           label2              
-setlab                                                      label15             
-bne                 u                   7                   label16             
-scan                int                 w                                       
-scan                int                 x                                       
-scan                int                 y                                       
+subop               $t5                 0                   f2_x                
+sarr                $t5                 f2_n                0                   
+sarr                f2_y                f2_n                1                   
 print               str                 STRCST18                                
-print               int                 w                                       
+larr                $t6                 f2_n                0                   
+print               int                 $t6                                     
 print               str                 STRCST19                                
-print               int                 x                                       
 print               str                 STRCST20                                
-print               int                 y                                       
+larr                $t7                 f2_n                1                   
+print               int                 $t7                                     
 print               str                 STRCST21                                
-j                                                           label2              
-setlab                                                      label16             
-bne                 u                   8                   label17             
-ret                 void                                    main                
-j                                                           label2              
-setlab                                                      label17             
-bne                 u                   9                   label2              
+move                f2_ch               109                                     
 print               str                 STRCST22                                
-call                char                funcchar            $t19                
-parain              char                66                  funcchar            
-print               char                $t19                                    
-j                                                           label2              
-setlab                                                      label2              
-setlab                                                      label18             
-bge                 u                   3                   label19             
-addop               $t20                u                   1                   
-move                u                   $t20                                    
+print               char                f2_ch                                   
 print               str                 STRCST23                                
-print               int                 u                                       
+addop               $t8                 f2_x                f2_x                
+mulop               $t9                 $t8                 f2_y                
+subop               $t10                0                   $t9                 
+addop               $t11                $t10                97                  
+larr                $t12                f2_n                0                   
+subop               $t13                $t11                $t12                
+call                int                 test3func2          $t14                
+parain              int                 10                  test3func2          
+parain              char                97                  test3func2          
+addop               $t15                $t13                $t14                
+move                f2_y                $t15                                    
 print               str                 STRCST24                                
-j                                                           label18             
-setlab                                                      label19             
-subop               $t21                v                   1                   
-setlab                                                      label21             
-bne                 $t21                0                   label22             
+print               int                 f2_y                                    
 print               str                 STRCST25                                
-print               int                 9                                       
-j                                                           label20             
-setlab                                                      label22             
+ret                 int                 f2_y                test3func3          
+setlab                                                      end_test3func3      
+end                 func                test3func3                              
+func                void                test4func1          0                   
+var                 char                f1_ch                                   
+var                 int                 f1_x                                    
+var                 int                 f1_y                                    
+scan                char                f1_ch                                   
+scan                int                 f1_x                                    
+scan                int                 f1_y                                    
+ble                 f1_ch               97                  label2              
 print               str                 STRCST26                                
-j                                                           label20             
+setlab                                                      label2              
+addop               $t0                 f1_x                f1_y                
+bgt                 $t0                 0                   label3              
+print               str                 STRCST27                                
+j                                                           label4              
+setlab                                                      label3              
+print               str                 STRCST28                                
+setlab                                                      label4              
+beq                 f1_x                0                   label5              
+print               str                 STRCST29                                
+setlab                                                      label5              
+beq                 f1_y                0                   label6              
+print               str                 STRCST30                                
+j                                                           label7              
+setlab                                                      label6              
+print               str                 STRCST31                                
+setlab                                                      label7              
+print               str                 STRCST32                                
+setlab                                                      end_test4func1      
+end                 func                test4func1                              
+func                int                 test4func2          0                   
+var                 int                 f2_x                                    
+move                f2_x                5                                       
+setlab                                                      label8              
+ble                 f2_x                0                   label9              
+print               str                 STRCST33                                
+print               int                 f2_x                                    
+print               str                 STRCST34                                
+subop               $t0                 f2_x                1                   
+move                f2_x                $t0                                     
+j                                                           label8              
+setlab                                                      label9              
+setlab                                                      label10             
+beq                 1                   0                   label12             
+addop               $t1                 f2_x                1                   
+move                f2_x                $t1                                     
+print               str                 STRCST35                                
+print               int                 f2_x                                    
+print               str                 STRCST36                                
+bne                 f2_x                2                   label11             
+ret                 int                 0                   test4func2          
+setlab                                                      label11             
+j                                                           label10             
+setlab                                                      label12             
+ret                 int                 1                   test4func2          
+setlab                                                      end_test4func2      
+end                 func                test4func2                              
+func                int                 test5func1          1                   
+para                int                 num                                     
+addop               $t0                 num                 num                 
+setlab                                                      label14             
+bne                 $t0                 0                   label15             
+print               str                 STRCST37                                
+j                                                           label13             
+setlab                                                      label15             
+print               str                 STRCST38                                
+j                                                           label13             
+setlab                                                      label13             
+subop               $t1                 num                 num                 
+addop               $t2                 $t1                 97                  
+setlab                                                      label17             
+bne                 $t2                 97                  label16             
+print               str                 STRCST39                                
+j                                                           label16             
+setlab                                                      label16             
+setlab                                                      label19             
+bne                 num                 1                   label20             
+addop               $t3                 1                   1                   
+ret                 int                 $t3                 test5func1          
+j                                                           label18             
 setlab                                                      label20             
+bne                 num                 2                   label18             
+mulop               $t4                 2                   2                   
+ret                 int                 $t4                 test5func1          
+j                                                           label18             
+setlab                                                      label18             
+mulop               $t5                 num                 num                 
+mulop               $t6                 $t5                 num                 
+mulop               $t7                 $t6                 num                 
+ret                 int                 $t7                 test5func1          
+setlab                                                      end_test5func1      
+end                 func                test5func1                              
+func                void                test5func2          0                   
+print               str                 STRCST40                                
+setlab                                                      end_test5func2      
+end                 func                test5func2                              
+func                void                test5func3          0                   
+var                 int                 f2_x                                    
+call                int                 test5func1          $t0                 
+parain              int                 3                   test5func1          
+move                f2_x                $t0                                     
+call                void                test5func1                              
+parain              int                 1                   test5func1          
+bne                 f2_x                81                  label21             
+print               str                 STRCST41                                
+setlab                                                      label21             
+call                void                test5func2                              
+setlab                                                      end_test5func3      
+end                 func                test5func3                              
+func                void                main                0                   
+var                 int                 code                                    
+scan                int                 code                                    
+print               str                 STRCST42                                
+setlab                                                      label23             
+bne                 code                1                   label24             
+call                void                test1func4                              
+j                                                           label22             
+setlab                                                      label24             
+bne                 code                2                   label25             
+print               str                 STRCST43                                
+call                int                 test2func2          $t0                 
+parain              char                97                  test2func2          
+print               int                 $t0                                     
+j                                                           label22             
+setlab                                                      label25             
+bne                 code                3                   label26             
+call                void                test3func1                              
+parain              int                 4                   test3func1          
+print               str                 STRCST44                                
+call                int                 test3func3          $t1                 
+print               int                 $t1                                     
+j                                                           label22             
+setlab                                                      label26             
+bne                 code                4                   label27             
+call                void                test4func1                              
+call                void                test4func2                              
+j                                                           label22             
+setlab                                                      label27             
+bne                 code                5                   label22             
+call                void                test5func3                              
+j                                                           label22             
+setlab                                                      label22             
+print               str                 STRCST45                                
 setlab                                                      end_main            
 end                 func                main                                    
 

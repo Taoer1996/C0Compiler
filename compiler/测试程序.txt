@@ -1,0 +1,276 @@
+/* part1  一些杂乱的测试 */
+/* 常量 part1 */
+const int a = 0;
+const int b = +10, c = -20;
+const char d = '_', e = '*';
+
+/* 常量 part2 */
+const char b11 = '+';
+const int a11 = 0;
+
+const int a12 = +10, a13 = -20, a14 = 123456789; 
+const char b12 = '/', b13 = '_', b14 = 'K';
+
+/* 变量 part1 */
+int x,Y,t[10];
+char Z,s[1];
+
+/* 变量 part2 */
+int x11;
+int X12, n2[10], z11;
+char ch11;
+char ch12, ch13, s2[1], t2[3];
+
+/* 测试变量重名、大小写不区分、正负号连续出现 */
+int Func1(int Func1){
+	X = +-10+-10+-10;
+	y = Func1;
+	return (x + y);
+}
+
+
+/* 测试变量重名、函数调用、强制转换 */
+char Func2(int t1, int t2){
+	int x,y;
+	x = Func1(t1);
+	y = Func1(t2);
+	return (x + y);
+}
+
+/* 测试空语句 */
+void Func3(char s){
+	;
+}
+
+void Test1Func4(){
+	int num;
+	char ch;
+	ch = d + b;		/* 测试字符参与运算 */
+	num = b + c + Func1(10);  /* 测试函数调用作为因子 */
+
+	printf("ch = ", ch);
+	printf("\n");
+	printf("num = ", num);
+	printf("\n");
+	
+	printf("Func2(50,70) = ", Func2(50,70)); /* 测试函数调用和参数同名 */
+	printf("\n");
+	
+	printf("x = ", x);
+	printf("\n");
+	printf("y = ", y);
+	printf("\n");
+	
+}
+/* end part1  */
+
+/* part2 变/常量定义 */
+
+/* char类型 - 空语句 */
+char Test2Func1(){
+	;
+	return (0);
+}
+
+/* int类型 - 单参数 变量同名 大小写 函数内变/常量定义 */
+int Test2Func2(char ch11){
+	const char f2_b11 = '+';
+	const int f2_a11 = 0;
+
+	const int f2_a12 = +10, f2_a13 = -20, f2_a14 = 123456789; 
+	const char f2_b12 = '/', f2_b13 = '_', f2_b14 = 'K';
+
+	int f2_x11;
+	int f2_X12, f2_n2[10], f2_z11;
+	char f2_ch11;
+	char f2_ch12, f2_ch13, f2_s2[1], f2_t2[3];
+	return (ch11 + f2_a12 - f2_a13*f2_b12 + f2_b13 -f2_b14);
+}
+
+/* void类型 - 下划线开头 多参数 - 无语句*/
+void _Test2Func3(int num, char ch){
+	
+}
+
+/* end part2 */
+
+/* part3 测试递归和写语句 */
+void Test3Func1(int num){
+	printf("num = ", num);
+	printf("\n");
+	if(num > 0){
+		Test3Func1(num-1);
+	}
+}
+
+/* 测试表达式 */
+int Test3Func2(int num, char ch){
+	if(ch == 0){
+		ch = 'a';
+	}
+	return(num + ch * ch + num / ch + ch - num);
+}
+
+/* 测试赋值语句和表达式 */
+int Test3Func3(){
+	const int f2_a = 10;
+	const char f2_c = 'a';
+	int f2_x, f2_y, f2_n[3];
+	char f2_ch;
+	
+	f2_x = +-10;
+	printf("f2_x = ", f2_x);
+	printf("\n");
+	
+	f2_x = --10++20;
+	printf("f2_x = ", f2_x);
+	printf("\n");
+	
+	f2_y = - f2_x * f2_x + 10;
+	printf("f2_y = ", f2_y);
+	printf("\n");
+	
+	f2_n[0] = - f2_x;
+	f2_n[1] = f2_y;
+	printf("f2_n[0] = ", f2_n[0]);
+	printf("\n");
+	printf("f2_n[1] = ", f2_n[1]);
+	printf("\n");
+	
+	f2_ch = 'm';
+	printf("f2_ch = ", f2_ch);
+	printf("\n");
+	
+	f2_y = -(f2_x + f2_x) * f2_y + f2_c - f2_n[0] + Test3Func2(f2_a, f2_c);
+	printf("f2_y = ", f2_y);
+	printf("\n");
+	
+	return (f2_y);
+}
+
+/* end part3 */
+/* part4 测试输入语句和条件语句和条件 */
+void Test4Func1(){
+	char f1_ch;
+	int f1_x, f1_y;
+	
+	scanf(f1_ch);
+	scanf(f1_x, f1_y);
+	
+	if(f1_ch > 'a'){
+		printf("f1_ch > a");
+	}
+	
+	if(f1_x + f1_y <= 0){
+		printf("f1_x + f1_y <= 0");
+	}
+	else {
+		printf("f1_x + f1_y > 0");
+	}
+	
+	if(f1_x){
+		printf("f1_x != 0");
+	}
+	
+	if(f1_y){
+		printf("f1_y != 0");
+	}
+	else {
+		printf("f1_y == 0");
+	}
+	
+	printf("\n");
+}
+
+/* 测试循环语句*/
+int Test4Func2(){
+	int f2_x;
+	f2_x = 5;
+	while(f2_x > 0){
+		printf("f2_x = ", f2_x);
+		printf("\n");
+		f2_x = f2_x - 1;
+	}
+	
+	while(1){
+		f2_x = f2_x + 1;
+		printf("f2_x = ", f2_x);
+		printf("\n");
+		if(f2_x == 2){
+			return (0);
+		}
+	}
+	return (1);
+}
+/* end part4 */
+
+/* part5 测试情况语句、返回语句 */
+int Test5Func1(int num){
+	switch(num + num){
+		case 0:
+			printf("\nnum + num = 0\n");
+		default:
+			printf("\nTestDefault!\n");
+	}
+	
+	switch(num - num + 'a'){
+		case 'a':
+			printf("\nThis is a!\n");
+	}
+	
+	switch(num){
+		case 1:
+			return (1+1);
+		case 2:
+			return (2*2);
+	}
+	return (num*num*num*num);
+}
+
+void Test5Func2(){
+	printf("\nFunc without value called!\n");
+}
+/* 测试函数调用 */
+void Test5Func3(){
+	int f2_x;
+	
+	f2_x = Test5Func1(3);
+	Test5Func1(1);
+	if(f2_x == 81){
+		printf("\nFunc with value called!\n");
+	}
+	Test5Func2();
+}
+
+/* end part5 */
+void main(){
+	int code;
+	
+	scanf(code);
+	printf("\nStart the test!\n");
+	switch(code){
+		case 1:{
+			Test1Func4();
+		}
+		case 2:{
+			printf("Test2Func2 = ", Test2Func2('a'));
+		}
+		
+		case 3:{
+			Test3Func1(4);
+			printf("Test3Fun3() = ", Test3Func3());
+		}
+		case 4:{
+			Test4Func1();
+			Test4Func2();
+		}
+		case 5:{
+			Test5Func3();
+		}
+	}
+	printf("\nEnd the test!\n");
+}
+
+
+
+ 

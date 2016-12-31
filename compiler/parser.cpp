@@ -27,15 +27,15 @@ parser::~parser()
 // TODO 检测出错处理是否完善
 void parser::program() {
 	int mainMark = 0;
-	Symbol lastFuncType;
-	string lastFuncName;
-	int paNum;
-	int tmpnum;
+	Symbol lastFuncType = Symbol::nul;
+	string lastFuncName = "";
+	int paNum = 0;
+	int tmpnum = 0;
 	int tmpindex = 0;
 	int codetmpindex = 0;
-	typeEnum tmptype;
-	string tmptoken;
-	Symbol tmpsym;
+	typeEnum tmptype = typeEnum::StrType;
+	string tmptoken = "";
+	Symbol tmpsym = Symbol::nul;
 
 	lex.getsym();
 
@@ -247,10 +247,10 @@ void parser::constDeclaration(bool isData) {
 
 // isData代表是否为全局数据段
 void parser::constDefine(bool isData) {
-	typeEnum tmptype;
-	Symbol tmpsym;
-	string tmptoken;
-	int tmpnum;
+	typeEnum tmptype = typeEnum::StrType;
+	Symbol tmpsym = Symbol::nul;
+	string tmptoken = "";
+	int tmpnum = 0;
 	if (sym == intsy || sym == charsy) {
 		tmpsym = sym;
 		tmptype = (tmpsym == intsy) ? typeEnum::Int : typeEnum::Char;
@@ -447,10 +447,10 @@ void parser::varDeclaration() {
 }
 
 void parser::varDefine() {
-	typeEnum tmptype;
-	Symbol tmpsym;
-	string tmptoken;
-	int tmpnum;
+	typeEnum tmptype = typeEnum::StrType;
+	Symbol tmpsym = Symbol::nul;
+	string tmptoken = "";
+	int tmpnum = 0;
 	if (sym == intsy || sym == charsy) {
 		tmpsym = sym;
 		tmptype = (sym == intsy) ? typeEnum::Int : typeEnum::Char;
@@ -509,18 +509,25 @@ void parser::varDefine() {
 				}
 			}
 		}
+		else {
+			ERR.Err(13);
+			errset.clear();
+			errset.insert(semicolon);
+			errjump(errset);
+		}
 	}
 	else {
 		ERR.Err(13);
 		errset.clear();
+		errset.insert(semicolon);
 		errjump(errset);
 	}
 }
 
 int parser::paraList() {
 	int n = 0;
-	typeEnum tmptype;
-	Symbol tmpsym;
+	typeEnum tmptype = typeEnum::StrType;
+	Symbol tmpsym = Symbol::nul;
 	if (sym == rparent) {     // 为空
 		return 0;
 	}
@@ -534,15 +541,21 @@ int parser::paraList() {
 			codetab.emit(Opt::para, tmpSymName[tmpsym], token, "");
 			n++;
 			lex.getsym();
+			if (sym != comma && sym != rparent) {
+				errset.clear();
+				errset.insert(comma);
+				errset.insert(rparent);
+				errjump(errset);
+			}
 		}
 		else {
 			ERR.Err(2);
 			errset.clear();
 			errset.insert(comma);
 			errset.insert(rparent);
-			errset.insert(rbrace);
 			errjump(errset);
 		}
+		
 		while (sym == comma) {
 			lex.getsym();
 			if (sym == intsy || sym == charsy) {
@@ -601,9 +614,9 @@ void parser::statement() {
 	int pos = 0;
 	int paras = 0;
 	int tmpnum = 0;
-	string tmpstr1, tmpstr2;
-	string tmptoken;
-	kindEnum tmpkind;
+	string tmpstr1 = "", tmpstr2 = "";
+	string tmptoken = "";
+	kindEnum tmpkind = kindEnum::tmpkind;
 
 	if (sym == ifsy) {
 		ifStatement();
@@ -740,6 +753,9 @@ void parser::statement() {
 
 			if (tmpkind == kindEnum::cstkind) {
 				ERR.Err(51);
+				errset.clear();
+				errset.insert(semicolon);
+				errjump(errset);	//直接处理掉这一行
 			}
 			else if (tmpkind == kindEnum::varkind || tmpkind == kindEnum::parakind) {
 				lex.getsym();
@@ -778,12 +794,12 @@ void parser::statement() {
 // ＜条件语句＞  ::=  if ‘(’＜条件＞‘)’＜语句＞［else＜语句＞］
 // 注意ifStatement中还需要考虑返回值的问题
 void parser::ifStatement() {
-	bool tmpretMark;				// 用来暂存全局的retMark标志
+	bool tmpretMark = false;				// 用来暂存全局的retMark标志
 	bool ifretMark = true;			// if语句中的retMark标志，初始化为true
 	int index1 = 0;
 	int index2 = 0;
-	string labelname1;
-	string labelname2;
+	string labelname1 = "";
+	string labelname2 = "";
 	code tmp;				// 用于保存condition()返回的code
 	if (sym == ifsy) {
 		lex.getsym();
@@ -856,7 +872,7 @@ void parser::ifStatement() {
 code parser::condition() {
 	Opt tmp;
 	code tmpcode;
-	string tmpstr1, tmpstr2;
+	string tmpstr1 = "", tmpstr2 = "";
 	tmpstr1 = expression();
 	if(sym == rparent){					// 如果仅仅是纯表达式
 		tmpcode.opt = Opt::bne;
@@ -909,9 +925,9 @@ code parser::condition() {
 string parser::expression() {
 	int flag = 1;
 	Opt tmp;
-	string tmpstr1, tmpstr2;
-	string tmpvarstr;
-	bool tmpExpTypeChar;
+	string tmpstr1 = "", tmpstr2 = "";
+	string tmpvarstr = "";
+	bool tmpExpTypeChar = false;
 	
 	isExpTypeChar = true;		// 初始化为true，默认为char类型
 	tmpExpTypeChar = isExpTypeChar;			// 暂存全局类型
@@ -1000,14 +1016,14 @@ string parser::terms() {
 
 // factor可能返回中的有： ""（空）	数字（123）		变量（a）	临时变量（$t0）		
 string parser::factor() {
-	int index;
-	int tmpnum;
-	int valnum;
-	string tmpstr;
+	int index = -1;
+	int tmpnum = 0;
+	int valnum = 0;
+	string tmpstr = "";
 	bool tmpExpTypeChar = true;
 	string tmpvarstr, tmptypename;
-	kindEnum tmpkind;
-	string tmptoken;
+	kindEnum tmpkind = kindEnum::tmpkind;
+	string tmptoken = "";
 
 	tmpExpTypeChar = isExpTypeChar;				// 保存全局类型
 
@@ -1154,8 +1170,8 @@ string parser::factor() {
 // ＜循环语句＞   ::=  while ‘(’＜条件＞‘)’＜语句＞
 void parser::loopStatement() {
 	code tmpcode;
-	int index1;
-	string tmplabel1, tmplabel2;
+	int index1 = -1;
+	string tmplabel1 = "", tmplabel2 = "";
 	if (sym == whilesy) {
 		lex.getsym();
 		tmplabel1 = nextLab();
@@ -1207,8 +1223,8 @@ void parser::loopStatement() {
 */
 // 同时注意考虑分支返回值出现的情况
 void parser::switchStatement() {
-	string tmpstr;
-	string tmplab;
+	string tmpstr = "";
+	string tmplab = "";
 	bool switchretMark = false;
 	bool tmpretMark;				// 暂存全局的retMark
 
@@ -1275,8 +1291,8 @@ void parser::switchStatement() {
 void parser::caseDescription(string selectVar, string endLabel)
 {
 	int index = 0;
-	string tmplab;
-	bool tmpretMark;
+	string tmplab = "";
+	bool tmpretMark = false;
 	bool caseretMark = true;
 	
 	tmpretMark = retMark;			// 暂存全局retMark
@@ -1334,7 +1350,7 @@ void parser::caseDescription(string selectVar, string endLabel)
 int parser::caseStatement(string selectVar, string endLabel,int lastIndex) {
 	int tmpval = 0;
 	int index = -1;
-	string tmplab;
+	string tmplab = "";
 	if (sym == casesy) {
 		// 设置情况标签
 		tmplab = nextLab();
@@ -1386,9 +1402,9 @@ int parser::valList(string fName)
 {
 	int index = 0;
 	int paNum = 0;
-	string tmpvar;
-	typeEnum type;
-	string typeName;
+	string tmpvar = "";
+	typeEnum type = typeEnum::StrType;
+	string typeName = "";
 
 	index = symtab.locate(fName);		// 得到函数在符号表中的位置
 	if (sym == rparent) {
@@ -1397,22 +1413,22 @@ int parser::valList(string fName)
 	else {
 		tmpvar = expression();
 		paNum++;
-		if (symtab.SymbolTable[index + paNum].kind == kindEnum::parakind) {
+		if ((index + paNum) < symtab.SymbolTable.size() && symtab.SymbolTable[index + paNum].kind == kindEnum::parakind) {
 			type = symtab.SymbolTable[index + paNum].type;
-		}
-		typeName = (type == typeEnum::Char) ? "char" : "int";
-		// 格式：parain,	 int,	$t0,	f;	
-		codetab.emit(Opt::parain, typeName, tmpvar, fName);
+			typeName = (type == typeEnum::Char) ? "char" : "int";
+			// 格式：parain,	 int,	$t0,	f;	
+			codetab.emit(Opt::parain, typeName, tmpvar, fName);
+		}		
 		while (sym == comma) {
 			lex.getsym();
 			tmpvar = expression();
 			paNum++;
-			if (symtab.SymbolTable[index + paNum].kind == kindEnum::parakind) {
+			if ((index + paNum) < symtab.SymbolTable.size() && symtab.SymbolTable[index + paNum].kind == kindEnum::parakind) {
 				type = symtab.SymbolTable[index + paNum].type;
+				typeName = (type == typeEnum::Char) ? "char" : "int";
+				// 格式：parain,	 int,	$t0,	f;		
+				codetab.emit(Opt::parain, typeName, tmpvar, fName);
 			}
-			typeName = (type == typeEnum::Char) ? "char" : "int";
-			// 格式：parain,	 int,	$t0,	f;		
-			codetab.emit(Opt::parain, typeName, tmpvar, fName);
 		}
 	}
 	return paNum;
@@ -1421,9 +1437,9 @@ int parser::valList(string fName)
 // ＜读语句＞ ::=  scanf ‘(’＜标识符＞{,＜标识符＞}‘)’
 // 注意scanf中的标识符不能是数组头
 void parser::readStatement() {
-	int index;
-	string tmpstr;
-	kindEnum tmpkind;
+	int index = -2;
+	string tmpstr = "" ;
+	kindEnum tmpkind = kindEnum::tmpkind;
 	if (sym == scanfsy) {
 		lex.getsym();
 		if (sym == lparent) {
@@ -1572,7 +1588,13 @@ void parser::writeStatement() {
 					} 
 					else {
 						ERR.Err(10);		// 容错
+						if (sym != semicolon) {
+							errset.clear();
+							errset.insert(semicolon);
+							errjump(errset);
+						}
 					}
+			
 				}
 				else if(sym == rparent){
 					lex.getsym();
@@ -1596,6 +1618,11 @@ void parser::writeStatement() {
 				}
 				else {
 					ERR.Err(10);		// 容错
+					if (sym != semicolon) {
+						errset.clear();
+						errset.insert(semicolon);
+						errjump(errset);
+					}
 				}
 			}
 		}
@@ -1609,7 +1636,7 @@ void parser::returnStatement()
 {
 	int index = 0;
 	string retval;
-	typeEnum tmptype;
+	typeEnum tmptype = typeEnum::StrType;
 	index = symtab.locate(funcName);			// 这里的0是因为没有函数嵌套
 	tmptype = symtab.SymbolTable[index].type;
 
